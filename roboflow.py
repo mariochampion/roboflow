@@ -25,7 +25,7 @@ and dont forget to explore the config file.
 ##     code: https://github.com/googlecodelabs/tensorflow-for-poets-2
 ## 
 ## ROBOFLOW scripts were  written by mario champion (mariochampion.com) as an exercise to learn 
-## more python(2.7) file/dir manipulations, in a commandline driven app, and to better understand the
+## more python(2.7) file/dir manipulations, in a commandline driven app, and to better understand
 ## Google's TensorFlow image classification elements and hyperparameter effects.
 ##
 ## please open issues and pull requests,
@@ -64,7 +64,6 @@ def releasethehelp_details():
   robo.makebeep()
   help_input_process(help.helper("details"))
   
-  
 #################################
 def help_input_process(help_input):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -77,7 +76,6 @@ def help_input_process(help_input):
   else: robo.goodbye()
   
   sys.exit(1) # shouldnt get here, but just in case...
-
 
 
 
@@ -133,14 +131,12 @@ def getimages_master(progressdata):
       print"---doh! NOT written! " + buildfile[1]
   
     
-  ## OR RECURSE - SO WATCH OUT!
+  #### OR RECURSE - SO WATCH OUT!
   iscomplete(progressdata)
   if progressdata["iscomplete"] == True: return progressdata
   else: getimages_master(progressdata)   #RECURSION!
   
   return progressdata #shouldnet get here, but, ya know...
-
-
 
 
 #################################
@@ -153,7 +149,6 @@ def iscomplete(progressdata):
     progressdata["iscomplete"] = False
     
   return progressdata
-
   
 
 #################################
@@ -189,7 +184,6 @@ def getnexturl(vars_dict):
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
     
   return vars_dict
-
 
 
 #################################
@@ -237,7 +231,6 @@ def updatenextandbuilturls(vars_dict):
   vars_dict["nexturl"] = vars_dict["url_built"] #swap in vars_dict for sequencing reasons
   
   return vars_dict
-
 
 
 #################################
@@ -472,7 +465,7 @@ def retrain_dict_setup():
     retrain_dict["modeltype"] = cfg.retrain_model_default
   
   
-  ### 3 ###  
+  ### 2 ###  
   raw_steps = raw_input("2. TRAINING STEPS?(default:"+str(cfg.retrain_steps_min)+") Too many leads to overfitting, too few leads to weak results, so between 500 and 4000 is a good choice... ")
   try:
     if int(raw_steps) < cfg.retrain_steps_min: retrain_dict["steps"] = cfg.retrain_steps_min
@@ -480,7 +473,6 @@ def retrain_dict_setup():
   except:
     retrain_dict["steps"] = cfg.retrain_steps_min
   print
-  
   
   
   ### 3 ###
@@ -491,8 +483,6 @@ def retrain_dict_setup():
   except:
     retrain_dict["imagesize"] = cfg.retrain_imgsize_default
   print
-  
-
   
 
   ### 4 ###  
@@ -538,7 +528,6 @@ def retrain_yes():
   return status
 
 
-
 #################################	 
 def retrain_imgdirs_qntycheck(basetag):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -566,7 +555,6 @@ def retrain_imgdirs_qntycontinue(basetag, thistag):
     retrain_imagesneeded(basetag, thistag) #this does not return
 
   return status
-
 
 
 #################################  
@@ -608,9 +596,6 @@ def retrain_imagesneeded(basetag, thistag):
   return True # but shouldnt get here
 
 
-
-
-
 #################################
 def retrain_imgmove_check(basetag):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -623,14 +608,17 @@ def retrain_imgmove_check(basetag):
   print "  (Note: 'LOW CONFIDENCE' images will be remain at:"
   print "  '"+cfg.path_to_testimgs+"/"+basetag+"/sorted_*/label_underNN')"
   print
-  print "IMPORTANT: If you have not manually checked at least some of these images to ensure the classifier is doing a good job, you can pollute your training data. BUT, after a few rounds of retraining with re-checked sorted images, your classifier will get better and better, meaning fewer images to manually re-sort."
-  print
-  print "Enter a choice to: "
-  print "[m] to move the images (specifically: not 'copy' but 'move') "
-  print "[w] (or [enter]) to continue without moving images "
-  print "[h] to read the help "
-  print "[q] to quit app for now. "
-  print "   (and maybe go inspect the sorted files, tossing out the bad examples...) "
+  print '''IMPORTANT: If you have not manually checked at least some of these images 
+to ensure the classifier is doing a good job, you can pollute your training data. 
+BUT, after a few rounds of retraining with re-checked sorted images, your classifier 
+will get better and better, meaning fewer images to manually re-sort.
+
+Enter a choice to: 
+[m] to move the images (specifically: not 'copy' but 'move')
+[w] (or [enter]) to continue without moving images
+[h] to read the help
+[q] to quit app for now.
+   (and maybe go inspect the sorted files, tossing out the bad examples...)'''
   imgmovecheck_raw = raw_input()
   
   if imgmovecheck_raw == 'm': 
@@ -651,11 +639,9 @@ def retrain_imgmove_check(basetag):
   return status
 
 
-
 #################################
 def retrain_imgharvest(basetag):
   robo.whereami(sys._getframe().f_code.co_name)
-  
   
   path_to_trainimg_basetag = cfg.path_to_trainingimgs + cfg.dd + basetag
   path_to_testimg_basetag = cfg.path_to_testimgs + cfg.dd + basetag
@@ -669,7 +655,6 @@ def retrain_imgharvest(basetag):
     if not trainlabelsdir.startswith('.'): # skip including hidden files
       trainlabels_dirs_list.append(trainlabelsdir) # build labeldirs_list
   
-
   #build sorted_* list
   sortedimgdir_list = []
   for sortedimgdir in os.listdir(path_to_testimg_basetag): # get list of all the sorted_* dirs
@@ -687,7 +672,6 @@ def retrain_imgharvest(basetag):
       fruits_per_dir_list = [] # wipe it clean each loop
       
       # build path
-      
       path_sortedimages_per_label = path_to_testimg_basetag + cfg.dd + sortedimgdir + cfg.dd + trainlabel_dir
       
       #get the images from there into a list
@@ -711,7 +695,6 @@ def retrain_imgharvest(basetag):
 
   perharvestlog.close()
 	
-
   #create log file of move before list gets wiped in next go round
   harvestlog_path = path_to_harvestimgs_basetag + cfg.dd + cfg.harvested_dirname + cfg.harvested_suffix
   harvestlog = open(harvestlog_path, "a")
@@ -741,8 +724,7 @@ def retrain_downloadedimages(retrain_dict):
   status = roboretrain.main(retrain_dict)
   return status  
  
-
-
+ 
 #################################
 def buildimg2url_file(progressdata):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -772,7 +754,8 @@ def buildimg2url_file(progressdata):
 
 #################################
 def senddonenotif(progressdata):
-
+  robo.whereami(sys._getframe().f_code.co_name)
+  
   #set up the txt msg
   sms_class_note = ""
   status = False
@@ -781,8 +764,7 @@ def senddonenotif(progressdata):
     if progressdata["d_c_r_flow"] == 'dl_class': sms_class_note = "Classification starting... "
     sms_start = "downloads done: " + str(progressdata["imgnum_dled_thiscycle"]) + " imgs of '"+progressdata["thistag"]+"'" 
     sms_msg = sms_start + sms_class_note + cfg.sms_end
-    #send it, maybe
-    if cfg.twilio_active == True: status = robo.sendsms(sms_msg)
+    status = robo.sendsms(sms_msg)
   
   return status
 
@@ -813,11 +795,9 @@ def classify_downloadedimages(progressdata):
   print "========================================================="
   print
   
-  
   ### kick off tensorflow classifier
   status = roboclass.main(model_data)
   return status
-
 
 
 #################################
@@ -827,7 +807,6 @@ def setup_args_vars_dirs(args, preflight_dict):
   modeldirs_dict = {}
   primevars_dict = {}
   primevars_dict["modeldirs_dict"] = modeldirs_dict
-
 
   # vars from preflight/guided setup
   if preflight_dict["masterclass_verified"] == True:
@@ -886,14 +865,7 @@ def setup_args_vars_dirs(args, preflight_dict):
     modeldir_labels = classifymodel_getlabels(path_to_models, modeldirs_dict[k])
     modeldirs_dict[k] = (modeldir, modeldir_labels)
 
-  '''
-  print "SETUP primevars_dict"
-  for k,v in primevars_dict.items():
-    print k, ": ", v
-  print
-  sys.exit(1)
-  '''
-  
+  # flowvar conjiggling
   if primevars_dict["d_c_r_flow"] == "dl_class": 
     if len(modeldirs_dict) > 0:
       #setup clasify
@@ -934,7 +906,6 @@ def setup_args_vars_dirs(args, preflight_dict):
       
 
   return primevars_dict
-
 
 
 #################################	
@@ -984,10 +955,9 @@ def preflightchecks(args):
     preflight_dict["mastertag_dict"] = mastertag_dict
     preflight_dict["masterclass_verified"] = True
     preflight_dict["flow_qualified"] = flowasinput
-    #other dirs from NEW advanced param basetag, thistag (so not in masterclasssetup)
+
+    #other dirs from NEW advanced param basetag, thistag
     robo.findormakedir(cfg.path_to_trainingimgs + cfg.dd + basetag)
-    # dont do this, as new dir will keep retrainimgqnty_chk from ever allowing retraining
-    # robo.findormakedir(cfg.path_to_trainingimgs + cfg.dd + basetag + cfg.dd + thistag) ## add if from params
     robo.findormakedir(cfg.path_to_testimgs + cfg.dd + basetag)
     robo.findormakedir(cfg.path_to_trainingsumms + cfg.dd + basetag)
 
@@ -1103,11 +1073,9 @@ def preflight_setup():
           if reqdir == cfg.path_to_trainingimgs:
             robo.findormakedir(path_to_labeldir) 
  
- 
   if len(basetag_dict) > 0: masterclass_verified = True
   else: masterclass_verified = False
 
-   
   #return the info
   mastertag_dict = {}
   mastertag_dict["masterclass_verified"] = masterclass_verified
@@ -1117,14 +1085,14 @@ def preflight_setup():
   return mastertag_dict	
 
 
-
 #################################
 def preflight_basetag():
   robo.whereami(sys._getframe().f_code.co_name)
 
   print
   print "MASTER CLASSIFICATION TAG ('basetag') SETUP:"
-  print "because you can use this tool for multiple different classification tasks, \nplease enter a broad theme to call this one, like 'robots' or 'pirates' or 'birds_v2' etc."
+  print "because you can use this tool for multiple different classification tasks,"
+  print "please enter a broad theme to call this one, like 'robots' or 'pirates' or 'birds_v2' etc."
   print "Next, under this master class you will add sub-classes, such as 'drawn, built, not' or whatever."
   print "(note: very good idea to have a 'not' category as many tagged images are NOT their tag at all.)"
   basetag_raw = raw_input("master classification: ")
@@ -1163,7 +1131,6 @@ def preflight_imagequantity(basetag):
   return imagequantity
 
 
-
 #################################
 def preflight_thistag(basetag):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -1183,7 +1150,6 @@ def preflight_thistag(basetag):
   return thistag
   
   
-  
 #################################
 def preflight_getflowlist(preflight_dict):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -1195,8 +1161,7 @@ def preflight_getflowlist(preflight_dict):
   
   return flowlist
   
-  
-
+ 
 #################################	 
 #################################	
 def main(args):
@@ -1250,7 +1215,7 @@ def main(args):
     print
     
     #send txt when downloading done, if taken longer than cfg.sms_minsecstonotify
-    sendtxt = senddonenotif(progressdata)
+    if cfg.twilio_active == True: sendtxt = senddonenotif(progressdata)
     
     
     path_to_trainingimgs_basetag = cfg.path_to_trainingimgs + cfg.dd + progressdata["basetag"]
@@ -1310,8 +1275,6 @@ def main(args):
 
   else:
     robo.goodbye("Somewun dun goofed, shouldnt be here... sad era sad era sad era!")
-
-
 
 
 
