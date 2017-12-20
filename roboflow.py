@@ -54,35 +54,23 @@ import robo_help as help
 def releasethehelp():
   
   help.summary()
-  
   robo.makebeep()
-  print "Enter:"
-  print "[helpmore] for more detailed help,"
-  print "[g] for a guided setup, or "
-  print "[q] to quit... "
-  help_input = raw_input()
-  print
-  if help_input == 'helpmore': releasethehelp_details()
-  elif help_input == "g":
-    print "ok, let us start the guided setup!"
-    main([])
-  else: robo.goodbye()
+  help_input_process(help.helper("summ")) 
   
-  sys.exit(1) # shouldnt get here, but just in case...
-
-
 #################################
 def releasethehelp_details():
     
   help.details()
-  
   robo.makebeep()
-  print "Enter:"
-  print "[h] for LESS detailed help,"
-  print "[g] for a guided setup, or "
-  print "[q] to quit... "
-  help_input = raw_input()
-  if help_input == 'h': releasethehelp()
+  help_input_process(help.helper("details"))
+  
+  
+#################################
+def help_input_process(help_input):
+  robo.whereami(sys._getframe().f_code.co_name)
+  
+  if help_input == 'helpmore': releasethehelp_details() 
+  elif help_input == 'h': releasethehelp()
   elif help_input == "g":
     print "ok, let us start the guided setup!"
     main([])
@@ -92,7 +80,7 @@ def releasethehelp_details():
 
 
 
-  
+
 #################################
 def getimages_master(progressdata):
   robo.whereami(sys._getframe().f_code.co_name)

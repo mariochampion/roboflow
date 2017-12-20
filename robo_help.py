@@ -18,11 +18,29 @@
 ## ===================================================================
 
 
-
 import robo_config as cfg
 
+#################################
+def helper(which):
+
+  print "Enter:"
+  if which == "summ":
+    print "[helpmore] for more detailed help,"
+  else:
+    print "[h] for LESS detailed help," 
+  print "[g] for a guided setup, or "
+  print "[q] to quit... "
+  help_input = raw_input()
+
+  return help_input
+  
+  
+#################################
 def summary():
-  print '''ROBOFLOW: help
+
+  	
+  print '''
+ROBOFLOW: help
 -----------------------------------------
 This roboflow endeavor assumes you have at least passing familiarity with TensorFlow:
 \thttps://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
@@ -52,8 +70,9 @@ Read the extensive detailed help for useful and important advice.
 thanks and boop boop.'''
 
 
-
+#################################
 def details():
+  	
   print '''
 -----------------------------------------
 ROBOFLOW: detailed help
@@ -306,6 +325,9 @@ and if you want txts, you will need to setup your own TWILIO account, which requ
 a credit card to charge up their txt msg service. txt msg notifications are by 
 default turned off, via the 'twilio_active' variable in the config file.
 '''
+
+
+
 
 
 

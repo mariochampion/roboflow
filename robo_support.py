@@ -30,6 +30,7 @@ import os, sys, random
 from glob import glob1
 #import roboflow specific stuff
 import robo_config as cfg
+import robo_help as help
 if cfg.twilio_active == True: from twilio.rest import Client
 
 ##################################	
@@ -193,6 +194,47 @@ def sendsms(sendmsg):
 
   return status                    
 
+#################################	
+def releasethehelp():
+  
+  help.summary()
+  help.helper("summ")
+  '''
+  print "Enter:"
+  print "[helpmore] for more detailed help,"
+  print "[g] for a guided setup, or "
+  print "[q] to quit... "
+  help_input = raw_input()
+  print
+  if help_input == 'helpmore': releasethehelp_details()
+  elif help_input == "g":
+    print "ok, let us start the guided setup!"
+    main([])
+  else: robo.goodbye()
+  
+  sys.exit(1) # shouldnt get here, but just in case...
+  '''
+
+
+#################################
+def releasethehelp_details():
+    
+  help.details()
+  help.helper("details")
+  '''
+  print "Enter:"
+  print "[h] for LESS detailed help,"
+  print "[g] for a guided setup, or "
+  print "[q] to quit... "
+  help_input = raw_input()
+  if help_input == 'h': releasethehelp()
+  elif help_input == "g":
+    print "ok, let us start the guided setup!"
+    main([])
+  else: robo.goodbye()
+  
+  sys.exit(1) # shouldnt get here, but just in case...
+  '''
 
 
 ##################################	
