@@ -75,6 +75,16 @@ Then clone the RoboFlow git repository with:
 git clone https://github.com/mariochampion/roboflow
 ```
 
+FINALLY and CRITICALLY, you must change one line in TensorFlow's scripts/retrain.py file.
+(see https://github.com/mariochampion/roboflow/issues/3)
+simply go to the literal last line of retrain.py's main() function, around line 1144 and add
+```
+############################################
+# this line added because stdout not available / no return from main
+# See https://github.com/tensorflow/tensorflow/issues/3047 
+f.write(str("_acc"+str(test_accuracy*100)[:5]) + '\n')
+```
+
 
 Et voila, you are ready to explore!
 
