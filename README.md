@@ -64,7 +64,7 @@ or
 https://www.tensorflow.org/install/
 ```
 
-Next, install teh RoboFlow files contained in this git repository.<br>
+Next, install the RoboFlow files contained in this git repository.<br>
 Make sure to 'cd' into your TensorFlow directory at the same level as "tf_files" and "scripts" first.<br>
 Then clone the ROBOFLOW git repository with:
 
