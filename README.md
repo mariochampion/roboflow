@@ -75,8 +75,8 @@ Then clone the RoboFlow git repository with:
 git clone https://github.com/mariochampion/roboflow
 ```
 
-FINALLY and CRITICALLY, you must change one line in TensorFlow's scripts/retrain.py file.
-(see https://github.com/mariochampion/roboflow/issues/3)
+FINALLY and CRITICALLY, you must change one line in TensorFlow's scripts/retrain.py file.<br>
+(see https://github.com/mariochampion/roboflow/issues/3)<br>
 simply go to the literal last line of retrain.py's main() function, around line 1144 and add
 ```
 ############################################
