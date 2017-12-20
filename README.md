@@ -3,18 +3,23 @@
 
 (working on this right now: 2017-12-20)
 
-## THE GOAL
-of this project is to get a better sense for TensorFlow's classifier by automating the gathering of large amounts of similar images (by hashtag, such as "#robot" or "#hydrant" or whatever) which serve as re/training examples of various qualities, and to enable easy testing of different TensorFlow hyperparameter settings. The more you do this, the better the classifier becomes.
+## PURPOSE & GOAL
+roboflow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. 
 
-## THE PROCESS
-According to the 'confidencemin' variable, the downloaded images are sorted into timestamped directories, which correspond to the labels in TensorFlow's 'tf_files/training_photos' directory. When there are enough well-classified* images in these 'testing_photos/sorted_{timestamp}/{labelname}" subdirectories, you can opt to then retrain the classifier. 
+specifically, tagged images are downloaded (right now from webstagram) and then sorted into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow (which creates classifiers). 
 
-In this cycle of download & classify then QA re-sort & harvest & retrain, the classifier gets better and better at sorting to provide training data -- resulting, at some point, in an ability to be an as-automated-as-you-are-comfortable self-improving image classifier.
+## BOOTSTRAPPING: There is an initial bootstrap stage in which you must manually sort a minimum number of images to allow the first retraining to create the first classifier. This tool will help you download 1000s of images pretty easily. After that, subsequent cycles of downloading, classifying/auto-sorting, and harvesting sorted images into the training_photos/labeled_directories for another cycle of retraining is waaaaay more automated. 
 
-*well-classified means according to initial and periodic manual quality control re-sorting by you (or other humans). That is, before harvesting the robo-sorted images back into retraining, look through the 'testing_photos/sorted_{timestamp}/{labelname}' subdirs and delete the ones with which you disagree, which have fooled the classifier. Feel free to keep these for some other type of analysis, although any specific suggestion of how is still way beyond my fluency, but i would be very interested if you have insights. 
+## USAGE: GUIDED v ADVANCED
+there are two ways to use this tool: guided walkthrough and advanced via command line parameters, both of which allow creation of multiple classifiers for various topics (say 'robots', or 'birds' or 'pirates') through use of a 'master classification tag' or 'basetag'. 
 
-## LOG FILES
-Speaking of later analysis, there are several log files with timestamps created along the way. One maps the downloaded images original name and url to the images new name -- which includes a timestamp and after classification 3 digits of its confidence number. Another tracks the classification model used, another the image name along with its percentage and seconds to classify, and another the images harvested from various "sorted_*" directories. take a look at them, wont ya?
+### and dont forget to explore the config file. 
+
+
+## HELP:
+```
+python roboflow.py --help
+```
 
 
 ## Getting Started
@@ -58,11 +63,21 @@ at the same level as "tf_files" and "scripts" and then clone the ROBOFLOW git re
 git clone https://github.com/mariochampion/roboflow
 ```
 
-And also...
+And then you are ready to explore!
 
+guided usage:
 ```
-until finished
+python roboflow.py
 ```
+advanced usage:
+```
+python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
+```
+help:
+```
+python roboflow.py --help
+```
+
 
 End with an example of getting some data out of the system or using it for a little demo
 
