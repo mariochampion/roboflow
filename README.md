@@ -40,6 +40,17 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Installing
 
+First, you must install and test TensorFlow. Follow instructions at
+
+```
+https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
+```
+or 
+
+```
+https://www.tensorflow.org/install/
+```
+
 All the code used in ROBOFLOW is contained in this git repository. First, cd into your TensorFlow directory
 at the same level as "tf_files" and "scripts" and then clone the ROBOFLOW git repository.
 
