@@ -30,12 +30,6 @@ python roboflow.py --help
 
 
 
-## HELP:
-```
-python roboflow.py --help
-```
-
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -88,10 +82,6 @@ python roboflow.py
 ### advanced usage:
 ```
 python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
-```
-### help:
-```
-python roboflow.py --help
 ```
 
 
