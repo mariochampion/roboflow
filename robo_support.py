@@ -81,6 +81,7 @@ def getDLedfilecount(imagedir):
   #look for existing local dir
   if os.path.exists(imagedir): dledfilecount = (len(glob1(imagedir,"*"+cfg.img_suffix)))
   else: dledfilecount = 0
+  
   return dledfilecount
 
 
@@ -94,6 +95,7 @@ def getdirlist_dict(path_to_dir):
     if not dir.startswith('.'): #remove hidden dirs/files
       dirlist_dict[i] = dir
       i += 1
+  
   return dirlist_dict
   
 
@@ -119,7 +121,6 @@ def get_imgnumcycle(thisint):
   if imgnumcycle > cfg.imgnum_maxpercycle:
     imgnumcycle = cfg.imgnum_maxpercycle
     makebeep()
-
     print "WHOA! Too many images requested at once. To not hammer their server, it has been reduced to: "+str(imgnumcycle)+ " per cycle."
     print "Press [q] to stop app, and go change 'imgnum_maxpercycle' var in "+cfg.config_script+", or"
     print "enter any other key to keep going..."
@@ -138,8 +139,7 @@ def createfilefromdict(path_to_file, thisdict):
   #make / append a file from a dict
   fmake = open(path_to_file, "a")
   for k,v in thisdict.items():
-    fmake.write(str(k)+","+str(v)+"\n")
-    
+    fmake.write(str(k)+","+str(v)+"\n")  
   fmake.close()
   
   if os.stat(path_to_file).st_size == 0:
@@ -193,48 +193,6 @@ def sendsms(sendmsg):
       status = False						
 
   return status                    
-
-#################################	
-def releasethehelp():
-  
-  help.summary()
-  help.helper("summ")
-  '''
-  print "Enter:"
-  print "[helpmore] for more detailed help,"
-  print "[g] for a guided setup, or "
-  print "[q] to quit... "
-  help_input = raw_input()
-  print
-  if help_input == 'helpmore': releasethehelp_details()
-  elif help_input == "g":
-    print "ok, let us start the guided setup!"
-    main([])
-  else: robo.goodbye()
-  
-  sys.exit(1) # shouldnt get here, but just in case...
-  '''
-
-
-#################################
-def releasethehelp_details():
-    
-  help.details()
-  help.helper("details")
-  '''
-  print "Enter:"
-  print "[h] for LESS detailed help,"
-  print "[g] for a guided setup, or "
-  print "[q] to quit... "
-  help_input = raw_input()
-  if help_input == 'h': releasethehelp()
-  elif help_input == "g":
-    print "ok, let us start the guided setup!"
-    main([])
-  else: robo.goodbye()
-  
-  sys.exit(1) # shouldnt get here, but just in case...
-  '''
 
 
 ##################################	
