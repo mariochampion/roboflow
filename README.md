@@ -4,15 +4,27 @@
 (working on this right now: 2017-12-20)
 
 ## Purpose & Goal
-roboflow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. 
+roboflow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from webstagram) and then sorted into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
 
-specifically, tagged images are downloaded (right now from webstagram) and then sorted into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow (which creates classifiers). 
+
+### 'basetag' concept
+because you can use roboflow for many/separate classifiers, you need to pick a term for the broad master classification or theme of your classifier (such as 'robots', or 'birds', or whatever) so that images, classifier models and more can be stored separately under that BASETAG directory.
 
 ## Bootstrapping
 There is an initial bootstrap stage in which you must manually sort a minimum number of images to allow the first retraining to create the first classifier. This tool will help you download 1000s of images pretty easily. After that, subsequent cycles of downloading, classifying/auto-sorting, and harvesting sorted images into the training_photos/labeled_directories for another cycle of retraining is waaaaay more automated. 
 
-## Guided vs Advanced Usage
-there are two ways to use this tool: guided walkthrough and advanced via command line parameters, both of which allow creation of multiple classifiers for various topics (say 'robots', or 'birds' or 'pirates') through use of a 'master classification tag' or 'basetag'. 
+## Guided Usage
+```
+python roboflow.py
+```
+## Advanced usage:
+```
+python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
+```
+### help:
+```
+python roboflow.py --help
+```
 
 ### and dont forget to explore the config file. 
 
@@ -32,7 +44,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 #### software
 * Python (2.7 - but i havent tried 3.x so that might work, too)
-* TensorFlow -what i used: https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
+* TensorFlow -what i used: https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/ <br>
   but also at https://www.tensorflow.org/install/
 * Terminal/Command Line familiarity
 * Optional: Tensorboard (https://github.com/tensorflow/tensorboard)
@@ -58,24 +70,26 @@ or
 https://www.tensorflow.org/install/
 ```
 
-All the code used in ROBOFLOW is contained in this git repository. First, cd into your TensorFlow directory
-at the same level as "tf_files" and "scripts" and then clone the ROBOFLOW git repository.
+Next, install teh RoboFlow files contained in this git repository.<br>
+Make sure to 'cd' into your TensorFlow directory at the same level as "tf_files" and "scripts" first.<br>
+Then clone the ROBOFLOW git repository with:
 
 ```
 git clone https://github.com/mariochampion/roboflow
 ```
 
-And then you are ready to explore!
 
-guided usage:
+Et voila, you are ready to explore!
+
+### guided usage:
 ```
 python roboflow.py
 ```
-advanced usage:
+### advanced usage:
 ```
 python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
 ```
-help:
+### help:
 ```
 python roboflow.py --help
 ```
@@ -130,5 +144,6 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE.md](LIC
 ## Acknowledgments
 
 * Google's TensorFlow-for-poets2
+* Webstagram 
 * StackExchange
 * Twilio sms/python tools
