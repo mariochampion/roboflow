@@ -111,7 +111,6 @@ finalwords_list.append("exiting...")
 finalwords_list.append("bye bye for now.")
 finalwords_list.append("ok good bye i love you.")
 
-# robo_sms.py -- sms/txt msg  variable
-sms_sendnotif = True # true to send or false to not send
-sms_minsecstonotify = 60 # to be notified when downloading done, it must run at least this many seconds.
+# sms/txt msg variables
+sms_minsecstonotify = 60 # to be notified, downloading must run at least this many seconds.
 sms_end = sigline
