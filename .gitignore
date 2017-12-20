@@ -1,5 +1,7 @@
 # mac os
 .DS_Store
+# random
+_issues.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
