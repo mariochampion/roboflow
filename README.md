@@ -40,8 +40,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 #### software
 * Python (2.7 - but i havent tried 3.x so that might work, too)
-* TensorFlow - what i used: https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/ <br>
-  but also at https://www.tensorflow.org/install/
+* TensorFlow - learn about it: https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/ <br>
+install shortcut: https://github.com/googlecodelabs/tensorflow-for-poets-2 <br>
+or also at https://www.tensorflow.org/install/
 * Terminal/Command Line familiarity
 * Optional: Tensorboard (https://github.com/tensorflow/tensorboard)
 * Optional: Twilio for txt msg notifications (https://www.twilio.com/sms)
