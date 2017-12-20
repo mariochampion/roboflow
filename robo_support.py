@@ -8,7 +8,7 @@ Details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-us
 
 ## ===================================================================
 ## ROBOFLOW - LICENSE AND CREDITS
-## This app/collection of scripts at https://github.com/mariochampion/roboflow-a-tensorflow-exercise,
+## This app/collection of scripts at https://github.com/mariochampion/roboflow
 ## released under the Apache License 2.0. (http://www.apache.org/licenses/LICENSE-2.0)
 ## and depends on many contributions from the internets, stackexchange, twilio, and 
 ## of course and especially the Google TensorFlow for Poets codelab:

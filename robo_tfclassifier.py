@@ -12,7 +12,7 @@ script will not be triggered.
 '''
 # ===================================================================
 ## ROBOFLOW - LICENSE AND CREDITS
-## This app/collection of scripts at https://github.com/mariochampion/roboflow-a-tensorflow-exercise,
+## This app/collection of scripts at https://github.com/mariochampion/roboflow
 ## released under the Apache License 2.0. (http://www.apache.org/licenses/LICENSE-2.0)
 #
 ### much of classify_image function are tweaked from work at 
