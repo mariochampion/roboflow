@@ -1,7 +1,7 @@
 # RoboFlow
 ## a semi-automated TensorFlow image classification explorer<br>in a python command line app.
 
-(working on this right now: 2017-12-20)
+(working on this readme right now: 2017-12-20)
 
 ## Purpose & Goal
 RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from webstagram) and then sorted, according to a 'confidencemin' variable, into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
@@ -85,31 +85,12 @@ python roboflow.py
 ```
 python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
 ```
-
-
-End with an example of getting some data out of the system or using it for a little demo
-
-
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+for example:
 ```
-Give an example
+python roboflow.py robots 200 robotart download
 ```
 
-### And coding style tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 
 ## Built With
@@ -117,9 +98,10 @@ Give an example
 * [Python 2.7](https://docs.python.org/2/index.html/) - The programming language
 * [TensorFlow](https://www.tensorflow.org/) - An open-source software library for Machine Intelligence
 
+
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](url) for details on our code of conduct, and the process for submitting pull requests.
 
 
 ## Authors
