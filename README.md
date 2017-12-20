@@ -19,21 +19,6 @@ There is an initial bootstrap stage in which you must manually sort a minimum nu
 https://drive.google.com/file/d/1zvTq5vKqME7sW9O8lEtgn-Wosoavc2gi/view?usp=sharing
 ```
 
-## Guided Usage
-```
-python roboflow.py
-```
-## Advanced usage:
-```
-python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
-```
-### help:
-```
-python roboflow.py --help
-```
-
-### and dont forget to explore the config file. 
-
 
 ## Getting Started
 
@@ -92,11 +77,11 @@ f.write(str("_acc"+str(test_accuracy*100)[:5]) + '\n')
 
 Et voila, you are ready to explore!
 
-### guided usage:
+## Guided usage:
 ```
 python roboflow.py
 ```
-### advanced usage:
+## Advanced usage:
 ```
 python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
 ```
@@ -104,6 +89,13 @@ for example:
 ```
 python roboflow.py robots 200 robotart download
 ```
+
+## Help:
+```
+python roboflow.py --help
+```
+
+### and dont forget to explore the config file. 
 
 
 
@@ -116,8 +108,8 @@ python roboflow.py robots 200 robotart download
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](url) for details on our code of conduct, and the process for submitting pull requests.
-
+I am very open to issues and pull requests. Looking for a place to start helping?<br>
+https://github.com/mariochampion/roboflow/issues
 
 ## Authors
 
