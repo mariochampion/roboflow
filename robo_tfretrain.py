@@ -196,12 +196,9 @@ if __name__ == '__main__':
   except:
     print
     print "This script not callable directly, as it needs data from "+cfg.download_script+" passed to it."
-    print
-    print "maybe it's time read the help?"
-    print "[h] to read help\n[q] to quit "
-    hq_raw = raw_input()
-    if hq_raw == "h": releasethehelp()
-    else: robo.goodbye()
+    print "maybe it's time read the help? copy/paste this:"
+    print "\tpython roboflow.py --help"
+    robo.goodbye()
   
   #keep going
   main(retrain_dict)
