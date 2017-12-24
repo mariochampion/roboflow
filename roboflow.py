@@ -1215,7 +1215,9 @@ def main(args):
     print
     
     #send txt when downloading done, if taken longer than cfg.sms_minsecstonotify
-    if cfg.twilio_active == True: sendtxt = senddonenotif(progressdata)
+    if cfg.twilio_active == True: 
+      if progressdata["imgnum_dled_thiscycle"] > 0:
+        sendtxt = senddonenotif(progressdata)
     
     
     path_to_trainingimgs_basetag = cfg.path_to_trainingimgs + cfg.dd + progressdata["basetag"]
