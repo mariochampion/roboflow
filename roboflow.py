@@ -402,6 +402,8 @@ def classifymodel_noneexists(basetag, imagequantity, thistag, imgqnty_verified):
   return primevars_dict
   
 
+
+#### RETRAIN FUNCS
 #################################	
 def retrain_dict_master(basetag, thistag, imagequantity, defaults = False):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -431,8 +433,6 @@ def retrain_dict_master(basetag, thistag, imagequantity, defaults = False):
   return retrain_dict
 
 
-
-#### RETRAIN FUNCS
 #################################
 def retrain_dict_setup():
   robo.whereami(sys._getframe().f_code.co_name)	

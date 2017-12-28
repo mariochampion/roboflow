@@ -60,9 +60,9 @@ def retrain_tensorflow(retrain_dict):
   mobilepercent = retrain_dict["mobilepercent"]
   
   if modeltype == "mobilenet":
-    trainsumm_name = modeltype + "_" + mobilepercent + "_batch" + batchsize + "_steps" + steps + "_test" + testpercent + "_img" + imagesize + ""
+    trainsumm_name = modeltype + "_" + str(mobilepercent) + "_batch" + str(batchsize) + "_steps" + str(steps) + "_test" + str(testpercent) + "_img" + str(imagesize) + ""
   else:
-    trainsumm_name = modeltype + "_batch" + batchsize + "_steps" + steps + "_test" + testpercent + "_img" + imagesize + ""
+    trainsumm_name = modeltype + "_batch" + str(batchsize) + "_steps" + str(steps) + "_test" + str(testpercent) + "_img" + str(imagesize) + ""
   
   path_to_trainingsumm_name = cfg.path_to_trainingsumms + cfg.dd + basetag + cfg.dd + trainsumm_name
   path_to_trainimgs_basetag = cfg.path_to_trainingimgs + cfg.dd + basetag
@@ -87,7 +87,7 @@ def retrain_tensorflow(retrain_dict):
   else:
     # build a command WITH ARCHITECTURE, since not default
     mobilepercent = retrain_dict["mobilepercent"]
-    ARCHITECTURE = modeltype + "_" + mobilepercent + "_" + imagesize
+    ARCHITECTURE = modeltype + "_" + str(mobilepercent) + "_" + str(imagesize)
     
     retrain_command = "python ../scripts/retrain.py \
     --bottleneck_dir=" + cfg.path_to_bottlenecks + " \
