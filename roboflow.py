@@ -866,9 +866,9 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["flow"] = flow
   primevars_dict["d_c_r_flow"] = preflight_dict["d_c_r_flow"]
 
-  print "PRIMEVARS"
+  '''print "PRIMEVARS"
   for k,v in primevars_dict.items():
-    print k,"",v
+    print k,"",v'''
   
 
   ####### FLOW VAR (download, classify, retrain)
@@ -1047,11 +1047,10 @@ def preflightchecks(args):
     if imagequantity > 0:
       preflight_dict["d_c_r_flow"] = "dl_retrain" 
     else:
-      print "111", imagequantity
       preflight_dict["d_c_r_flow"] = "retrain_defaults"  
 
 
-  print "preflight_dict", preflight_dict
+  #print "preflight_dict", preflight_dict
   return preflight_dict
 
 
