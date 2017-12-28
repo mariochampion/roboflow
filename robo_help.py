@@ -59,7 +59,7 @@ flowsteps:\tOPTIONAL parameter to determine which stages to implement of --
 \t\t'classify' (default, if blank) will download and classify/sort images
 \t\t'retrain' will download, classify, and retrain (w/optional harvest) a new 
 \t\t classifier with images from training_photos/{basetag}
-\t\t'retrain_defaults' (as in 'robots 0 0 retrain_defaults' will skip the retrain SETUP,
+\t\t'retrain_defaults' (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP,
 \t\t using values from config file setup.
 
 BOOTSTRAP NOTE: Quality initial labeling/sorting makes ALLL the difference!
