@@ -468,7 +468,7 @@ def retrain_dict_setup():
   print
   
   ### 4 ###  
-  retrain_dict["imagesize"] = roboretrain.retrain_dict_setup_testper()
+  retrain_dict["testpercent"] = roboretrain.retrain_dict_setup_testper()
   print
   
   ### 5 ###  
