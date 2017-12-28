@@ -438,7 +438,7 @@ def retrain_dict_setup():
   robo.whereami(sys._getframe().f_code.co_name)	
   
   retrain_dict = {}
-  retrain_dict["retrainlabels_min_count"] = 2
+  retrain_dict["retrainlabels_min_count"] = 2 # was gonna be a config, but it s static for now
   retrain_dict["mobilepercent"] = None	
   
   robo.makebeep()
@@ -454,64 +454,27 @@ def retrain_dict_setup():
   #### as there are only two for now and that seemed like premature flex, in favor of speed of dev
   
   ### 1 ###
-  modeltype = raw_input("1. RETRAIN TENSORFLOW MODEL?(default: "+cfg.retrain_model_default+") Enter [i]nceptionv3 or [m]obile:")
-  if modeltype == "i": 
-    retrain_dict["modeltype"] = cfg.inception_model
-  elif modeltype == "m": 
-    retrain_dict["modeltype"] = cfg.mobile_model
-    robo.makebeep()
-    mp_raw = raw_input("Please enter percent of pretrained '"+cfg.mobile_model+"' model to use: [25], [50], [75] or [100] : ")
-    if mp_raw == "25"	: mobilepercent = "0.25"
-    elif mp_raw == "50"	: mobilepercent = "0.50"
-    elif mp_raw == "75"	: mobilepercent = "0.75"
-    elif mp_raw == "100": mobilepercent = "1.0"
-    else: 
-      mobilepercent = "0.50"
-      robo.makebeep()
-      print"Woops, you didnt choose any, so '50' was chosen for you."
-    
-    retrain_dict["mobilepercent"] = mobilepercent
-    
-  else:
-    retrain_dict["modeltype"] = cfg.retrain_model_default
-  
+  model_and_mobileper = roboretrain.retrain_dict_setup_modeltype()
+  retrain_dict["modeltype"] = model_and_mobileper[0]
+  retrain_dict["mobilepercent"] = model_and_mobileper[1]
+  print
   
   ### 2 ###  
-  raw_steps = raw_input("2. TRAINING STEPS?(default:"+str(cfg.retrain_steps_min)+") Too many leads to overfitting, too few leads to weak results, so between 500 and 4000 is a good choice... ")
-  try:
-    if int(raw_steps) < cfg.retrain_steps_min: retrain_dict["steps"] = cfg.retrain_steps_min
-    else: retrain_dict["steps"] = int(raw_steps)
-  except:
-    retrain_dict["steps"] = cfg.retrain_steps_min
+  retrain_dict["steps"] = roboretrain.retrain_dict_setup_trainsteps()
   print
-  
   
   ### 3 ###
-  raw_imagesize = raw_input("3. IMAGE SIZE?(default: "+str(cfg.retrain_imgsize_default)+") Enter [128], [160], [192], or [224] pixels... ")
-  try:
-    if int(raw_imagesize) not in (128,160,192,224): retrain_dict["imagesize"] = cfg.retrain_imgsize_default
-    else: retrain_dict["imagesize"] = int(raw_imagesize)
-  except:
-    retrain_dict["imagesize"] = cfg.retrain_imgsize_default
+  retrain_dict["imagesize"] = roboretrain.retrain_dict_setup_imgsize()
   print
   
-
   ### 4 ###  
-  raw_testper = raw_input("4. TESTING PERCENT?(min:"+str(cfg.retrain_testper_min)+") Depending how many images in total, between 10 and 50 is a good starting point... ")
-  try:
-    if int(raw_testper) < cfg.retrain_testper_min: retrain_dict["testpercent"] = cfg.retrain_testper_min
-    else: retrain_dict["testpercent"] = int(raw_testper)
-  except:
-    retrain_dict["testpercent"] = cfg.retrain_testper_min
-
-  ### 5 ###  
-  raw_batchsize = raw_input("5. BATCH SIZE?(min:"+str(cfg.retrain_batchsize_min)+") While there is debate on a best number, from 10 to 100 (or more if you have many thousand of images) is a good starting point... ")
-  try:
-    if int(raw_batchsize) < cfg.retrain_batchsize_min: retrain_dict["batchsize"] = cfg.retrain_batchsize_min
-    else: retrain_dict["batchsize"] = int(raw_batchsize)
-  except:
-    retrain_dict["batchsize"] = cfg.retrain_batchsize_min
+  retrain_dict["imagesize"] = roboretrain.retrain_dict_setup_testper()
   print
+  
+  ### 5 ###  
+  retrain_dict["batchsize"] = roboretrain.retrain_dict_setup_batchsize()
+  print
+
 
   return retrain_dict
   
