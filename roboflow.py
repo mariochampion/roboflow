@@ -403,15 +403,26 @@ def classifymodel_noneexists(basetag, imagequantity, thistag, imgqnty_verified):
   
 
 #################################	
-def retrain_dict_master(basetag, thistag, imagequantity):
+def retrain_dict_master(basetag, thistag, imagequantity, defaults = False):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  retrain_dict = retrain_dict_setup()
-  retrain_dict["imgharvest"] = retrain_imgmove_check(basetag)
+  if defaults == False:
+    retrain_dict = retrain_dict_setup()
+    retrain_dict["imgharvest"] = retrain_imgmove_check(basetag)
+  else:
+    retrain_dict = {}
+    retrain_dict["modeltype"] = cfg.retrain_model_default
+    retrain_dict["mobilepercent"] = cfg.retrain_mobile_percent_default
+    retrain_dict["steps"] = cfg.retrain_steps_default
+    retrain_dict["imagesize"] = cfg.retrain_imgsize_default
+    retrain_dict["testpercent"] = cfg.retrain_testper_default
+    retrain_dict["batchsize"] = cfg.retrain_batchsize_default
+    retrain_dict["imgharvest"] = cfg.retrain_imgmove_check_default
+    
+  
   retrain_dict["basetag"] = basetag
   retrain_dict["thistag"] = thistag
-  
-  print "Thanks! Here is our retraining setup:" 
+  print "Great! Here is our retraining setup:" 
   for k,v in retrain_dict.items():
     print k,":",v
   print "-----------------------------------------"
@@ -426,6 +437,10 @@ def retrain_dict_master(basetag, thistag, imagequantity):
 def retrain_dict_setup():
   robo.whereami(sys._getframe().f_code.co_name)	
   
+  retrain_dict = {}
+  retrain_dict["retrainlabels_min_count"] = 2
+  retrain_dict["mobilepercent"] = None	
+  
   robo.makebeep()
   print "RETRAINING SETUP: "
   print "Ok, five(5) quick options (or just hit 'enter' to use defaults)."
@@ -433,10 +448,6 @@ def retrain_dict_setup():
   print "\tNote: If you have no knowledge yet of TensorFlow parameters, give it a quick read at"
   print "\thttps://codelabs.developers.google.com/codelabs/tensorflow-for-poets/"
   print
-
-  retrain_dict = {}
-  retrain_dict["retrainlabels_min_count"] = 2
-  retrain_dict["mobilepercent"] = None	
     
   #### NOTE - MAGIC LETTERS from 'inceptionv3' and 'mobilenet' for modeltype
   #### do not change without following thru code. i didnt totally var the model names 
@@ -855,7 +866,11 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["flow"] = flow
   primevars_dict["d_c_r_flow"] = preflight_dict["d_c_r_flow"]
 
-  	
+  '''print "PRIMEVARS"
+  for k,v in primevars_dict.items():
+    print k,"",v'''
+  
+
   ####### FLOW VAR (download, classify, retrain)
   flowlist = preflight_dict["flowlist"]## determine flow based on preflight checks
   
@@ -903,7 +918,11 @@ def setup_args_vars_dirs(args, preflight_dict):
     #continue or not
     if retrain_imgdirs_qntycontinue(basetag, thistag) == False:
       robo.goodbye("retrain not gonna work msg... stopping.")
-      
+
+  # RETRAIN with config file default values
+  if primevars_dict["d_c_r_flow"] == "retrain_defaults":
+    primevars_dict["retrain_dict"] = retrain_dict_master(basetag, thistag, imgnum_maxTHIScycle, defaults=True)
+    
 
   return primevars_dict
 
@@ -1023,7 +1042,15 @@ def preflightchecks(args):
       preflight_dict["d_c_r_flow"] = "dl_class_retrain" 
     else:
       preflight_dict["d_c_r_flow"] = "dl_retrain" 
+      
+  if flowasinput == "retrain_defaults" and "retrain" in preflight_dict["flowlist"]:
+    if imagequantity > 0:
+      preflight_dict["d_c_r_flow"] = "dl_retrain" 
+    else:
+      preflight_dict["d_c_r_flow"] = "retrain_defaults"  
 
+
+  #print "preflight_dict", preflight_dict
   return preflight_dict
 
 
@@ -1248,7 +1275,7 @@ def main(args):
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_downloadedimages(progressdata["retrain_dict"])
       
-    elif progressdata["d_c_r_flow"] == 'dl_retrain':
+    elif progressdata["d_c_r_flow"] == 'dl_retrain' or progressdata["d_c_r_flow"] == 'retrain_defaults':
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_downloadedimages(progressdata["retrain_dict"])

@@ -56,9 +56,11 @@ basetag: \tthe master classification tag or theme ('robots' or 'birds' or whatev
   print '''searchtag:\tthe searchterm, such as 'robot' or 'robotart' etc
 flowsteps:\tOPTIONAL parameter to determine which stages to implement of --
 \t\t'download' which will only download the tagged images
-\t\t'classify' (default if blank) will download and classify/sort images
-\t\t'retrain' will download, classify, and retrain (w/optional harvest)
-\t\t a new classifier with high-confidence images.
+\t\t'classify' (default, if blank) will download and classify/sort images
+\t\t'retrain' will download, classify, and retrain (w/optional harvest) a new 
+\t\t classifier with images from training_photos/{basetag}
+\t\t'retrain_defaults' (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP,
+\t\t using values from config file setup.
 
 BOOTSTRAP NOTE: Quality initial labeling/sorting makes ALLL the difference!
 When starting, you must manually sort a minimum number of images to allow the first 
@@ -223,6 +225,10 @@ sub-dirs at training_photos/BASETAG, and want to skip both downloading and
 classifying stages, enter '0' for both the imagequantity and seachtag parameters. 
 \texample: 'python roboflow.py robots 0 0 retrain' 
 
+-- double hint: if you want to JUST retrain and have it run unattended, 
+you can use with '0 0' setup a flowstep parameter of 'retrain_defaults' to choose
+the retraining parameter values set in the config file.
+\texample: 'python roboflow.py robots 0 0 retrain_defaults' 
 
 HOW TO START OVER:
 -----------------------------------------

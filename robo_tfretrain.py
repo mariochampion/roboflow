@@ -163,7 +163,7 @@ def add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels):
 def main(retrain_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  print "retrain_dict"
+  print "retrain params:"
   for k,v in retrain_dict.items():
     print k, ":" ,v
   print
