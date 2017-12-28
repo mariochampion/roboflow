@@ -410,6 +410,7 @@ def retrain_dict_master(basetag, thistag, imagequantity, defaults = False):
     retrain_dict = retrain_dict_setup()
     retrain_dict["imgharvest"] = retrain_imgmove_check(basetag)
   else:
+    retrain_dict = {}
     retrain_dict["modeltype"] = cfg.retrain_model_default
     retrain_dict["mobilepercent"] = cfg.retrain_mobile_percent_default
     retrain_dict["steps"] = cfg.retrain_steps_default
@@ -865,7 +866,11 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["flow"] = flow
   primevars_dict["d_c_r_flow"] = preflight_dict["d_c_r_flow"]
 
-  	
+  print "PRIMEVARS"
+  for k,v in primevars_dict.items():
+    print k,"",v
+  
+
   ####### FLOW VAR (download, classify, retrain)
   flowlist = preflight_dict["flowlist"]## determine flow based on preflight checks
   
@@ -1040,11 +1045,13 @@ def preflightchecks(args):
       
   if flowasinput == "retrain_defaults" and "retrain" in preflight_dict["flowlist"]:
     if imagequantity > 0:
-      preflight_dict["d_c_r_flow"] = "retrain_defaults" 
+      preflight_dict["d_c_r_flow"] = "dl_retrain" 
     else:
-      preflight_dict["d_c_r_flow"] = "dl_retrain"  
+      print "111", imagequantity
+      preflight_dict["d_c_r_flow"] = "retrain_defaults"  
 
 
+  print "preflight_dict", preflight_dict
   return preflight_dict
 
 
@@ -1269,7 +1276,7 @@ def main(args):
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_downloadedimages(progressdata["retrain_dict"])
       
-    elif progressdata["d_c_r_flow"] == 'dl_retrain':
+    elif progressdata["d_c_r_flow"] == 'dl_retrain' or progressdata["d_c_r_flow"] == 'retrain_defaults':
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_downloadedimages(progressdata["retrain_dict"])
