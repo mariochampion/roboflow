@@ -692,7 +692,7 @@ def retrain_imgharvest(basetag):
 
 
 #################################	
-def retrain_downloadedimages(retrain_dict):
+def retrain_getstarted(retrain_dict):
   robo.whereami(sys._getframe().f_code.co_name)
 
   status = roboretrain.main(retrain_dict)
@@ -1236,12 +1236,12 @@ def main(args):
 
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
-      retrain_downloadedimages(progressdata["retrain_dict"])
+      retrain_getstarted(progressdata["retrain_dict"])
       
     elif progressdata["d_c_r_flow"] == 'dl_retrain' or progressdata["d_c_r_flow"] == 'retrain_defaults':
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
-      retrain_downloadedimages(progressdata["retrain_dict"])
+      retrain_getstarted(progressdata["retrain_dict"])
    
     else:
       # this is DOWNLOAD ONLY (as only one left)
