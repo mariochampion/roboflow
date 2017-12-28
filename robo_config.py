@@ -84,6 +84,7 @@ belowminlabel_dir_suffix = "_under"+conmin2
 # retrain vars
 retrain_imgcount_default = 750
 retrain_model_default = inception_model
+retrain_mobile_percent_default = 100
 retrain_imgsize_default = 224
 retrain_label_min = 2
 retrain_steps_min = 500
@@ -92,6 +93,7 @@ retrain_testper_min = 10
 retrain_testper_default = 16
 retrain_batchsize_min = 10
 retrain_batchsize_default = 64
+retrain_imgmove_check_default = False #do not harvest images, True to harvest
 trainingmodels_dir = "models"
 path_to_trainingmodels = path_to_tensorflow_files + dd +  trainingmodels_dir
 trainingbottlenecks_dir = "bottlenecks"
