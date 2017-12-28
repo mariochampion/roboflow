@@ -32,10 +32,10 @@ download_script = "roboflow.py"
 retrain_script = "robo_tftrain.py"
 classifying_script = "robo_tfclassifier.py"
 config_script = "robo_config.py"
-show_whereami = True # if True, prints '---functionname---' to help trace app flow
+show_whereami = False # if True, prints '---functionname---' to help trace app flow
 
 # details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
-twilio_active = True # make True if you set up a twilio acct AND want to send txt notifs
+twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
 
 # dynamically created files, etc
 urlfile_prefix = "_urls_"
@@ -82,18 +82,18 @@ belowminlabel_dir_suffix = "_under"+conmin2
 
 
 # retrain vars
-retrain_imgcount_default = 20
-#retrain_model_default = inception_model
-retrain_model_default = mobile_model
+retrain_imgcount_default = 800
+retrain_model_default = inception_model
+#retrain_model_default = mobile_model
 retrain_mobile_percent_default = 1.0
 retrain_imgsize_default = 224
 retrain_label_min = 2
 retrain_steps_min = 500
-retrain_steps_default = 500
+retrain_steps_default = 2600
 retrain_testper_min = 10
 retrain_testper_default = 16
 retrain_batchsize_min = 10
-retrain_batchsize_default = 100
+retrain_batchsize_default = 64
 retrain_imgmove_check_default = False #do not harvest images, True to harvest
 trainingmodels_dir = "models"
 path_to_trainingmodels = path_to_tensorflow_files + dd +  trainingmodels_dir
