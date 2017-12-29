@@ -107,10 +107,8 @@ def getimages_master(progressdata):
     
     #save image2url_list
     img2url_dict = cursor_and_imgs[2]
-    if len(img2url_dict) > 0:
-      progressdata["img2url_dict"] = img2url_dict
-    else:
-      progressdata["img2url_dict"] = False
+    if len(img2url_dict) > 0: progressdata["img2url_dict"] = img2url_dict
+    else: progressdata["img2url_dict"] = False
       
     #and download them to imagedir
     imgsrc_list = cursor_and_imgs[1]
@@ -136,7 +134,7 @@ def getimages_master(progressdata):
   if progressdata["iscomplete"] == True: return progressdata
   else: getimages_master(progressdata)   #RECURSION!
   
-  return progressdata #shouldnet get here, but, ya know...
+  return progressdata #shouldnt get here, but, ya know...
 
 
 #################################
@@ -282,7 +280,6 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   robo.whereami(sys._getframe().f_code.co_name)
   print "downloading started: " + time.strftime("%M:%S")
   urlretrieve(imgsrc_url, imgsrc_newimgpath)
-  #print "downloaded "+ time.strftime("%M:%S")
   print
     
   #check that file worked.
@@ -304,7 +301,6 @@ def imgsrc_makenewname(thistag, imgnum, imagedir):
   newimgname = thistag + "_" + str(imgnum)+ "_" + time.strftime("%H%M%S") + cfg.img_suffix
   if imgsrc_nameexists(imagedir, newimgname) == True:
     imgnum = imgnum + 1
-    newimgname = thistag + "_" + str(imgnum) + cfg.img_suffix
     imgsrc_makenewname(thistag, imgnum, imagedir)
   else:
     print "image: " + newimgname
