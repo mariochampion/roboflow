@@ -331,11 +331,24 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   print "(according to the 'confidence_min' variable in the config file, currently set at "+str(cfg.confidence_min)+")"
   print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
   print
-  print "Enter a number below to choose a pretrained TensorFlow model:\n"
+  print "Enter a number below to choose a pretrained TensorFlow model"
+  print "or [ENTER] to choose the model with highest accuracy.\n"
+  
   print "LABELS: '"+modeldirs_dict[0][1]+"'"
+  
+  modeldirs_acc_list = [] #make a list so it can be sorted/shown to user
   for k,v in modeldirs_dict.items():
-    print "["+str(k)+"] Model:",v[0]
-  print
+    tmp_tuple = ()
+    accuracy_num = v[0].split("_")[-1].replace("acc","")
+    tmp_tuple = (k,v,accuracy_num)
+    modeldirs_acc_list.append(tmp_tuple)
+    
+  modeldirs_acc_list_sorted = sorted(modeldirs_acc_list, key=lambda x: x[2], reverse = True)
+  topacc = modeldirs_acc_list_sorted[0][0]
+  #print for user to choose
+  for md in modeldirs_acc_list_sorted:
+    print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
+  
   print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
 
@@ -346,12 +359,12 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
     modelchoice = int(modelchoice_raw)
     classmodeldir_choice = modeldirs_dict[modelchoice][0]
   except:
-    classmodeldir_choice = modeldirs_dict[0][0] #if they picked outside range or letter, etc
+    classmodeldir_choice = modeldirs_dict[topacc][0] #if they picked outside range or letter, etc
   
   print "classmodeldir_choice:", classmodeldir_choice
   print "-----------------------------------------"
   print
-
+  
   return classmodeldir_choice
 
 
