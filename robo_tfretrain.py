@@ -273,7 +273,7 @@ def main(retrain_dict):
 # boilerplate kicker offer (yes thats a tech term!)   
 if __name__ == '__main__':
   try:
-  	retrain_dict
+    retrain_dict
   except:
     print
     print "This script not callable directly, as it needs data from "+cfg.download_script+" passed to it."
