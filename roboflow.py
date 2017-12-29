@@ -344,20 +344,11 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
     modeldirs_acc_list.append(tmp_tuple)
     
   modeldirs_acc_list_sorted = sorted(modeldirs_acc_list, key=lambda x: x[2], reverse = True)
-  #print "modeldirs_acc_list", modeldirs_acc_list
-  #modeldirs_sorted = sorted(modeldirs_acc_list, key=lambda k: k['acc'], reverse = True) 
-  #print "==== SORTED ====="
-  #print modeldirs_sorted[0]
-  #print "modeldirs_acc_list_sorted", modeldirs_acc_list_sorted
-  #sys.exit(1)
-  
-  '''for k,v in modeldirs_dict.items():    
-    print "["+str(k)+"] "+v[1]+"% w/",v[0]
-  print'''
-  for md in modeldirs_acc_list_sorted:
-    print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
+  topacc = modeldirs_acc_list_sorted[0][0]
   
 
+  for md in modeldirs_acc_list_sorted:
+    print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
   
   print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
@@ -369,7 +360,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
     modelchoice = int(modelchoice_raw)
     classmodeldir_choice = modeldirs_dict[modelchoice][0]
   except:
-    classmodeldir_choice = modeldirs_dict[0][0] #if they picked outside range or letter, etc
+    classmodeldir_choice = modeldirs_dict[topacc][0] #if they picked outside range or letter, etc
   
   print "classmodeldir_choice:", classmodeldir_choice
   print "-----------------------------------------"
