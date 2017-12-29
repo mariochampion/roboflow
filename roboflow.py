@@ -331,10 +331,10 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   print "(according to the 'confidence_min' variable in the config file, currently set at "+str(cfg.confidence_min)+")"
   print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
   print
-  print "Enter a number below to choose a pretrained TensorFlow model:"
+  print "Enter a number below to choose a pretrained TensorFlow model:\n"
+  print "LABELS: '"+modeldirs_dict[0][1]+"'"
   for k,v in modeldirs_dict.items():
     print "["+str(k)+"] Model:",v[0]
-    print "\t(labels:",v[1],")"
   print
   print "[d] to actually, ya know, i just want to download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
