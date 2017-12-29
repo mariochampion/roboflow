@@ -338,22 +338,24 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   
   modeldirs_acc_list = [] #make a list so it can be sorted
   for k,v in modeldirs_dict.items():
-    tmp_dict = {}
+    tmp_tuple = ()
     accuracy_num = v[0].split("_")[-1].replace("acc","")
-    tmp_dict['acc'] = accuracy_num
-    tmp_dict['name'] = v
-    modeldirs_acc_list.append(tmp_dict)
+    tmp_tuple = (k,v,accuracy_num)
+    modeldirs_acc_list.append(tmp_tuple)
     
-  modeldirs_sorted = sorted(modeldirs_acc_list, key=lambda k: k['acc'], reverse = True) 
+  modeldirs_acc_list_sorted = sorted(modeldirs_acc_list, key=lambda x: x[2], reverse = True)
+  #print "modeldirs_acc_list", modeldirs_acc_list
+  #modeldirs_sorted = sorted(modeldirs_acc_list, key=lambda k: k['acc'], reverse = True) 
   #print "==== SORTED ====="
-  print modeldirs_sorted[0]
+  #print modeldirs_sorted[0]
+  #print "modeldirs_acc_list_sorted", modeldirs_acc_list_sorted
   #sys.exit(1)
   
   '''for k,v in modeldirs_dict.items():    
     print "["+str(k)+"] "+v[1]+"% w/",v[0]
   print'''
-  for md in modeldirs_sorted:
-    print md["acc"]+"% w/ "+md["name"][0]
+  for md in modeldirs_acc_list_sorted:
+    print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
   
 
   
