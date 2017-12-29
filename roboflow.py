@@ -336,7 +336,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   
   print "LABELS: '"+modeldirs_dict[0][1]+"'"
   
-  modeldirs_acc_list = [] #make a list so it can be sorted
+  modeldirs_acc_list = [] #make a list so it can be sorted/shown to user
   for k,v in modeldirs_dict.items():
     tmp_tuple = ()
     accuracy_num = v[0].split("_")[-1].replace("acc","")
@@ -345,8 +345,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
     
   modeldirs_acc_list_sorted = sorted(modeldirs_acc_list, key=lambda x: x[2], reverse = True)
   topacc = modeldirs_acc_list_sorted[0][0]
-  
-
+  #print for user to choose
   for md in modeldirs_acc_list_sorted:
     print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
   
@@ -366,8 +365,6 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   print "-----------------------------------------"
   print
   
-  
-  sys.exit(1)
   return classmodeldir_choice
 
 
