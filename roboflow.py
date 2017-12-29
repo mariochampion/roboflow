@@ -336,7 +336,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   for k,v in modeldirs_dict.items():
     print "["+str(k)+"] Model:",v[0]
   print
-  print "[d] to actually, ya know, i just want to download the images right now,\n[h] for help, or \n[q] to quit the program... "
+  print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
 
   if modelchoice_raw == 'h': releasethehelp() 
