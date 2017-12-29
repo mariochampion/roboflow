@@ -110,20 +110,16 @@ def retrain_tensorflow(retrain_dict):
 
   # use the tensorflow RETRAIN script
   try:
-    #process = subprocess.Popen([retrain_command], stdout = subprocess.PIPE, shell=True)
-    #training_results = process.communicate()[0]
     training_results = subprocess.check_output(retrain_command, shell=True)
   except Exception:
     ### log something or?
     ### remove specific image? regex thru output to find it-- or just skip?
-    #training_results = False #or this for now
     pass
   
   # see need/description at this function
   add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels)
   
-  #print "type:", type(training_results)
-  #print "training_results:", training_results
+  
   return training_results
 
 
