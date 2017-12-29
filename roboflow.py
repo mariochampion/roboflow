@@ -284,7 +284,7 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
     
   #check that file worked.
   try:
-  	newfilesize = os.path.getsize(imgsrc_newimgpath)
+    newfilesize = os.path.getsize(imgsrc_newimgpath)
   except Exception as err:
     newfilesize = 0
   
