@@ -331,11 +331,32 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   print "(according to the 'confidence_min' variable in the config file, currently set at "+str(cfg.confidence_min)+")"
   print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
   print
-  print "Enter a number below to choose a pretrained TensorFlow model:\n"
+  print "Enter a number below to choose a pretrained TensorFlow model"
+  print "or [ENTER] to choose the model with highest accuracy.\n"
+  
   print "LABELS: '"+modeldirs_dict[0][1]+"'"
+  
+  modeldirs_acc_list = [] #make a list so it can be sorted
   for k,v in modeldirs_dict.items():
-    print "["+str(k)+"] Model:",v[0]
-  print
+    tmp_dict = {}
+    accuracy_num = v[0].split("_")[-1].replace("acc","")
+    tmp_dict['acc'] = accuracy_num
+    tmp_dict['name'] = v
+    modeldirs_acc_list.append(tmp_dict)
+    
+  modeldirs_sorted = sorted(modeldirs_acc_list, key=lambda k: k['acc'], reverse = True) 
+  #print "==== SORTED ====="
+  print modeldirs_sorted[0]
+  #sys.exit(1)
+  
+  '''for k,v in modeldirs_dict.items():    
+    print "["+str(k)+"] "+v[1]+"% w/",v[0]
+  print'''
+  for md in modeldirs_sorted:
+    print md["acc"]+"% w/ "+md["name"][0]
+  
+
+  
   print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
 
@@ -351,7 +372,9 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
   print "classmodeldir_choice:", classmodeldir_choice
   print "-----------------------------------------"
   print
-
+  
+  
+  sys.exit(1)
   return classmodeldir_choice
 
 
