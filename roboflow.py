@@ -358,6 +358,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
   for md in modeldirs_acc_list_sorted:
     print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
   
+  print
   print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
 
@@ -1233,8 +1234,12 @@ def main(args):
     if progressdata["d_c_r_flow"] == 'dl_class' and progressdata["imgnum_dled_thiscycle"] > 0:
       print "now, kickoff TensorFlow image classification/labeling..."
       classify_downloadedimages(progressdata)
-    
-    elif progressdata["d_c_r_flow"] == 'dl_class_retrain':
+      
+    if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_dled_thiscycle"] > 0:
+      print "now, kickoff TensorFlow image classification/labeling..."
+      classify_downloadedimages(progressdata)
+        
+    if progressdata["d_c_r_flow"] == 'dl_class_retrain':
       if progressdata["imgnum_dled_thiscycle"] > 0:
         print "first, do TensorFlow image labeling of downloaded images,"
         print "then, use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
@@ -1244,15 +1249,11 @@ def main(args):
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_getstarted(progressdata["retrain_dict"])
       
-    elif progressdata["d_c_r_flow"] == 'dl_retrain' or progressdata["d_c_r_flow"] == 'retrain_defaults':
+    if progressdata["d_c_r_flow"] == 'dl_retrain' or progressdata["d_c_r_flow"] == 'retrain_defaults':
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_getstarted(progressdata["retrain_dict"])
-   
-    else:
-      # this is DOWNLOAD ONLY (as only one left)
-      pass 
-      
+     
     
     print "-----------------------------------------------------------------------"
     if progressdata["preflight_dict"]["classmodel_verified"] == False:
