@@ -321,20 +321,21 @@ def imgsrc_nameexists(imagedir, newimgname):
     
 
 #################################
-def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
+def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = False):
   robo.whereami(sys._getframe().f_code.co_name)	
   
   classmodeldir_choice = None
-
-  print "CLASSIFY/LABEL IMAGES:"
-  print "You can pick among your trained models to classify your downloaded images, which will be sorted"
-  print "(according to the 'confidence_min' variable in the config file, currently set at "+str(cfg.confidence_min)+")"
-  print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
-  print
-  print "Enter a number below to choose a pretrained TensorFlow model"
-  print "or [ENTER] to choose the model with highest accuracy.\n"
   
-  print "LABELS: '"+modeldirs_dict[0][1]+"'"
+  if top == False:
+    print "CLASSIFY/LABEL IMAGES:"
+    print "You can pick among your trained models to classify your downloaded images, which will be sorted"
+    print "(according to the 'confidence_min' variable in the config file, currently set at "+str(cfg.confidence_min)+")"
+    print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
+    print
+    print "Enter a number below to choose a pretrained TensorFlow model"
+    print "or [ENTER] to choose the model with highest accuracy.\n"
+    
+    print "LABELS: '"+modeldirs_dict[0][1]+"'"
   
   modeldirs_acc_list = [] #make a list so it can be sorted/shown to user
   for k,v in modeldirs_dict.items():
@@ -345,10 +346,19 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag):
     
   modeldirs_acc_list_sorted = sorted(modeldirs_acc_list, key=lambda x: x[2], reverse = True)
   topacc = modeldirs_acc_list_sorted[0][0]
+  
+  ## for automated choice by param 'classify_top'
+  if top == True:
+    print "CLASSIFY/LABEL IMAGES:"
+    classmodeldir_choice = modeldirs_dict[topacc][0]
+    print "model: ", classmodeldir_choice
+    return classmodeldir_choice
+  
   #print for user to choose
   for md in modeldirs_acc_list_sorted:
     print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
   
+  print
   print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
 
@@ -830,7 +840,9 @@ def setup_args_vars_dirs(args, preflight_dict):
     modeldir_labels = classifymodel_getlabels(path_to_models, modeldirs_dict[k])
     modeldirs_dict[k] = (modeldir, modeldir_labels)
 
-  # flowvar conjiggling
+  #### flowvar conjiggling
+  
+  # DOWNLOAD CLASSIFY
   if primevars_dict["d_c_r_flow"] == "dl_class": 
     if len(modeldirs_dict) > 0:
       #setup clasify
@@ -839,6 +851,17 @@ def setup_args_vars_dirs(args, preflight_dict):
     else:
       imgqnty_verified = primevars_dict["preflight_dict"]["imgqnty_verified"] 
       classifymodel_noneexists(basetag, imgnum_maxTHIScycle, thistag, imgqnty_verified) #does not return    
+  
+  if primevars_dict["d_c_r_flow"] == "dl_class_top":
+    if len(modeldirs_dict) > 0:
+      #setup clasify
+      primevars_dict["classify_model_dir"] = classifymodel_setup(modeldirs_dict, basetag, imgnum_maxTHIScycle,  thistag, top=True)
+      classmodeldir_start = primevars_dict["classify_model_dir"][0]# (NOTE: search MAGIC LETTERS for description)
+    else:
+      imgqnty_verified = primevars_dict["preflight_dict"]["imgqnty_verified"] 
+      classifymodel_noneexists(basetag, imgnum_maxTHIScycle, thistag, imgqnty_verified) #does not return  
+  
+  
   
   # DOWNLOAD CLASSIFY & RETRAIN
   if primevars_dict["d_c_r_flow"] == "dl_class_retrain":
@@ -987,17 +1010,14 @@ def preflightchecks(args):
   # allow input param to override, if qualified
   if flowasinput == "download": preflight_dict["d_c_r_flow"] = "download" 
   if flowasinput == "classify" and "classify" in preflight_dict["flowlist"]: preflight_dict["d_c_r_flow"] = "dl_class" 
+  if flowasinput == "classify_top" and "classify" in preflight_dict["flowlist"]: preflight_dict["d_c_r_flow"] = "dl_class_top" 
   if flowasinput == "retrain" and "retrain" in preflight_dict["flowlist"]: 
-    if imagequantity > 0:
-      preflight_dict["d_c_r_flow"] = "dl_class_retrain" 
-    else:
-      preflight_dict["d_c_r_flow"] = "dl_retrain" 
+    if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_class_retrain" 
+    else: preflight_dict["d_c_r_flow"] = "dl_retrain" 
       
   if flowasinput == "retrain_defaults" and "retrain" in preflight_dict["flowlist"]:
-    if imagequantity > 0:
-      preflight_dict["d_c_r_flow"] = "dl_retrain" 
-    else:
-      preflight_dict["d_c_r_flow"] = "retrain_defaults"  
+    if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_retrain" 
+    else: preflight_dict["d_c_r_flow"] = "retrain_defaults"  
 
 
   #print "preflight_dict", preflight_dict
@@ -1214,8 +1234,12 @@ def main(args):
     if progressdata["d_c_r_flow"] == 'dl_class' and progressdata["imgnum_dled_thiscycle"] > 0:
       print "now, kickoff TensorFlow image classification/labeling..."
       classify_downloadedimages(progressdata)
-    
-    elif progressdata["d_c_r_flow"] == 'dl_class_retrain':
+      
+    if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_dled_thiscycle"] > 0:
+      print "now, kickoff TensorFlow image classification/labeling..."
+      classify_downloadedimages(progressdata)
+        
+    if progressdata["d_c_r_flow"] == 'dl_class_retrain':
       if progressdata["imgnum_dled_thiscycle"] > 0:
         print "first, do TensorFlow image labeling of downloaded images,"
         print "then, use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
@@ -1225,15 +1249,11 @@ def main(args):
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_getstarted(progressdata["retrain_dict"])
       
-    elif progressdata["d_c_r_flow"] == 'dl_retrain' or progressdata["d_c_r_flow"] == 'retrain_defaults':
+    if progressdata["d_c_r_flow"] == 'dl_retrain' or progressdata["d_c_r_flow"] == 'retrain_defaults':
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_getstarted(progressdata["retrain_dict"])
-   
-    else:
-      # this is DOWNLOAD ONLY (as only one left)
-      pass 
-      
+     
     
     print "-----------------------------------------------------------------------"
     if progressdata["preflight_dict"]["classmodel_verified"] == False:

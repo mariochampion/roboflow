@@ -55,9 +55,10 @@ basetag: \tthe master classification tag or theme ('robots' or 'birds' or whatev
   print "imagequantity:\tan integer between 0 and "+str(cfg.imgnum_maxpercycle)+", to not hammer other people's servers"
   print '''searchtag:\tthe searchterm, such as 'robot' or 'robotart' etc
 flowsteps:\tOPTIONAL parameter to determine which stages to implement of --
-\t\t'download' which will only download the tagged images
-\t\t'classify' (default, if blank) will download and classify/sort images
-\t\t'retrain' will download, classify, and retrain (w/optional harvest) a new 
+\t\t'download' - only downloads the tagged images
+\t\t'classify' (default, if blank) - download, classify/sort images w/model of your choice
+\t\t'classify_top' - download, classify with TOP accuracy model (skips setup),
+\t\t'retrain' - download, classify, and retrain (w/optional harvest) a new 
 \t\t classifier with images from training_photos/{basetag}
 \t\t'retrain_defaults' (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP,
 \t\t using values from config file setup.
