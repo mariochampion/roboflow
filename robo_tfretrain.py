@@ -237,6 +237,28 @@ def retrain_dict_setup_batchsize():
   return bs
   
   
+#################################	
+def retrain_yes():
+  robo.whereami(sys._getframe().f_code.co_name)
+  
+  #if verified count to retrain, but still do you want to retrain?
+  print "RETRAIN TENSORFLOW??"
+  print "You can do a retrain cycle after the downloading and classifying, which can take many minutes."
+  print "Enter your choice:"
+  print "[s] to skip retraining right now\n[h] for help\n[q] to quit\n[enter] to setup retraining"
+  retraincont_raw = raw_input()
+  
+  status = False
+  if retraincont_raw == 's': status = False
+  elif retraincont_raw == 'h': releasethehelp()
+  elif retraincont_raw == 'q': robo.goodbye()
+  else:
+    status = True
+    print "ok, let us go setup the retraining parameters!"
+    print
+  
+  return status 
+  
   
   
 #################################	 
