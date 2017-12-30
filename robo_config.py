@@ -35,7 +35,7 @@ config_script = "robo_config.py"
 show_whereami = True # if True, prints '---functionname---' to help trace app flow
 
 # details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
-twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
+twilio_active = True # make True if you set up a twilio acct AND want to send txt notifs
 
 # dynamically created files, etc
 urlfile_prefix = "_urls_"
@@ -82,7 +82,7 @@ belowminlabel_dir_suffix = "_under"+conmin2
 
 
 # retrain vars
-retrain_imgcount_default = 20
+retrain_imgcount_default = 800
 retrain_model_default = inception_model
 #retrain_model_default = mobile_model
 retrain_mobile_percent_default = 1.0

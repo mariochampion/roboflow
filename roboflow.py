@@ -816,9 +816,9 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["flow"] = flow
   primevars_dict["d_c_r_flow"] = preflight_dict["d_c_r_flow"]
 
-  print "PRIMEVARS"
+  '''print "PRIMEVARS"
   for k,v in primevars_dict.items():
-    print k,"",v
+    print k,"",v'''
   
 
   ####### FLOW VAR (download, classify, retrain)
