@@ -148,7 +148,7 @@ python roboflow.py
 5. if you have enough images in training_photos/BASETAG/labeled-subdirs you will 
 be prompted to retrain or not. if yes, you will be guided through the retraining 
 parameters, or you can always just hit [enter] to accept the defaults as set in 
-the config file (although to much of that defeats the goal of comparing learning 
+the config file (although too much of that defeats the goal of comparing/learning 
 how hyperparameters affect classification accuracy!)
 
 
