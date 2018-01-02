@@ -89,12 +89,12 @@ for example:
 python roboflow.py robots 200 robotart download
 ```
 
-## Help:
+## Help: (or <a href="HELP.md">read the help docs online</a>)
 ```
 python roboflow.py --help
 ```
 
-### and dont forget to explore the config file. 
+### and dont forget to explore the <a href="../robo_config.py">config file.</a> 
 
 
 
