@@ -38,6 +38,6 @@ Quality initial labeling/sorting makes ALLL the difference!<br>
 When starting, you must manually sort a minimum number of images to allow the first retraining to create the first classifier. After that, downloading, classifying/auto-sorting, and harvesting to retrain to make a better classifier is waaaaay more automated.
 
 
-## Keeping reading the extensive detailed help for useful and important advice.
+### Keeping reading the <a href="HELPMORE.md">extensive detailed help</a> for useful and important advice.
 
 
