@@ -42,7 +42,7 @@ def summary():
   print '''
 ROBOFLOW: help
 -----------------------------------------
-This roboflow endeavor assumes you have at least passing familiarity with TensorFlow:
+This roboflow guide assumes you have at least passing familiarity with TensorFlow:
 \thttps://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
 \thttps://www.tensorflow.org/tutorials/image_retraining
 
