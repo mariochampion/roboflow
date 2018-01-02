@@ -1,3 +1,4 @@
+-----------------------------------------
 ## RoboFlow: HELP
 -----------------------------------------
 This Roboflow guide assumes you have at least passing familiarity with TensorFlow:<br>
@@ -20,7 +21,7 @@ python roboflow.py robots 200 robotart download
 
 ### PARAMETERS:<br>
 * basetag: the master classification tag or theme ('robots' or 'birds' or whatever)<br>
-* imagequantity: an integer between 0 and {imgnum_maxpercycle} var from config, to not hammer other people's servers<br>
+* imagequantity: an integer between 0 and the {imgnum_maxpercycle} var from the config file, to not hammer other people's servers<br>
 * searchtag: the searchterm, such as 'robot' or 'robotart' etc<br>
 * flowsteps: OPTIONAL parameter to determine which stages to implement of --<br>
  ** 'download' - only downloads the tagged images<br>
