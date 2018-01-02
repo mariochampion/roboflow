@@ -3,19 +3,20 @@
 (please read the general help first: 'python roboflow.py --help')
 
 ### Sections:
-* requirements
+* <a href="#requirements">requirements<a>
 * <a href="#definitions">definitions<a>
-* general workflow
-* how to start over
-* bootstrapping details
-* basetag details
-* preventing dupes when RE-using classification models
-* improving clasiification & retraining results
-* optional txt msg notifications with twilio
+* <a href="#genworkflow">general workflow<a>
+* <a href="#startingover">how to start over<a>
+* <a href="#bootstrapping">bootstrapping details<a>
+* <a href="#basetagdetails">basetag details<a>
+* <a href="#preventingdupes">preventing dupes when RE-using classification models<a>
+* <a href="#improveresults">improving classification & retraining results<a>
+* <a href="#txtmsgs">optional txt msg notifications with twilio<a>
 
 note: important and defined words are CAPITALIZED
 
 
+<a name = "requirements">&nbsp;</a>
 ## REQUIREMENTS:
 * python 2.7 (i used 2.7, but i dont know it wont run in 3.x)
 * tensorflow (https://www.tensorflow.org/install/) 
@@ -124,6 +125,7 @@ https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
 https://www.tensorflow.org/tutorials/image_retraining
 
 
+<a name = "genworkflow">&nbsp;</a>
 ## GENERAL WORKFLOW
 (note: all these descriptions use default names of directories as set in config file).
 
@@ -176,12 +178,14 @@ python roboflow.py robots 0 0 retrain_defaults
 ```
 
 
+<a name = "startingover">&nbsp;</a>
 ### HOW TO START OVER:
 if you want a clean slate, first make a back up first of what you currently have 
 because that is always a good idea, then simply delete the directories under 
 tf_files directory named testing_photos, training_photos, and training_sumamries.
 
 
+<a name = "bootstrapping">&nbsp;</a>
 ### BOOTSTRAPPING DETAILS:
 There is an initial bootstrap stage in which you must manually sort a minimum number 
 of images to allow the first retraining to create the first classifier. This tool 
@@ -197,6 +201,7 @@ images into labeled sub-dirs of training_photos/{BASETAG}. after that, the 'retr
 ** as setup in config file
 
 
+<a name = "basetagdetails">&nbsp;</a>
 ### BASETAG DETAILS
 you can create an many different classifier themes, which are called BASETAGs, 
 from the guided or advanced usage. in guided use, you choose to use an existing 
@@ -212,6 +217,7 @@ the unwanted trainingdata/labeled-dirs BEFORE the first retraining. after that,
 you will mess things up if you remove them. 
 
 
+<a name = "preventingdupes">&nbsp;</a>
 ### PREVENTING DUPES when REUSING CLASSIFICATION MODELS
 IMPORTANT: when classifying, unsorted images are COPIED so they can be reused 
 with different models to see how it classifies them differently. that is, when you 
@@ -234,6 +240,7 @@ is on a list...
 
 
 
+<a name = "improveresults">&nbsp;</a>
 ### IMPROVING CLASSIFICATION/RETRAIN RESULTS
 the likelihood of images from a SEARCHTAG matching a BASETAG varies wildly, and 
 so sorting is adjusted with the 'CONFIDENCEMIN' variable. Tuning this variable 
@@ -259,7 +266,7 @@ ends with the accuracy percentage of the model, such as '_acc91.72' or the like,
 again to help you in choosing which model to use when classifying.
 
   
-
+<a name = "txtmsgs">&nbsp;</a>
 ### OPTIONAL TXT MSG NOTIFICATIONS (w/TWILIO)
 because a cycle might take a while, especially for a full retrain (or even a 
 large download/classify/sort cycle) there are three(3) txt msg notification points 
