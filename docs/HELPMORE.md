@@ -88,9 +88,7 @@ of images tagged 'robot' are not even close to any meaningful 'robot' sub-class.
 
 ### LOG FILES
 this program creates several files along the way to track various 
-aspects of the process, and stores them as .txt files, often with a 
-'_{timestamp}.txt' ending. Tracked information includes original names and urls of 
-files, names and params of classifying model, which 'sorted_{timestamp}' dirs were 
+aspects of the process, and stores them as .txt files, often with a  '_{timestamp}.txt' ending. Tracked information includes original names and urls of files, names and params of classifying model, which 'sorted_{timestamp}' dirs were 
 harvested and how the images were moved, etc etc.
 
 
@@ -129,6 +127,9 @@ https://www.tensorflow.org/tutorials/image_retraining
 (note: all these descriptions use default names of directories as set in config file).
 
 ### GUIDED:
+```
+python roboflow.py
+```
 1. create or choose an existing BASETAG<br>
 2. choose number of images to download and<br>
 3. enter the searchtag of those images.<br>
@@ -148,7 +149,7 @@ how hyperparameters affect classification accuracy!)
 ### ADVANCED:
 enter parameters at the command line. as noted in the regular help:
 ```
-python roboflow.py [BASETAG] [imagequantity] [searchtag] [flowsteps]
+python roboflow.py [basetag] [imagequantity] [searchtag] [flowsteps]
 ```
 note: the flowsteps parameter is optional, and defaults to classify if blank, 
 meaning roboflow will download [imagequantity] of [searchtags] and then classify them.
