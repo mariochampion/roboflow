@@ -15,16 +15,16 @@ python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
 ```
 
 ### PARAMETERS:<br>
-basetag: \tthe master classification tag or theme ('robots' or 'birds' or whatever)<br>
-imagequantity:\tan integer between 0 and "+str(cfg.imgnum_maxpercycle)+", to not hammer other people's servers<br>
-searchtag:\tthe searchterm, such as 'robot' or 'robotart' etc<br>
-flowsteps:\tOPTIONAL parameter to determine which stages to implement of --<br>
-  'download' - only downloads the tagged images<br>
-  'classify' (default, if blank) - download, classify/sort images w/model of your choice<br>
-  'classify_top' - download, classify with TOP accuracy model (skips setup),<br>
-  'retrain' - download, classify, and retrain (w/optional harvest) a new <br>
+* basetag: the master classification tag or theme ('robots' or 'birds' or whatever)<br>
+* imagequantity: an integer between 0 and {imgnum_maxpercycle} var from config, to not hammer other people's servers<br>
+* searchtag: the searchterm, such as 'robot' or 'robotart' etc<br>
+* flowsteps: OPTIONAL parameter to determine which stages to implement of --<br>
+ ** 'download' - only downloads the tagged images<br>
+ ** 'classify' (default, if blank) - download, classify/sort images w/model of your choice<br>
+ ** 'classify_top' - download, classify with TOP accuracy model (skips setup),<br>
+ ** 'retrain' - download, classify, and retrain (w/optional harvest) a new <br>
   classifier with images from training_photos/{basetag}<br>
-'retrain_defaults' (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP,<br>
+ ** 'retrain_defaults' (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP,<br>
   using values from config file setup.
 
 
