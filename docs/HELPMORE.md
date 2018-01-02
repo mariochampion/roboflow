@@ -1,9 +1,13 @@
-
 ## RoboFlow: DETAILED HELP
+##### jump to: <a href="README.md">RoboFlow</a> | <a href="HELP.md">Help</a> | <a href="HELPMORE.md">DetailedHelp</a>
+
+
 (please read the <a href="HELP.md">general help</a> first, or at the command-line<br>
 ```
 python roboflow.py --help
 ```
+
+
 
 ### Sections:
 * <a href="#requirements">requirements<a>
