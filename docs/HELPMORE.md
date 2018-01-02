@@ -170,7 +170,8 @@ python roboflow.py robots 0 0 retrain
 you can use with '0 0' setup a flowstep parameter of 'retrain_defaults' to choose
 the retraining parameter values set in the config file.
 example:
-```python roboflow.py robots 0 0 retrain_defaults
+```
+python roboflow.py robots 0 0 retrain_defaults
 ```
 
 
