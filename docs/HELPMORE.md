@@ -24,7 +24,7 @@ note: important and defined words are CAPITALIZED
 * terminal/command line comfort (or willingness to learn)
 
 
-<a name = "definitions">
+<a name = "definitions">&nbsp;</a>
 ## DEFINITIONS:
 ### BASETAG
 because you can use roboflow for many/separate classifiers, you need to 
