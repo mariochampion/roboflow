@@ -271,6 +271,6 @@ default turned off, via the 'twilio_active' variable in the config file.
 super simple twilio/python sample at<br>
 https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
 
-
-#### thanks and happy robo-assisted tensorflow exploring!
-#### boop boop
+---------------------------------------------------------------------
+#### thanks and happy robo-assisted tensorflow exploring!<br>
+boop boop
