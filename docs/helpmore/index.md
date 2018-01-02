@@ -2,7 +2,7 @@
 ##### jump to: <a href="https://mariochampion.github.io/roboflow">RoboFlow</a> | <a href="https://mariochampion.github.io/roboflow/help">Help</a> | <a href="https://mariochampion.github.io/roboflow/helpmore">DetailedHelp</a>
 
 
-(please read the <a href="HELP.md">general help</a> first, or at the command-line<br>
+(please read the <a href="https://mariochampion.github.io/roboflow/help">general help</a> first, or at the command-line<br>
 ```
 python roboflow.py --help
 ```
