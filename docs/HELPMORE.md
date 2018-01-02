@@ -28,13 +28,15 @@ note: important and defined words are CAPITALIZED
 
 ## DEFINITIONS:
 -----------------------------------------
-### BASETAG - because you can use roboflow for many/separate classifiers, you need to 
+### BASETAG
+because you can use roboflow for many/separate classifiers, you need to 
 pick a term for the broad master classification or theme of your classifier 
 (such as 'robots', or 'birds', or whatever) so that images, classifier models 
 and more can be stored separately under that BASETAG directory.
 
 
-### CLASSIFYING/LABELING - downloaded images, stored in 'unsorted_{searchtag}' dirs,
+### CLASSIFYING/LABELING
+downloaded images, stored in 'unsorted_{searchtag}' dirs,
 are moved into 'sorted_{timestamp}' dirs by running a classifier, which is in turn 
 created by retraining. a classifier is used repeatedly and on many different 
 searchtags, while a retraining creates one classifier per retraining. after classifying 
@@ -42,7 +44,8 @@ many images, you should manually do a QUALITY CONTROL CHECK and then HARVEST the
 before RETRAINING.
 
 
-### CONFIDENCEMIN - set in the config file, this variable determines how 
+### CONFIDENCEMIN
+set in the config file, this variable determines how 
 images are labeled and sorted. as you know, tensorflow assigns a numeric likelihood
 that an image belongs to a certain LABEL. images below CONFIDENCEMIN are sorted 
 into subdirs which are ignored during harvesting, and so removed from retraining. 
@@ -51,12 +54,14 @@ and make for a weak classifier; too high and good examples get missed.
 SEE ALSO: 'QUALITY CONTROL'
 
 
-### CONFIG FILE - The config file 'robo_config.py' sets up global variables, names, 
+### CONFIG FILE
+The config file 'robo_config.py' sets up global variables, names, 
 paths, etc used in different roboflow scripts. It is imported to the other files 
 as 'cfg' so variables that begin 'cfg.somevarname' are set here. worth exploring!
 
 
-### DIRECTORY STRUCTURE - roboflow dir and scripts are intended to live at the same 
+### DIRECTORY STRUCTURE
+roboflow dir and scripts are intended to live at the same 
 level as "tf_files" and "scripts" in the tensorflow-for-poets-2 structure as setup
 by https://github.com/googlecodelabs/tensorflow-for-poets-2. however, you can monkey 
 that around in the config file. BASETAG directories will be created under all three
@@ -64,14 +69,16 @@ core TF subdirs of testing_photos, training_photos, training_summaries, -- and
 in those will be created sorted_*, unsorted_*, harvested_* and other .txt logfiles. 
 
 
-### HARVESTING (optional) - this is the moving of classified and sorted images from 
+### HARVESTING (optional)
+this is the moving of classified and sorted images from 
 testing_photos to training_photos before retraining. This is the physical step 
 that accomplishes the goal of downloading and classifying all those images -- to
 get high-confidence images into training data to improve the next classifier's accuracy. 
 NOT used with every retraining. SEE ALSO: CONFIDENCEMIN and QUALITY CONTROL
 
 
-### LABELS - the sub-classes of images you enter during guided setup of creating a 
+### LABELS 
+the sub-classes of images you enter during guided setup of creating a 
 new BASETAG. continuing the "robot" BASETAG example, these might be: 
 \t'drawn', 'built', 'mechs' and 'not'.
 sub-classes are used to auto-generate directories in the training_photos directory 
@@ -81,26 +88,30 @@ searchtag images can be wildly not on theme to the related BASETAG. that is, lot
 of images tagged 'robot' are not even close to any meaningful 'robot' sub-class.
 
 
-### LOG FILES - this program creates several files along the way to track various 
+### LOG FILES
+this program creates several files along the way to track various 
 aspects of the process, and stores them as .txt files, often with a 
 '_{timestamp}.txt' ending. Tracked information includes original names and urls of 
 files, names and params of classifying model, which 'sorted_{timestamp}' dirs were 
 harvested and how the images were moved, etc etc.
 
 
-### SEARCHTAG - the tag, related to the BASETAG, which will serve as the search term
+### SEARCHTAG
+the tag, related to the BASETAG, which will serve as the search term
 for images to be downloaded, sorted and classified.
 examples: 'robotart' or 'owl', per the previous BASETAG examples.
 
 
-### QUALITY CONTROL CHECK - along with adjusting 'CONFIDENCEMIN', periodic and manual 
+### QUALITY CONTROL CHECK
+along with adjusting 'CONFIDENCEMIN', periodic and manual 
 human-sorting of robo-sorted images is critical. that is, you need to go into 
 the 'sorted_{timestamp}' dirs, spot-check and move images among the labeled dirs as 
 you, human, think best -- and BEFORE a harvest. Poorly labeled images getting back
 into training data makes for weak classifiers. 
 
 
-### SORTED_{TIMESTAMP} and  UNSORTED_{SEARCHTAG} DIRS - downloaded images are 
+### SORTED_{TIMESTAMP} and  UNSORTED_{SEARCHTAG} DIRS
+downloaded images are 
 initially stored in testing_photos/{basetag}/unsorted_{searchtag} directory. 
 When a classifier is run, they are copied (not moved) into a labeled-dir under 
 testing_photos/{basetag}/sorted_{timestamp}/ according to the CONFIDENCEMIN var. 
@@ -146,7 +157,7 @@ note: the flowsteps parameter is optional, and defaults to classify if blank,
 meaning roboflow will download [imagequantity] of [searchtags] and then classify them.
 
 
-##### hint: if you have more than the minimum number of images required in labeled 
+#### hint: if you have more than the minimum number of images required in labeled 
 sub-dirs at training_photos/BASETAG, and want to skip both downloading and 
 classifying stages, enter '0' for both the imagequantity and seachtag parameters. 
 ```
@@ -186,19 +197,18 @@ images into labeled sub-dirs of training_photos/{BASETAG}. after that, the 'retr
 
 ### BASETAG DETAILS
 -----------------------------------------
-<p>you can create an many different classifier themes, which are called BASETAGs, 
+you can create an many different classifier themes, which are called BASETAGs, 
 from the guided or advanced usage. in guided use, you choose to use an existing 
 or create a new basetag. in advanced use, whatever BASETAG name you enter will be 
 created if it doesnt exist. NOTE: if you typo an existing BASETAG, you cannot
-classify or retrain because you wont have any images under this 'new' BASETAG.</p>
+classify or retrain because you wont have any images under this 'new' BASETAG.
 
-
-<p>also, in advanced use, a new BASETAG & SEARCHTAG will create new label dirs in 
+also, in advanced use, a new BASETAG & SEARCHTAG will create new label dirs in 
 training data directory, but in guided mode, it would not. this is because a new 
 BASETAG from the command line needs at least one label dir, so it is created. 
 if you dont want to sort training data into them, there is no danger in removing 
 the unwanted trainingdata/labeled-dirs BEFORE the first retraining. after that, 
-you will mess things up if you remove them. </p>
+you will mess things up if you remove them. 
 
 
 ### PREVENTING DUPES when REUSING CLASSIFICATION MODELS
