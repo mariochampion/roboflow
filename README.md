@@ -89,7 +89,7 @@ for example:
 python roboflow.py robots 200 robotart download
 ```
 
-## Help:
+## Help:((or <a href="docs/HELP.md">read the help docs online</a>))
 ```
 python roboflow.py --help
 ```
