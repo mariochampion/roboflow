@@ -1,5 +1,5 @@
 ## RoboFlow: HELP
-##### jump to: <a href="README.md">RoboFlow</a> | <a href="HELP.md">Help</a> | <a href="HELPMORE.md">DetailedHelp</a>
+##### jump to: <a href="https://mariochampion.github.io/roboflow">RoboFlow</a> | <a href="https://mariochampion.github.io/roboflow/help">Help</a> | <a href="https://mariochampion.github.io/roboflow/helpmore">DetailedHelp</a>
 
 
 This Roboflow guide assumes you have at least passing familiarity with TensorFlow:<br>
