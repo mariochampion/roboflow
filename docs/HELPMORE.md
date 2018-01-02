@@ -4,7 +4,7 @@
 
 ### Sections:
 * requirements
-* definitions
+* <a href="#definitions">definitions<a>
 * general workflow
 * how to start over
 * bootstrapping details
@@ -24,6 +24,7 @@ note: important and defined words are CAPITALIZED
 * terminal/command line comfort (or willingness to learn)
 
 
+<a name = "definitions">
 ## DEFINITIONS:
 ### BASETAG
 because you can use roboflow for many/separate classifiers, you need to 
