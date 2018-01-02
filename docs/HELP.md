@@ -1,8 +1,8 @@
 ## RoboFlow: HELP
 -----------------------------------------
 This Roboflow guide assumes you have at least passing familiarity with TensorFlow:
-\thttps://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
-\thttps://www.tensorflow.org/tutorials/image_retraining
+https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/(https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/)
+https://www.tensorflow.org/tutorials/image_retraining(https://www.tensorflow.org/tutorials/image_retraining)
 
 ##HOW TO USE:
 ### Guided usage:
