@@ -27,7 +27,7 @@ note: important and defined words are CAPITALIZED
 ## DEFINITIONS:
 ### BASETAG
 because you can use roboflow for many/separate classifiers, you need to 
-pick a term for the broad master classification or theme of your classifier 
+pick a term for the broad master classification or theme of each classifier 
 (such as 'robots', or 'birds', or whatever) so that images, classifier models 
 and more can be stored separately under that BASETAG directory.
 
