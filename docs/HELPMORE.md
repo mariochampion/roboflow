@@ -190,7 +190,7 @@ it is not worth it. After that, subsequent cycles of downloading, classifying/au
 and harvesting sorted images into the training_photos/labeled_directories for 
 another cycle of retraining is waaaaay more automated.
 
-specifically, , before the FIRST retraining you must MANUALLY SORT at least 750** 
+specifically, before the FIRST retraining you must MANUALLY SORT at least 750** 
 images into labeled sub-dirs of training_photos/{BASETAG}. after that, the 'retrain' parameter will, at your option, harvest previously classified high-confidence** images into the  training data sub-directories at training_photos/{BASETAG}/{labeled-subdirs}
 
 ** as setup in config file
@@ -267,3 +267,10 @@ download, classification, and retrain stages. i personally found it quite useful
 and if you want txts, you will need to setup your own TWILIO account, which requires 
 a credit card to charge up their txt msg service. txt msg notifications are by 
 default turned off, via the 'twilio_active' variable in the config file.
+
+super simple twilio/python sample at<br>
+https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
+
+
+#### thanks and happy robo-assisted tensorflow exploring!
+#### boop boop
