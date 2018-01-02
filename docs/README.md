@@ -1,5 +1,4 @@
 # RoboFlow
-## a semi-automated TensorFlow image classification explorer in a python command line app.
 ##### jump to: <a href="README.md">RoboFlow</a> | <a href="HELP.md">Help</a> | <a href="HELPMORE.md">DetailedHelp</a>
 
 
