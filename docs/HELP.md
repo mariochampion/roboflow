@@ -4,7 +4,7 @@ This Roboflow guide assumes you have at least passing familiarity with TensorFlo
 https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/<br>
 https://www.tensorflow.org/tutorials/image_retraining
 
-##HOW TO USE:
+## HOW TO USE:
 ### Guided usage:
 ```
 python roboflow.py
