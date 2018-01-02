@@ -1,6 +1,5 @@
------------------------------------------
+
 ## RoboFlow: DETAILED HELP
------------------------------------------
 (please read the general help first: 'python roboflow.py --help')
 
 ### Sections:
@@ -18,7 +17,6 @@ note: important and defined words are CAPITALIZED
 
 
 ## REQUIREMENTS:
------------------------------------------
 * python 2.7 (i used 2.7, but i dont know it wont run in 3.x)
 * tensorflow (https://www.tensorflow.org/install/) 
 * permissions to download and create files and directories
@@ -27,7 +25,6 @@ note: important and defined words are CAPITALIZED
 
 
 ## DEFINITIONS:
------------------------------------------
 ### BASETAG
 because you can use roboflow for many/separate classifiers, you need to 
 pick a term for the broad master classification or theme of your classifier 
@@ -80,7 +77,8 @@ NOT used with every retraining. SEE ALSO: CONFIDENCEMIN and QUALITY CONTROL
 ### LABELS 
 the sub-classes of images you enter during guided setup of creating a 
 new BASETAG. continuing the "robot" BASETAG example, these might be: 
-\t'drawn', 'built', 'mechs' and 'not'.
+'drawn', 'built', 'mechs' and 'not'.
+
 sub-classes are used to auto-generate directories in the training_photos directory 
 and 'sorted_{timestamp}' directories when classifying/sorting images.
 it is a VERY GOOD idea to have a general 'other' or 'not' category because 
@@ -127,8 +125,7 @@ https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
 https://www.tensorflow.org/tutorials/image_retraining
 
 
-## GENERAL WORKFLOW<br>
------------------------------------------
+## GENERAL WORKFLOW
 (note: all these descriptions use default names of directories as set in config file).
 
 ### GUIDED:
@@ -173,14 +170,12 @@ example:
 
 
 ### HOW TO START OVER:
------------------------------------------
 if you want a clean slate, first make a back up first of what you currently have 
 because that is always a good idea, then simply delete the directories under 
 tf_files directory named testing_photos, training_photos, and training_sumamries.
 
 
 ### BOOTSTRAPPING DETAILS:
------------------------------------------
 There is an initial bootstrap stage in which you must manually sort a minimum number 
 of images to allow the first retraining to create the first classifier. This tool 
 will help you download 1000s of images pretty easily. It can take a while to 
@@ -196,7 +191,6 @@ images into labeled sub-dirs of training_photos/{BASETAG}. after that, the 'retr
 
 
 ### BASETAG DETAILS
------------------------------------------
 you can create an many different classifier themes, which are called BASETAGs, 
 from the guided or advanced usage. in guided use, you choose to use an existing 
 or create a new basetag. in advanced use, whatever BASETAG name you enter will be 
@@ -212,7 +206,6 @@ you will mess things up if you remove them.
 
 
 ### PREVENTING DUPES when REUSING CLASSIFICATION MODELS
------------------------------------------
 IMPORTANT: when classifying, unsorted images are COPIED so they can be reused 
 with different models to see how it classifies them differently. that is, when you 
 run a classifier, it classifies EVERYTHING in that unsorted_{searchtag} folder, 
@@ -235,7 +228,6 @@ is on a list...
 
 
 ### IMPROVING CLASSIFICATION/RETRAIN RESULTS
------------------------------------------
 the likelihood of images from a SEARCHTAG matching a BASETAG varies wildly, and 
 so sorting is adjusted with the 'CONFIDENCEMIN' variable. Tuning this variable 
 is the seed of improving results, but periodic manual quality control is how you 
@@ -261,8 +253,7 @@ again to help you in choosing which model to use when classifying.
 
   
 
-### OPTIONAL TXT MSG NOTIFICATIONS
------------------------------------------
+### OPTIONAL TXT MSG NOTIFICATIONS (w/TWILIO)
 because a cycle might take a while, especially for a full retrain (or even a 
 large download/classify/sort cycle) there are three(3) txt msg notification points 
 built into this tool. specifically, you can be optionally notified at the end of 
