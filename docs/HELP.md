@@ -1,9 +1,11 @@
------------------------------------------
+
 ## RoboFlow: HELP
------------------------------------------
+
 This Roboflow guide assumes you have at least passing familiarity with TensorFlow:<br>
 https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/<br>
 https://www.tensorflow.org/tutorials/image_retraining
+##### jump to: <a href="HELP.md">Help</a> | <a href="HELPMORE.md">DetailedHelp</a>
+
 
 ## HOW TO USE:
 ### Guided usage:
