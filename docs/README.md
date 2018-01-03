@@ -9,7 +9,7 @@ RoboFlow was created to get a better sense for TensorFlow's image classifier by 
 Issues, Contributions, and Pull Requests welcomed!
 
 
-### 'basetag' concept
+## 'BASETAG' concept
 because you can use roboflow for many separate classifiers, you need to pick a term for the broad master classification or theme of your classifier (such as 'robots', or 'birds', or whatever) so that images, classifier models and more can be stored separately under that BASETAG directory. You will do this in either the guided or advanced usages (see below).
 
 ## Bootstrapping
@@ -25,7 +25,7 @@ https://drive.google.com/file/d/1zvTq5vKqME7sW9O8lEtgn-Wosoavc2gi/view?usp=shari
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 
-### Prerequisites
+#### PREREQUISITES
 
 #### software
 * Python (2.7 - but i havent tried 3.x so that might work, too)
@@ -95,7 +95,7 @@ python roboflow.py robots 200 robotart classify
 python roboflow.py --help
 ```
 
-### and dont forget to explore the <a href="../robo_config.py">config file.</a> 
+#### and dont forget to explore the <a href="../robo_config.py">config file.</a> 
 
 
 
