@@ -9,7 +9,7 @@ python roboflow.py --help
 
 
 
-### Sections:
+## Sections:
 * <a href="#requirements">requirements<a>
 * <a href="#definitions">definitions<a>
 * <a href="#genworkflow">general workflow<a>
@@ -34,14 +34,14 @@ note: important and defined words are CAPITALIZED
 
 <a name = "definitions">&nbsp;</a>
 ## DEFINITIONS:
-### BASETAG
+#### BASETAG
 because you can use roboflow for many/separate classifiers, you need to 
 pick a term for the broad master classification or theme of each classifier 
 (such as 'robots', or 'birds', or whatever) so that images, classifier models 
 and more can be stored separately under that BASETAG directory.
 
 
-### CLASSIFYING/LABELING
+#### CLASSIFYING/LABELING
 downloaded images, stored in 'unsorted_{searchtag}' dirs,
 are moved into 'sorted_{timestamp}' dirs by running a classifier, which is in turn 
 created by retraining. a classifier is used repeatedly and on many different 
@@ -50,7 +50,7 @@ many images, you should manually do a QUALITY CONTROL CHECK and then HARVEST the
 before RETRAINING.
 
 
-### CONFIDENCEMIN
+#### CONFIDENCEMIN
 set in the config file, this variable determines how 
 images are labeled and sorted. as you know, tensorflow assigns a numeric likelihood
 that an image belongs to a certain LABEL. images below CONFIDENCEMIN are sorted 
@@ -60,13 +60,13 @@ and make for a weak classifier; too high and good examples get missed.
 SEE ALSO: 'QUALITY CONTROL'
 
 
-### CONFIG FILE
+#### CONFIG FILE
 The config file 'robo_config.py' sets up global variables, names, 
 paths, etc used in different roboflow scripts. It is imported to the other files 
 as 'cfg' so variables that begin 'cfg.somevarname' are set here. worth exploring!
 
 
-### DIRECTORY STRUCTURE
+#### DIRECTORY STRUCTURE
 roboflow dir and scripts are intended to live at the same 
 level as "tf_files" and "scripts" in the tensorflow-for-poets-2 structure as setup
 by https://github.com/googlecodelabs/tensorflow-for-poets-2. however, you can monkey 
@@ -75,7 +75,7 @@ core TF subdirs of testing_photos, training_photos, training_summaries, -- and
 in those will be created sorted_*, unsorted_*, harvested_* and other .txt logfiles. 
 
 
-### HARVESTING (optional)
+#### HARVESTING (optional)
 this is the moving of classified and sorted images from 
 testing_photos to training_photos before retraining. This is the physical step 
 that accomplishes the goal of downloading and classifying all those images -- to
@@ -83,7 +83,7 @@ get high-confidence images into training data to improve the next classifier's a
 NOT used with every retraining. SEE ALSO: CONFIDENCEMIN and QUALITY CONTROL
 
 
-### LABELS 
+#### LABELS 
 the sub-classes of images you enter during guided setup of creating a 
 new BASETAG. continuing the "robot" BASETAG example, these might be: 
 'drawn', 'built', 'mechs' and 'not'.
@@ -95,19 +95,19 @@ searchtag images can be wildly not on theme to the related BASETAG. that is, lot
 of images tagged 'robot' are not even close to any meaningful 'robot' sub-class.
 
 
-### LOG FILES
+#### LOG FILES
 this program creates several files along the way to track various 
 aspects of the process, and stores them as .txt files, often with a  '_{timestamp}.txt' ending. Tracked information includes original names and urls of files, names and params of classifying model, which 'sorted_{timestamp}' dirs were 
 harvested and how the images were moved, etc etc.
 
 
-### SEARCHTAG
+#### SEARCHTAG
 the tag, related to the BASETAG, which will serve as the search term
 for images to be downloaded, sorted and classified.
 examples: 'robotart' or 'owl', per the previous BASETAG examples.
 
 
-### QUALITY CONTROL CHECK
+#### QUALITY CONTROL CHECK
 along with adjusting 'CONFIDENCEMIN', periodic and manual 
 human-sorting of robo-sorted images is critical. that is, you need to go into 
 the 'sorted_{timestamp}' dirs, spot-check and move images among the labeled dirs as 
@@ -115,7 +115,7 @@ you, human, think best -- and BEFORE a harvest. Poorly labeled images getting ba
 into training data makes for weak classifiers. 
 
 
-### SORTED_{TIMESTAMP} and  UNSORTED_{SEARCHTAG} DIRS
+#### SORTED_{TIMESTAMP} and  UNSORTED_{SEARCHTAG} DIRS
 downloaded images are 
 initially stored in testing_photos/{basetag}/unsorted_{searchtag} directory. 
 When a classifier is run, they are copied (not moved) into a labeled-dir under 
@@ -125,7 +125,7 @@ for example, if your CONFIDENCEMIN is 92.5, and your labels are 'built', 'drawn'
 not, not_under925. when HARVESTING occurs, images in the '*_under*' dirs will be ignored.
 
 
-### TENSORFLOW - A MACHINE-LEARNING LIBRARY FROM GOOGLE
+#### TENSORFLOW - A MACHINE-LEARNING LIBRARY FROM GOOGLE
 This whole roboflow endeavor assumes you have at least passing familiarity 
 with TensorFlow and image classification. If not, go read:
 https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
@@ -186,14 +186,14 @@ python roboflow.py robots 0 0 retrain_defaults
 
 
 <a name = "startingover">&nbsp;</a>
-### HOW TO START OVER:
+## HOW TO START OVER:
 if you want a clean slate, first make a back up first of what you currently have 
 because that is always a good idea, then simply delete the directories under 
 tf_files directory named testing_photos, training_photos, and training_sumamries.
 
 
 <a name = "bootstrapping">&nbsp;</a>
-### BOOTSTRAPPING DETAILS:
+## BOOTSTRAPPING DETAILS:
 There is an initial bootstrap stage in which you must manually sort a minimum number 
 of images to allow the first retraining to create the first classifier. This tool 
 will help you download 1000s of images pretty easily. It can take a while to 
@@ -209,7 +209,7 @@ images into labeled sub-dirs of training_photos/{BASETAG}. after that, the 'retr
 
 
 <a name = "basetagdetails">&nbsp;</a>
-### BASETAG DETAILS
+## BASETAG DETAILS
 you can create an many different classifier themes, which are called BASETAGs, 
 from the guided or advanced usage. in guided use, you choose to use an existing 
 or create a new basetag. in advanced use, whatever BASETAG name you enter will be 
@@ -225,7 +225,7 @@ you will mess things up if you remove them.
 
 
 <a name = "preventingdupes">&nbsp;</a>
-### PREVENTING DUPES when REUSING CLASSIFICATION MODELS
+## PREVENTING DUPES when REUSING CLASSIFICATION MODELS
 IMPORTANT: when classifying, unsorted images are COPIED so they can be reused 
 with different models to see how it classifies them differently. that is, when you 
 run a classifier, it classifies EVERYTHING in that unsorted_{searchtag} folder, 
@@ -248,7 +248,7 @@ is on a list...
 
 
 <a name = "improveresults">&nbsp;</a>
-### IMPROVING CLASSIFICATION/RETRAIN RESULTS
+## IMPROVING CLASSIFICATION/RETRAIN RESULTS
 the likelihood of images from a SEARCHTAG matching a BASETAG varies wildly, and 
 so sorting is adjusted with the 'CONFIDENCEMIN' variable. Tuning this variable 
 is the seed of improving results, but periodic manual quality control is how you 
@@ -274,7 +274,7 @@ again to help you in choosing which model to use when classifying.
 
   
 <a name = "txtmsgs">&nbsp;</a>
-### OPTIONAL TXT MSG NOTIFICATIONS (w/TWILIO)
+## OPTIONAL TXT MSG NOTIFICATIONS (w/TWILIO)
 because a cycle might take a while, especially for a full retrain (or even a 
 large download/classify/sort cycle) there are three(3) txt msg notification points 
 built into this tool. specifically, you can be optionally notified at the end of 
