@@ -734,7 +734,7 @@ def buildimg2url_file(progressdata):
   img2url_file = localdir + cfg.dd + cfg.img2url_prefix + thistag + cfg.img2url_suffix
   fmake = open(img2url_file, "a")
 
-  #write log file
+  #write log file (not use createfilefromdict because v[0] and v[1] is different
   try:
     thisdict = progressdata["img2url_dict"]
     if len(thisdict) > 0:
