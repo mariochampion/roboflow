@@ -19,7 +19,7 @@ python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
 ```
 for example:
 ```
-python roboflow.py robots 200 robotart download
+python roboflow.py robots 200 robotart retrain
 ```
 
 ### PARAMETERS:<br>

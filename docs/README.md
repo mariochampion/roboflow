@@ -87,7 +87,7 @@ python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
 ```
 for example:
 ```
-python roboflow.py robots 200 robotart download
+python roboflow.py robots 200 robotart classify
 ```
 
 ## Help: (or <a href="https://mariochampion.github.io/roboflow/help">read the help docs online</a>)

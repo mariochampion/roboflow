@@ -166,7 +166,7 @@ meaning roboflow will download [imagequantity] of [searchtags] and then classify
 
 #### for example:
 ```
-python roboflow.py robots 200 robotart download
+python roboflow.py robots 200 robotart
 ```
 
 #### hint: if you have more than the minimum number of images required in labeled 
@@ -284,7 +284,7 @@ a credit card to charge up their txt msg service. txt msg notifications are by
 default turned off, via the 'twilio_active' variable in the config file.
 
 super simple twilio/python sample at<br>
-https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
+<a href="https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html" target="twilio">https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html</a>
 
 ---------------------------------------------------------------------
 #### thanks and happy robo-assisted tensorflow exploring!<br>
