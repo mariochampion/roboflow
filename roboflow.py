@@ -332,7 +332,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
     print "(according to the 'confidence_min' variable in the config file, currently set at "+str(cfg.confidence_min)+")"
     print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
     print
-    print "Enter a number below to choose a pretrained TensorFlow model"
+    print "Enter a number to choose a pretrained TensorFlow model"
     print "or [ENTER] to choose the model with highest accuracy.\n"
     
     print "LABELS: '"+modeldirs_dict[0][1]+"'"
@@ -359,6 +359,8 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
     print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
   
   print
+  print "Enter a number to choose a pretrained TensorFlow model"
+  print "or [ENTER] to choose the model with highest accuracy.\n"
   print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
 
@@ -689,6 +691,33 @@ def retrain_imgharvest(basetag):
 
 
 #################################	
+def retrain_yes():
+  robo.whereami(sys._getframe().f_code.co_name)
+  
+  #if verified count to retrain, but still do you want to retrain?
+  print "RETRAIN TENSORFLOW??"
+  print "You can do a retrain cycle after the downloading and classifying, which can take many minutes."
+  print "Enter your choice:"
+  print "[s] to skip retraining right now\n[h] for help\n[q] to quit\n[enter] to setup retraining"
+  retraincont_raw = raw_input()
+  
+  status = False
+  if retraincont_raw == 's': status = False
+  elif retraincont_raw == 'h': releasethehelp()
+  elif retraincont_raw == 'q': robo.goodbye()
+  else:
+    status = True
+    print "ok, let us go setup the retraining parameters!"
+    print
+  
+  return status 
+  
+
+
+
+
+
+#################################	
 def retrain_getstarted(retrain_dict):
   robo.whereami(sys._getframe().f_code.co_name)
 
@@ -870,7 +899,7 @@ def setup_args_vars_dirs(args, preflight_dict):
     classmodeldir_start = primevars_dict["classify_model_dir"][0]# (NOTE: search MAGIC LETTERS for description)
 
     # setup retrain
-    if roboretrain.retrain_yes() == True:
+    if retrain_yes() == True:
       primevars_dict["retrain_dict"] = retrain_dict_master(basetag, thistag, imgnum_maxTHIScycle)
     else:
       primevars_dict["d_c_r_flow"] = "dl_class"
@@ -883,7 +912,7 @@ def setup_args_vars_dirs(args, preflight_dict):
   # DOWNLOAD and RETRAIN
   if primevars_dict["d_c_r_flow"] == "dl_retrain":
     # setup retrain
-    if roboretrain.retrain_yes() == True:
+    if retrain_yes() == True:
       primevars_dict["retrain_dict"] = retrain_dict_master(basetag, thistag, imgnum_maxTHIScycle)
     else:
       primevars_dict["d_c_r_flow"] = "dl_class"
