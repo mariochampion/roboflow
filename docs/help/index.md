@@ -22,7 +22,7 @@ for example:
 python roboflow.py robots 200 robotart retrain
 ```
 
-### PARAMETERS:<br>
+## PARAMETERS:<br>
 * basetag: the master classification tag or theme ('robots' or 'birds' or whatever)<br>
 * imagequantity: an integer between 0 and the {imgnum_maxpercycle} var from the config file, to not hammer other people's servers<br>
 * searchtag: the searchterm, such as 'robot' or 'robotart' etc<br>
@@ -36,11 +36,11 @@ python roboflow.py robots 200 robotart retrain
   using values from config file setup.
 
 
-### BOOTSTRAP NOTE
+#### BOOTSTRAP NOTE
 Quality initial labeling/sorting makes ALLL the difference!<br>
 When starting, you must manually sort a minimum number of images to allow the first retraining to create the first classifier. After that, downloading, classifying/auto-sorting, and harvesting to retrain to make a better classifier is waaaaay more automated.
 
 
-### Keeping reading the <a href="https://mariochampion.github.io/roboflow/helpmore">extensive detailed help</a> for useful and important advice.
+#### Keeping reading the <a href="https://mariochampion.github.io/roboflow/helpmore">extensive detailed help</a> for useful and important advice.
 
 
