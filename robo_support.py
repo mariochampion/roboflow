@@ -33,6 +33,8 @@ import robo_config as cfg
 import robo_help as help
 if cfg.twilio_active == True: from twilio.rest import Client
 
+
+
 ##################################	
 ## just a debug placefinder to help trace actions
 def whereami(funcname):
@@ -42,9 +44,11 @@ def whereami(funcname):
     print
 
 
+
 #################################
 def makebeep():
   print '\a' # trick to make beep noise when user input required
+
 
 
 ##################################	
@@ -57,8 +61,9 @@ def greeting():
   return ""
   
 
+
 #################################
-# shouldprolly adapt this to also accept list of dirs and foreach thru them
+# should prolly adapt this to also accept list of dirs and loop thru them
 def findormakedir(path_to_thisdir):
   whereami(sys._getframe().f_code.co_name)
   
@@ -74,6 +79,7 @@ def findormakedir(path_to_thisdir):
   return status
 
 
+
 #################################
 def getDLedfilecount(imagedir):
   whereami(sys._getframe().f_code.co_name)
@@ -83,6 +89,7 @@ def getDLedfilecount(imagedir):
   else: dledfilecount = 0
   
   return dledfilecount
+
 
 
 #################################	 
@@ -152,6 +159,7 @@ def createfilefromdict(path_to_file, thisdict):
   return status
 
 
+
 ##################################
 def getimagelist_fromdir(thisdir):
   whereami(sys._getframe().f_code.co_name)
@@ -195,6 +203,7 @@ def sendsms(sendmsg):
   return status                    
 
 
+
 ##################################	
 def goodbye(msg = None):
   whereami(sys._getframe().f_code.co_name)
@@ -208,8 +217,3 @@ def goodbye(msg = None):
   print
   
   sys.exit(1)
-
-
-
-
-
