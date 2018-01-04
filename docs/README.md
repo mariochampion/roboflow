@@ -21,12 +21,10 @@ https://drive.google.com/file/d/1zvTq5vKqME7sW9O8lEtgn-Wosoavc2gi/view?usp=shari
 
 
 ## Getting Started
-
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 
 #### PREREQUISITES
-
 #### software
 * Python (2.7 - but i havent tried 3.x so that might work, too)
 * TensorFlow - learn about it: https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/ <br>
@@ -44,7 +42,6 @@ or also at https://www.tensorflow.org/install/
 
 
 ## Installing
-
 First, you must install and test TensorFlow. Follow instructions at
 
 ```
@@ -74,8 +71,8 @@ simply go to the literal last line of retrain.py's main() function, around line 
 f.write(str("_acc"+str(test_accuracy*100)[:5]) + '\n')
 ```
 
-
 Et voila, you are ready to explore!
+
 
 ## Guided usage:
 ```
@@ -94,10 +91,10 @@ python roboflow.py robots 200 robotart classify
 ```
 python roboflow.py --help
 ```
-
 #### and dont forget to explore the <a href="../robo_config.py">config file.</a> 
 
 
+--------------------------------------------------------------------------------
 
 
 ## Built With
