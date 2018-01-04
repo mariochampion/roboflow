@@ -2,7 +2,6 @@
 ##### jump to: <a href="https://mariochampion.github.io/roboflow">RoboFlow</a> | <a href="https://mariochampion.github.io/roboflow/help">Help</a> | <a href="https://mariochampion.github.io/roboflow/helpmore">DetailedHelp</a>
 
 
-
 ## Purpose & Goal
 RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are found, downloaded and then sorted, according to a 'confidencemin' variable, into labeled sub-directories. These images are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
 
@@ -11,6 +10,7 @@ Issues, Contributions, and Pull Requests welcomed!
 
 ## 'BASETAG' concept
 because you can use roboflow for many separate classifiers, you need to pick a term for the broad master classification or theme of your classifier (such as 'robots', or 'birds', or whatever) so that images, classifier models and more can be stored separately under that BASETAG directory. You will do this in either the guided or advanced usages (see below).
+
 
 ## Bootstrapping
 There is an initial bootstrap stage in which you must manually sort a minimum number of images to allow the first retraining to create the first classifier per basetag. This tool will help you download 1000s of images pretty easily. After that first manual sorting, subsequent cycles of downloading, classifying/auto-sorting, and harvesting sorted images into the training_photos/labeled_directories for another cycle of retraining is waaaaay more automated. 
