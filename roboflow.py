@@ -214,6 +214,13 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
           img2url_dict[rawimg.replace('addthis:media="', '')] = [imgmatch_url]
         
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
+  
+  if len(imgsrc_list) < 1:
+    print "================================="
+    print "       ***** WARNING *****"
+    print "     no images found online! "
+    print "================================="
+    
   return cursor_and_imgs
   
 
@@ -1248,13 +1255,17 @@ def main(args):
     
     path_to_trainingimgs_basetag = cfg.path_to_trainingimgs + cfg.dd + progressdata["basetag"]
     imagedir_counts = robo.getimgdirscount_dict(path_to_trainingimgs_basetag)
-      
-    print "-----------------------------------------------------------------------"
-    print "\tWINNING! "+str(progressdata["imgnum_dled_thiscycle"])+" downloads done been downloaded to:"
-    print "\t"+progressdata["localdir"]+""
-    print "-----------------------------------------------------------------------"
-    print
     
+    print "-----------------------------------------------------------------------"
+    if progressdata["imgnum_dled_thiscycle"] > 0:
+      print "\tWINNING! "+str(progressdata["imgnum_dled_thiscycle"])+" downloads done been downloaded to:"
+      print "\t"+progressdata["localdir"]+""
+    else:
+      print "\tHOW 'BOUT THAT! no images available to download from:"
+      print "\t"+progressdata["url_built"]+""
+      print "\t(go check that url for image-having-ness is a good next step.)"
+    print "-----------------------------------------------------------------------"
+    print  
     
     
     
