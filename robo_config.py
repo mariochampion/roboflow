@@ -32,7 +32,7 @@ download_script = "roboflow.py"
 retrain_script = "robo_tftrain.py"
 classifying_script = "robo_tfclassifier.py"
 config_script = "robo_config.py"
-show_whereami = False # if True, prints '---functionname---' to help trace app flow
+show_whereami = True # if True, prints '---functionname---' to help trace app flow
 
 # details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
 twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
