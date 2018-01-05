@@ -36,7 +36,8 @@ and dont forget to explore the config file.
 
 
 import os, sys, signal, time, shutil, re
-from urllib import urlretrieve, urlopen
+from urllib2 import Request, urlopen 
+#from urllib import urlretrieve
 
 #import roboflow specific stuff
 import robo_config as cfg
@@ -92,7 +93,25 @@ def getimages_master(progressdata):
 
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
-    webfile = urlopen( progressdata["nexturl"])
+    
+    print "URL:",progressdata["nexturl"]
+    req = Request(progressdata["nexturl"])
+    req.add_header('Authorization', cfg.imgur_client_id)
+    resp = urlopen(req)
+    #webfile = resp.read()
+    
+    
+    #webfile = urlopen( progressdata["nexturl"])
+    
+    fwebname = "imgur_"+progressdata["thistag"]+".json"
+    print "fwebname", fwebname
+    fweb = open(fwebname, "a")
+    print "webfile of ", progressdata["nexturl"]
+    for w in resp:
+      print w
+      fweb.write(w+"\n")
+    
+    sys.exit(1)
   
     #scrape for cursor for next url and img_list
     cursor_and_imgs = getcursorandimgsrcs(webfile, imgnum_needed)
@@ -156,7 +175,7 @@ def urlbuild(vars_dict):
   thiscursor = vars_dict["cursor"]
   thistag = vars_dict["thistag"]
   
-  if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
+  if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + thistag
   else: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag+"?"+thiscursor
   
   vars_dict["url_built"] = url_built
@@ -287,7 +306,7 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   robo.whereami(sys._getframe().f_code.co_name)
   print "downloading started: " + time.strftime("%M:%S")
   urlretrieve(imgsrc_url, imgsrc_newimgpath)
-  print
+  
     
   #check that file worked.
   try:
@@ -839,7 +858,7 @@ def setup_args_vars_dirs(args, preflight_dict):
   ### start the localurlfile/nextURL file
   fmake = open(localurlfile, "a")
   if os.stat(localurlfile).st_size == 0:
-  	startingurl = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
+  	startingurl = cfg.scrapeurl.replace("https","https:") + thistag
   	fmake.write(startingurl+"\n")
   else:
     #exists, so add nothing for now...
