@@ -2,7 +2,7 @@
 .DS_Store
 # random
 _issues.txt
-_imgur_api.txt
+_imgur*
 imgur_*
 
 # Byte-compiled / optimized / DLL files

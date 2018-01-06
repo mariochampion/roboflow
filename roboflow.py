@@ -97,21 +97,20 @@ def getimages_master(progressdata):
     print "URL:",progressdata["nexturl"]
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
-    resp = urlopen(req)
+    webfile = urlopen(req)
     #webfile = resp.read()
-    
-    
     #webfile = urlopen( progressdata["nexturl"])
     
     fwebname = "imgur_"+progressdata["thistag"]+".json"
     print "fwebname", fwebname
     fweb = open(fwebname, "a")
     print "webfile of ", progressdata["nexturl"]
-    for w in resp:
+    '''for w in webfile:
       print w
       fweb.write(w+"\n")
-    
-    sys.exit(1)
+    '''
+    print webfile
+    #sys.exit(1)
   
     #scrape for cursor for next url and img_list
     cursor_and_imgs = getcursorandimgsrcs(webfile, imgnum_needed)
@@ -210,23 +209,26 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
   imgsrc_list = []
   img2url_dict = {}
   cursor = None	
-  
+
   for line in webfile:
+    #print "LLLIINNEE", line
+
     match = ""
     img_match = ""
     url_match = ""
     match = re.search('cursor=([\S]+)"', line)
-    img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
+    #img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
+    img_match =  re.search(r'i.imgur.com.+?(?=")', line)
     url_match =  re.search(r'addthis:url="(.+) addthis:media', line)
     if match:
       cursorz = match.group()
       cursor = cursorz.replace('"',"") #trim off rare trailing double-quotes
-  
+
     #scrape webfiles for the img srcs
     if img_match:
       rawimg = img_match.group()
       if len(imgsrc_list) < imgnum_needed:
-        imgsrc_list.append( rawimg.replace('addthis:media="', '') )
+        imgsrc_list.append( "https://"+rawimg.replace('\\', '') )
         if url_match:
           rawurl = url_match.group()
           imgmatch_url = rawurl.replace('" addthis:media', '').replace('addthis:url="', '')
@@ -239,7 +241,10 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
     print "       ***** WARNING *****"
     print "     no images found online! "
     print "================================="
-    
+  else:
+    print "IMAGES"
+    print imgsrc_list
+  
   return cursor_and_imgs
   
 
