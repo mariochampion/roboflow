@@ -54,9 +54,9 @@ imgur_prefix = "https//i.imgur.com/"
 imgur_suffix = ".jpg"
 
 # destinations and some defaults
-#scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
 imgur_client_id = 'Client-ID 739f573e90420d1'
 scrapeurl = "https//api.imgur.com/3/gallery/t/"
+#scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
 #scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
 labels_file = "retrained_labels.txt"
 flow_default = "classify"

@@ -38,7 +38,7 @@ and dont forget to explore the config file.
 import os, sys, signal, time, shutil, re
 from urllib2 import Request, urlopen
 import json as json 
-#from urllib import urlretrieve
+from urllib import urlretrieve
 
 #import roboflow specific stuff
 import robo_config as cfg
@@ -102,11 +102,11 @@ def getimages_master(progressdata):
     
     #make a local version for, perhaps, later analysis
     fwebname = "__imgurJSON_"+progressdata["thistag"]+ "_" + time.strftime("%M%S") + ".txt"
-    print "fwebname", fwebname
+    print "webfile of ", progressdata["nexturl"], "as:\n\t", fwebname
     fweb = open(fwebname, "a")
     fweb.write(webfile.read())
     fweb.close()
-    print "webfile of ", progressdata["nexturl"]
+    
     
     #use local version so later can be supplied a pipeline of data files
     with open(fwebname, "r") as jsonfile:
@@ -213,11 +213,16 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   #get images from imgur api json
   imgs_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
   for img in imgs_json:
-    imgsrc_list.append(cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix)
+    if len(imgsrc_list) < imgnum_needed:
+      imgjson_url = cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix
+      imgsrc_list.append(imgjson_url)
+  
+  for a in imgsrc_list:
+    img2url_dict[a] = a    
    
   print "imgsrc_list", imgsrc_list
   
-  sys.exit(1)
+  
   '''WEBSTAGRAM BROKE! this code ll need tobe conditionlaized for whenthey fix it,
      linked to a config file var for which scrapeurl source'''
   '''   
@@ -253,8 +258,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   else:
     print "IMAGES"
     print imgsrc_list
-  
-  sys.exit(1)
+
   return cursor_and_imgs
   
 
@@ -329,9 +333,15 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   except Exception as err:
     newfilesize = 0
   
-  if newfilesize > 0: return True
-  else: return False
-    
+  if newfilesize > 0:
+    print "YES"
+    return True
+  else: 
+    print "NO"
+    return False
+  
+  
+  sys.exit(1)
   return #safetyreturn 
 
 
