@@ -111,40 +111,6 @@ def getimages_master(progressdata):
     #use local version so later can be supplied a pipeline of data files
     with open(fwebname, "r") as jsonfile:
       jsonobj = json.load(jsonfile)
-    print "JJSSOONNs"
-    print jsonobj["data"]["items"][0]["link"] #structure of imgur api json response
-    print "LENGTHS"
-    print len(jsonobj), type(jsonobj)
-    print len(jsonobj["data"]), type(jsonobj["data"])
-    print len(jsonobj["data"]["items"]), type(jsonobj["data"]["items"])
-    img_match_list_tmp = []
-    for x in range(len(jsonobj["data"]["items"])):
-      print len(jsonobj["data"]["items"][x])
-      print type(jsonobj["data"]["items"][x])
-      print "--------------- json object ---------------"
-      for k,imagestring in jsonobj["data"]["items"][x].items():
-        if k.startswith("images"):
-          print "START  REGEX", type(k)
-          print k, ":", imagestring
-          #img_match =  re.search(r'(i.imgur.com)(.+)(.jpg)?', str(imagestring))
-          img_match = re.search(r'i.imgur.com/(.{7})(.jpg)', str(imagestring))
-          if img_match:
-            rawimg = img_match.group()
-            img_match_list_tmp.append( "https://"+rawimg.replace('\\', '') )
-    
-    print "img_match_list_tmp", img_match_list_tmp
-    sys.exit(1)
-    
-    jsondataitems = jsonobj["data"]["items"]
-    for item in jsondataitems:
-      for link in jsondataitems:
-        for k,v in link.items():
-          if k.startswith("link"):
-            if v.endswith("jpg"):
-              print k, ": ", v
-
-    
-    sys.exit(1)
     
     #scrape for cursor for next url and img_list
     cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed)
@@ -237,20 +203,34 @@ def getnexturl(vars_dict):
 
 
 #################################
-def getcursorandimgsrcs(webfile, imgnum_needed):
+def getcursorandimgsrcs(jsonobj, imgnum_needed):
   robo.whereami(sys._getframe().f_code.co_name)
   
   imgsrc_list = []
   img2url_dict = {}
   cursor = None	
   
+  img_match_list_tmp = []
+  for x in range(len(jsonobj["data"]["items"])):
+    for k,imagestring in jsonobj["data"]["items"][x].items():
+      if k.startswith("images"):
+        img_match = re.search(r'i.imgur.com/(.{7})(.jpg)', str(imagestring))
+        if img_match:
+          rawimg = img_match.group()
+          imgsrc_list.append( "https://"+rawimg.replace('\\', '') )
+    
+  print "imgsrc_list", imgsrc_list
+  
+  sys.exit(1)
+  '''WEBSTAGRAM BROKE! this code ll need tobe conditionlaized for whenthey fix it,
+     linked to a config file var for which scrapeurl source'''
+  '''   
   for line in webfile:
     match = ""
     img_match = ""
     url_match = ""
     match = re.search('cursor=([\S]+)"', line)
-    #img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
-    img_match =  re.search(r'(i.imgur.com)(.+)(.jpg)', line)
+    img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
     url_match =  re.search(r'addthis:url="(.+) addthis:media', line)
     if match:
       cursorz = match.group()
@@ -265,6 +245,7 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
           rawurl = url_match.group()
           imgmatch_url = rawurl.replace('" addthis:media', '').replace('addthis:url="', '')
           img2url_dict[rawimg.replace('addthis:media="', '')] = [imgmatch_url]
+  '''
         
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
