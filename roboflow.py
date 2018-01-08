@@ -35,8 +35,7 @@ and dont forget to explore the config file.
 
 
 
-import os, sys, signal, time, shutil, re
-import json as json 
+import os, sys, signal, time, shutil, re, json
 from urllib2 import Request, urlopen
 
 #import roboflow specific stuff
@@ -94,7 +93,7 @@ def getimages_master(progressdata):
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
     
-    print "URL:",progressdata["nexturl"]
+    
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
     webfile = urlopen(req)
@@ -102,7 +101,9 @@ def getimages_master(progressdata):
     #make a local version for, perhaps, later analysis
     fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
     fwebname = fwebpath + cfg.dd + cfg.imgur_jsonfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + cfg.imgur_jsonfile_suffix
-    print "webfile of ", progressdata["nexturl"], "as:\n\t", fwebname
+    print "URL:\t",progressdata["nexturl"]
+    print "as:\t", fwebname
+    print
     fweb = open(fwebname, "a")
     fweb.write(webfile.read())
     fweb.close()
@@ -146,13 +147,14 @@ def getimages_master(progressdata):
     else:
       print"---doh! NOT written! " + buildfile[1]
   
-    
-  #### OR RECURSE - SO WATCH OUT!
   progressdata["imgnum_in_dir"] = robo.getDLedfilecount(progressdata["localdir"]+cfg.dd+progressdata["thistag"])
-  print "+++++++++++++\n", progressdata["imgnum_in_dir"]
   iscomplete(progressdata)
+
+
+  #### OR RECURSE - SO WATCH OUT!
   if progressdata["iscomplete"] == True: return progressdata
   else: getimages_master(progressdata)   #RECURSION!
+
   
   return progressdata #shouldnt get here, but, ya know...
 
@@ -222,8 +224,6 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   for a in imgsrc_list:
     img2url_dict[a] = [a]    
    
-  print "imgsrc_list", imgsrc_list
-  
   
   '''WEBSTAGRAM BROKE! this code ll need tobe conditionlaized for whenthey fix it,
      linked to a config file var for which scrapeurl source'''
@@ -257,9 +257,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
     print "       ***** WARNING *****"
     print "     no images found online! "
     print "================================="
-  else:
-    print "IMAGES"
-    print imgsrc_list
+
 
   return cursor_and_imgs
   
@@ -310,7 +308,8 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
             vars_dict["img2url_dict"][imgsrc_url].append(imgsrc_newimgpath)
           imgnum += 1
           vars_dict["imgnum_dled_thiscycle"] += 1
-          print "DL COUNT: ", vars_dict["imgnum_dled_thiscycle"]
+          print "\tCOUNT: ", vars_dict["imgnum_dled_thiscycle"]
+          print
         else:
           os.remove(imgsrc_newimgpath) # if didnt work, so delete
       except Exception as xept:
@@ -319,40 +318,29 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
           print cfg.except_tooslowload_response
       finally:
         signal.alarm(0)
-        
+  
   return vars_dict
 
 
 ################################# #this is a sep function so it can be timed by sigalarm
 def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   robo.whereami(sys._getframe().f_code.co_name)
-  print "downloading started: " + time.strftime("%M:%S")
-  #urlretrieve(imgsrc_url, imgsrc_newimgpath)
-  print imgsrc_url, imgsrc_newimgpath
   
+  print "DOWNLOAD ", imgsrc_url
+  print "\tSTART: " + time.strftime("%M:%S")  
   img_online = urlopen(imgsrc_url)
   with open(imgsrc_newimgpath, 'wb') as fimg:  
     fimg.write(img_online.read())
-  fimg.close
+  fimg.close()
   
-  '''
-  imgsrc_newimgpath = open(imgsrc_newimgpath,'wb')
-  imgsrc_newimgpath.write(img_online.read())
-  imgsrc_newimgpath.close()
-  '''
-    
   #check that file worked.
   try:
     newfilesize = os.path.getsize(imgsrc_newimgpath)
   except Exception as err:
     newfilesize = 0
   
-  if newfilesize > 0:
-    print "DONE"
-    return True
-  else: 
-    print "NO"
-    return False
+  if newfilesize > 0: return True
+  else: return False
   
   return #safetyreturn 
 
@@ -366,7 +354,7 @@ def imgsrc_makenewname(thistag, imgnum, imagedir):
     imgnum = imgnum + 1
     imgsrc_makenewname(thistag, imgnum, imagedir)
   else:
-    print "image: " + newimgname
+    print "new name: " + newimgname
 
   return newimgname
 
