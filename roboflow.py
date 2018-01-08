@@ -175,12 +175,18 @@ def iscomplete(progressdata):
 def urlbuild(vars_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  thiscursor = vars_dict["cursor"]
+  #thiscursor = vars_dict["cursor"]
   thistag = vars_dict["thistag"]
+  scrapeurl_pagenum = vars_dict["scrapeurl_pagenum"]
+  url_built_ending = cfg.imgur_default_sort + cfg.dd + str(scrapeurl_pagenum)
   
-  if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + thistag
+  url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag + cfg.dd + url_built_ending
+  vars_dict["scrapeurl_pagenum"] += 1
+  
+    
+  '''if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
   else: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag+"?"+thiscursor
-  
+  '''
   vars_dict["url_built"] = url_built
   return vars_dict
 
@@ -880,18 +886,8 @@ def setup_args_vars_dirs(args, preflight_dict):
   robo.findormakedir(cfg.path_to_trainingimgs)
   robo.findormakedir(cfg.path_to_trainingimgs + cfg.dd + basetag)   	  
 
-  ### start the localurlfile/nextURL file
-  fmake = open(localurlfile, "a")
-  if os.stat(localurlfile).st_size == 0:
-  	startingurl = cfg.scrapeurl.replace("https","https:") + thistag
-  	fmake.write(startingurl+"\n")
-  else:
-    #exists, so add nothing for now...
-    pass
-  fmake.close()
-
-  	
   # add it all to a dict(s) for convenience, even if some duplimadupitercation
+  primevars_dict["scrapeurl_pagenum"] = cfg.scrapeurl_pagenum
   primevars_dict["time_start"] = time.strftime("%H%M%S")
   primevars_dict["imgnum_max"] = imgnum_maxTHIScycle
   primevars_dict["basetag"] = basetag
@@ -1272,6 +1268,18 @@ def main(args):
   # do these no matter what
   preflight_dict = preflightchecks(args)
   vars_dict = setup_args_vars_dirs(args, preflight_dict)
+  
+  
+  # start the localurlfile/nextURL file / setup first url
+  localurlfile = vars_dict["localurlfile"]
+  fmake = open(localurlfile, "a")
+  if os.stat(localurlfile).st_size == 0:
+  	urlbuild(vars_dict)
+  	fmake.write(vars_dict["url_built"]+"\n")
+  else:
+    #exists, so add nothing for now...
+    pass
+  fmake.close()
   
   #get nexturl
   progressdata = getnexturl(vars_dict)
