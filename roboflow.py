@@ -99,7 +99,8 @@ def getimages_master(progressdata):
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
     webfile = urlopen(req)
-
+    
+    #make a local version for, perhaps, later analysis
     fwebname = "__imgurJSON_"+progressdata["thistag"]+ "_" + time.strftime("%M%S") + ".txt"
     print "fwebname", fwebname
     fweb = open(fwebname, "a")
@@ -107,16 +108,46 @@ def getimages_master(progressdata):
     fweb.close()
     print "webfile of ", progressdata["nexturl"]
     
+    #use local version so later can be supplied a pipeline of data files
     with open(fwebname, "r") as jsonfile:
       jsonobj = json.load(jsonfile)
-    print "JJSSOONN"
-    print jsonobj["data"]["items"][0]["link"]
+    print "JJSSOONNs"
+    print jsonobj["data"]["items"][0]["link"] #structure of imgur api json response
+    print "LENGTHS"
+    print len(jsonobj), type(jsonobj)
+    print len(jsonobj["data"]), type(jsonobj["data"])
+    print len(jsonobj["data"]["items"]), type(jsonobj["data"]["items"])
+    img_match_list_tmp = []
+    for x in range(len(jsonobj["data"]["items"])):
+      print len(jsonobj["data"]["items"][x])
+      print type(jsonobj["data"]["items"][x])
+      print "--------------- json object ---------------"
+      for k,imagestring in jsonobj["data"]["items"][x].items():
+        if k.startswith("images"):
+          print "START  REGEX", type(k)
+          print k, ":", imagestring
+          #img_match =  re.search(r'(i.imgur.com)(.+)(.jpg)?', str(imagestring))
+          img_match = re.search(r'i.imgur.com/(.{7})(.jpg)', str(imagestring))
+          if img_match:
+            rawimg = img_match.group()
+            img_match_list_tmp.append( "https://"+rawimg.replace('\\', '') )
     
+    print "img_match_list_tmp", img_match_list_tmp
+    sys.exit(1)
     
+    jsondataitems = jsonobj["data"]["items"]
+    for item in jsondataitems:
+      for link in jsondataitems:
+        for k,v in link.items():
+          if k.startswith("link"):
+            if v.endswith("jpg"):
+              print k, ": ", v
+
     
     sys.exit(1)
+    
     #scrape for cursor for next url and img_list
-    cursor_and_imgs = getcursorandimgsrcs(webfile, imgnum_needed)
+    cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed)
     progressdata["cursor"] = cursor_and_imgs[0]
 
     #bulld NEXT url, already
@@ -219,7 +250,7 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
     url_match = ""
     match = re.search('cursor=([\S]+)"', line)
     #img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
-    img_match =  re.search(r'i.imgur.com.+?(?=")', line)
+    img_match =  re.search(r'(i.imgur.com)(.+)(.jpg)', line)
     url_match =  re.search(r'addthis:url="(.+) addthis:media', line)
     if match:
       cursorz = match.group()
