@@ -52,10 +52,9 @@ unsorted_name = "unsorted_"
 sorted_name = "sorted_"
 
 # destinations and some defaults
-scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
+#scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
 imgur_client_id = 'Client-ID 739f573e90420d1'
-#scrapeurl = "https//api.imgur.com/3/gallery/tag_info"
-#scrapeurl = "https//api.imgur.com/3/gallery/t"
+scrapeurl = "https//api.imgur.com/3/gallery/t/"
 #scrapeurl_ending = "top/all/1"
 #scrapeurl = "https//imgur.com/t"
 #scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...

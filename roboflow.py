@@ -36,7 +36,8 @@ and dont forget to explore the config file.
 
 
 import os, sys, signal, time, shutil, re
-from urllib2 import Request, urlopen 
+from urllib2 import Request, urlopen
+import json as json 
 #from urllib import urlretrieve
 
 #import roboflow specific stuff
@@ -98,20 +99,24 @@ def getimages_master(progressdata):
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
     webfile = urlopen(req)
-    #webfile = resp.read()
-    #webfile = urlopen( progressdata["nexturl"])
-    
-    fwebname = "imgur_"+progressdata["thistag"]+".json"
+
+    fwebname = "__imgurJSON_"+progressdata["thistag"]+ "_" + time.strftime("%M%S") + ".txt"
     print "fwebname", fwebname
     fweb = open(fwebname, "a")
+    #fweb.write("[")
+    fweb.write(webfile.read())
+    #fweb.write("]")
+    fweb.close()
     print "webfile of ", progressdata["nexturl"]
-    '''for w in webfile:
-      print w
-      fweb.write(w+"\n")
-    '''
-    print webfile
-    #sys.exit(1)
-  
+    
+    with open(fwebname, "r") as jsonfile:
+      jsonobj = json.load(jsonfile)
+    print "JJSSOONN"
+    print jsonobj["data"]["items"][0]["link"]
+    
+    
+    
+    sys.exit(1)
     #scrape for cursor for next url and img_list
     cursor_and_imgs = getcursorandimgsrcs(webfile, imgnum_needed)
     progressdata["cursor"] = cursor_and_imgs[0]
@@ -209,10 +214,8 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
   imgsrc_list = []
   img2url_dict = {}
   cursor = None	
-
+  
   for line in webfile:
-    #print "LLLIINNEE", line
-
     match = ""
     img_match = ""
     url_match = ""
@@ -245,6 +248,7 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
     print "IMAGES"
     print imgsrc_list
   
+  sys.exit(1)
   return cursor_and_imgs
   
 
