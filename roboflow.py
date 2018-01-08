@@ -93,7 +93,6 @@ def getimages_master(progressdata):
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
     
-    
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
     webfile = urlopen(req)
@@ -107,7 +106,6 @@ def getimages_master(progressdata):
     fweb = open(fwebname, "a")
     fweb.write(webfile.read())
     fweb.close()
-    
     
     #use local version so later can be supplied a pipeline of data files
     with open(fwebname, "r") as jsonfile:
@@ -218,7 +216,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   
   imgsrc_list = []
   img2url_dict = {}
-  ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite w webstra broken
+  ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite
   ## going with this always exists/true for now	
   cursor = 1 
   
@@ -233,8 +231,8 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
     img2url_dict[a] = [a]    
    
   
-  '''WEBSTAGRAM BROKE! this code ll need tobe conditionlaized for whenthey fix it,
-     linked to a config file var for which scrapeurl source'''
+  '''WEBSTAGRAM BROKE! this code ll need to be conditionalized for when they fix it,
+     via/linked to a config file var for the scrapeurl and regex source'''
   '''   
   for line in webfile:
     match = ""
