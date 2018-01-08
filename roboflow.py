@@ -210,15 +210,11 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   img2url_dict = {}
   cursor = None	
   
-  img_match_list_tmp = []
-  for x in range(len(jsonobj["data"]["items"])):
-    for k,imagestring in jsonobj["data"]["items"][x].items():
-      if k.startswith("images"):
-        img_match = re.search(r'i.imgur.com/(.{7})(.jpg)', str(imagestring))
-        if img_match:
-          rawimg = img_match.group()
-          imgsrc_list.append( "https://"+rawimg.replace('\\', '') )
-    
+  #get images from imgur api json
+  imgs_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
+  for img in imgs_json:
+    imgsrc_list.append(cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix)
+   
   print "imgsrc_list", imgsrc_list
   
   sys.exit(1)
