@@ -35,8 +35,8 @@ and dont forget to explore the config file.
 
 
 
-import os, sys, signal, time, shutil, re
-from urllib import urlretrieve, urlopen
+import os, sys, signal, time, shutil, re, json
+from urllib2 import Request, urlopen
 
 #import roboflow specific stuff
 import robo_config as cfg
@@ -92,10 +92,27 @@ def getimages_master(progressdata):
 
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
-    webfile = urlopen( progressdata["nexturl"])
-  
+    
+    req = Request(progressdata["nexturl"])
+    req.add_header('Authorization', cfg.imgur_client_id)
+    webfile = urlopen(req)
+    
+    #make a local version for, perhaps, later analysis
+    fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
+    fwebname = fwebpath + cfg.dd + cfg.imgur_jsonfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + cfg.imgur_jsonfile_suffix
+    print "URL:\t",progressdata["nexturl"]
+    print "as:\t", fwebname
+    print
+    fweb = open(fwebname, "a")
+    fweb.write(webfile.read())
+    fweb.close()
+    
+    #use local version so later can be supplied a pipeline of data files
+    with open(fwebname, "r") as jsonfile:
+      jsonobj = json.load(jsonfile)
+    
     #scrape for cursor for next url and img_list
-    cursor_and_imgs = getcursorandimgsrcs(webfile, imgnum_needed)
+    cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed)
     progressdata["cursor"] = cursor_and_imgs[0]
 
     #bulld NEXT url, already
@@ -128,11 +145,14 @@ def getimages_master(progressdata):
     else:
       print"---doh! NOT written! " + buildfile[1]
   
-    
-  #### OR RECURSE - SO WATCH OUT!
+  progressdata["imgnum_in_dir"] = robo.getDLedfilecount(progressdata["localdir"]+cfg.dd+progressdata["thistag"])
   iscomplete(progressdata)
+
+
+  #### OR RECURSE - SO WATCH OUT!
   if progressdata["iscomplete"] == True: return progressdata
   else: getimages_master(progressdata)   #RECURSION!
+
   
   return progressdata #shouldnt get here, but, ya know...
 
@@ -153,12 +173,18 @@ def iscomplete(progressdata):
 def urlbuild(vars_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  thiscursor = vars_dict["cursor"]
+  #thiscursor = vars_dict["cursor"]
   thistag = vars_dict["thistag"]
+  scrapeurl_pagenum = vars_dict["scrapeurl_pagenum"]
+  url_built_ending = cfg.imgur_default_sort + cfg.dd + str(scrapeurl_pagenum)
   
-  if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
+  url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag + cfg.dd + url_built_ending
+  vars_dict["scrapeurl_pagenum"] += 1
+  
+    
+  '''if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
   else: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag+"?"+thiscursor
-  
+  '''
   vars_dict["url_built"] = url_built
   return vars_dict
 
@@ -185,13 +211,29 @@ def getnexturl(vars_dict):
 
 
 #################################
-def getcursorandimgsrcs(webfile, imgnum_needed):
+def getcursorandimgsrcs(jsonobj, imgnum_needed):
   robo.whereami(sys._getframe().f_code.co_name)
   
   imgsrc_list = []
   img2url_dict = {}
-  cursor = None	
+  ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite
+  ## going with this always exists/true for now	
+  cursor = 1 
   
+  #get images from imgur api json
+  imgs_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
+  for img in imgs_json:
+    if len(imgsrc_list) < imgnum_needed:
+      imgjson_url = cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix
+      imgsrc_list.append(imgjson_url)
+  
+  for a in imgsrc_list:
+    img2url_dict[a] = [a]    
+   
+  
+  '''WEBSTAGRAM BROKE! this code ll need to be conditionalized for when they fix it,
+     via/linked to a config file var for the scrapeurl and regex source'''
+  '''   
   for line in webfile:
     match = ""
     img_match = ""
@@ -202,16 +244,17 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
     if match:
       cursorz = match.group()
       cursor = cursorz.replace('"',"") #trim off rare trailing double-quotes
-  
+
     #scrape webfiles for the img srcs
     if img_match:
       rawimg = img_match.group()
       if len(imgsrc_list) < imgnum_needed:
-        imgsrc_list.append( rawimg.replace('addthis:media="', '') )
+        imgsrc_list.append( "https://"+rawimg.replace('\\', '') )
         if url_match:
           rawurl = url_match.group()
           imgmatch_url = rawurl.replace('" addthis:media', '').replace('addthis:url="', '')
           img2url_dict[rawimg.replace('addthis:media="', '')] = [imgmatch_url]
+  '''
         
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
@@ -220,7 +263,8 @@ def getcursorandimgsrcs(webfile, imgnum_needed):
     print "       ***** WARNING *****"
     print "     no images found online! "
     print "================================="
-    
+
+
   return cursor_and_imgs
   
 
@@ -253,6 +297,7 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
   imagedir = vars_dict["imagedir"]
   imgnum = 0
   imgnum = robo.getDLedfilecount(imagedir) + 1
+   
   
   #do some downloading
   for imgsrc_url in imgsrc_list:
@@ -269,7 +314,8 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
             vars_dict["img2url_dict"][imgsrc_url].append(imgsrc_newimgpath)
           imgnum += 1
           vars_dict["imgnum_dled_thiscycle"] += 1
-          print "DL COUNT: ", vars_dict["imgnum_dled_thiscycle"]
+          print "\tCOUNT: ", vars_dict["imgnum_dled_thiscycle"]
+          print
         else:
           os.remove(imgsrc_newimgpath) # if didnt work, so delete
       except Exception as xept:
@@ -278,17 +324,21 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
           print cfg.except_tooslowload_response
       finally:
         signal.alarm(0)
-        
+  
   return vars_dict
 
 
 ################################# #this is a sep function so it can be timed by sigalarm
 def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   robo.whereami(sys._getframe().f_code.co_name)
-  print "downloading started: " + time.strftime("%M:%S")
-  urlretrieve(imgsrc_url, imgsrc_newimgpath)
-  print
-    
+  
+  print "DOWNLOAD ", imgsrc_url
+  print "\tSTART: " + time.strftime("%M:%S")  
+  img_online = urlopen(imgsrc_url)
+  with open(imgsrc_newimgpath, 'wb') as fimg:  
+    fimg.write(img_online.read())
+  fimg.close()
+  
   #check that file worked.
   try:
     newfilesize = os.path.getsize(imgsrc_newimgpath)
@@ -297,7 +347,7 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   
   if newfilesize > 0: return True
   else: return False
-    
+  
   return #safetyreturn 
 
 
@@ -310,7 +360,7 @@ def imgsrc_makenewname(thistag, imgnum, imagedir):
     imgnum = imgnum + 1
     imgsrc_makenewname(thistag, imgnum, imagedir)
   else:
-    print "image: " + newimgname
+    print "new name: " + newimgname
 
   return newimgname
 
@@ -836,18 +886,8 @@ def setup_args_vars_dirs(args, preflight_dict):
   robo.findormakedir(cfg.path_to_trainingimgs)
   robo.findormakedir(cfg.path_to_trainingimgs + cfg.dd + basetag)   	  
 
-  ### start the localurlfile/nextURL file
-  fmake = open(localurlfile, "a")
-  if os.stat(localurlfile).st_size == 0:
-  	startingurl = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
-  	fmake.write(startingurl+"\n")
-  else:
-    #exists, so add nothing for now...
-    pass
-  fmake.close()
-
-  	
   # add it all to a dict(s) for convenience, even if some duplimadupitercation
+  primevars_dict["scrapeurl_pagenum"] = cfg.scrapeurl_pagenum
   primevars_dict["time_start"] = time.strftime("%H%M%S")
   primevars_dict["imgnum_max"] = imgnum_maxTHIScycle
   primevars_dict["basetag"] = basetag
@@ -1228,6 +1268,18 @@ def main(args):
   # do these no matter what
   preflight_dict = preflightchecks(args)
   vars_dict = setup_args_vars_dirs(args, preflight_dict)
+  
+  
+  # start the localurlfile/nextURL file / setup first url
+  localurlfile = vars_dict["localurlfile"]
+  fmake = open(localurlfile, "a")
+  if os.stat(localurlfile).st_size == 0:
+  	urlbuild(vars_dict)
+  	fmake.write(vars_dict["url_built"]+"\n")
+  else:
+    #exists, so add nothing for now...
+    pass
+  fmake.close()
   
   #get nexturl
   progressdata = getnexturl(vars_dict)

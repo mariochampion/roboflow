@@ -1,7 +1,9 @@
 # mac os
 .DS_Store
 # random
+__imgur*
 _issues.txt
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

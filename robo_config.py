@@ -50,9 +50,18 @@ harvested_basename = "harvested_"
 harvested_suffix = ".txt" # sep name for max flex of diff later needs
 unsorted_name = "unsorted_"
 sorted_name = "sorted_"
+imgur_prefix = "https//i.imgur.com/"
+imgur_suffix = ".jpg"
+imgur_jsonfile_prefix = "__imgurJSON_"
+imgur_jsonfile_suffix = ".txt" # sep name for max flex of diff later needs
 
 # destinations and some defaults
-scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
+imgur_client_id = 'Client-ID 739f573e90420d1'
+imgur_default_sort = "time"
+scrapeurl = "https//api.imgur.com/3/gallery/t"
+scrapeurl_pagenum = 1
+#scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
+#scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
 labels_file = "retrained_labels.txt"
 flow_default = "classify"
 tagname_default = "robot"
@@ -116,6 +125,7 @@ finalwords_list.append("see you soon!")
 finalwords_list.append("exiting...")
 finalwords_list.append("bye bye for now.")
 finalwords_list.append("ok good bye i love you.")
+
 
 # sms/txt msg variables
 sms_minsecstonotify = 60 # to be notified, downloading must run at least this many seconds.
