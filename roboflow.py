@@ -148,6 +148,8 @@ def getimages_master(progressdata):
   
     
   #### OR RECURSE - SO WATCH OUT!
+  progressdata["imgnum_in_dir"] = robo.getDLedfilecount(progressdata["localdir"]+cfg.dd+progressdata["thistag"])
+  print "+++++++++++++\n", progressdata["imgnum_in_dir"]
   iscomplete(progressdata)
   if progressdata["iscomplete"] == True: return progressdata
   else: getimages_master(progressdata)   #RECURSION!

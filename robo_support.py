@@ -83,11 +83,11 @@ def findormakedir(path_to_thisdir):
 #################################
 def getDLedfilecount(imagedir):
   whereami(sys._getframe().f_code.co_name)
-  
+
   #look for existing local dir
   if os.path.exists(imagedir): dledfilecount = (len(glob1(imagedir,"*"+cfg.img_suffix)))
   else: dledfilecount = 0
-  
+
   return dledfilecount
 
 
