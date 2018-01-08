@@ -3,7 +3,7 @@
 
 
 ## Purpose & Goal
-RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from webstagram) and then sorted, according to a 'confidencemin' variable, into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
+RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from the Imgur API) and then sorted, according to a 'confidencemin' variable, into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
 
 Issues, Contributions, and Pull Requests welcomed!
 
@@ -125,6 +125,6 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE.md](LIC
 ## Acknowledgments
 
 * Google's TensorFlow-for-poets2
-* Webstagram 
+* Imgur API (altho originally from Webstagram )
 * StackExchange
 * Twilio sms/python tools
