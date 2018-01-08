@@ -36,9 +36,8 @@ and dont forget to explore the config file.
 
 
 import os, sys, signal, time, shutil, re
-from urllib2 import Request, urlopen
 import json as json 
-from urllib import urlretrieve
+from urllib2 import Request, urlopen
 
 #import roboflow specific stuff
 import robo_config as cfg
@@ -101,7 +100,8 @@ def getimages_master(progressdata):
     webfile = urlopen(req)
     
     #make a local version for, perhaps, later analysis
-    fwebname = "__imgurJSON_"+progressdata["thistag"]+ "_" + time.strftime("%M%S") + ".txt"
+    fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
+    fwebname = fwebpath + cfg.dd + cfg.imgur_jsonfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + cfg.imgur_jsonfile_suffix
     print "webfile of ", progressdata["nexturl"], "as:\n\t", fwebname
     fweb = open(fwebname, "a")
     fweb.write(webfile.read())
@@ -218,7 +218,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
       imgsrc_list.append(imgjson_url)
   
   for a in imgsrc_list:
-    img2url_dict[a] = a    
+    img2url_dict[a] = [a]    
    
   print "imgsrc_list", imgsrc_list
   
@@ -291,6 +291,7 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
   imagedir = vars_dict["imagedir"]
   imgnum = 0
   imgnum = robo.getDLedfilecount(imagedir) + 1
+   
   
   #do some downloading
   for imgsrc_url in imgsrc_list:
@@ -324,8 +325,19 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
 def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   robo.whereami(sys._getframe().f_code.co_name)
   print "downloading started: " + time.strftime("%M:%S")
-  urlretrieve(imgsrc_url, imgsrc_newimgpath)
+  #urlretrieve(imgsrc_url, imgsrc_newimgpath)
+  print imgsrc_url, imgsrc_newimgpath
   
+  img_online = urlopen(imgsrc_url)
+  with open(imgsrc_newimgpath, 'wb') as fimg:  
+    fimg.write(img_online.read())
+  fimg.close
+  
+  '''
+  imgsrc_newimgpath = open(imgsrc_newimgpath,'wb')
+  imgsrc_newimgpath.write(img_online.read())
+  imgsrc_newimgpath.close()
+  '''
     
   #check that file worked.
   try:
@@ -334,14 +346,12 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
     newfilesize = 0
   
   if newfilesize > 0:
-    print "YES"
+    print "DONE"
     return True
   else: 
     print "NO"
     return False
   
-  
-  sys.exit(1)
   return #safetyreturn 
 
 
