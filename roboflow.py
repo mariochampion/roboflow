@@ -218,7 +218,9 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   
   imgsrc_list = []
   img2url_dict = {}
-  cursor = None	
+  ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite w webstra broken
+  ## going with this always exists/true for now	
+  cursor = 1 
   
   #get images from imgur api json
   imgs_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
