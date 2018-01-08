@@ -103,9 +103,7 @@ def getimages_master(progressdata):
     fwebname = "__imgurJSON_"+progressdata["thistag"]+ "_" + time.strftime("%M%S") + ".txt"
     print "fwebname", fwebname
     fweb = open(fwebname, "a")
-    #fweb.write("[")
     fweb.write(webfile.read())
-    #fweb.write("]")
     fweb.close()
     print "webfile of ", progressdata["nexturl"]
     
