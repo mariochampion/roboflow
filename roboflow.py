@@ -239,7 +239,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   for img in imgs_in_json:
     if len(imgsrc_list) < imgnum_needed:
       imgjson_url = cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix
-      if imgjson_url not in imgsrc_list: #prevent dupes
+      if imgjson_url not in imgs_existing: #prevent dupes
         imgsrc_list.append(imgjson_url)
   
   for imgurl in imgsrc_list:
