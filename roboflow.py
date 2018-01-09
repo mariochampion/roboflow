@@ -779,14 +779,23 @@ def buildimg2url_file(progressdata):
   thistag = progressdata["thistag"]
   localdir = progressdata["localdir"]
   img2url_file = progressdata["img2url_file"]
-  fmake = open(img2url_file, "a")
+  thisdict = progressdata["img2url_dict"]
+  
+  #sort dict by... imgnum/incremented num? creation date?
+  modtime_list = []
+  for k,v in thisdict.items():
+    mod_tuple = ()
+    modtime = os.path.getmtime(v[1])
+    mod_tuple = (k, v[0], v[1], modtime)
+    modtime_list.append(mod_tuple)
+  modtime_list_sorted = sorted(modtime_list, key=lambda x: x[3])
 
   #write log file (not use createfilefromdict because v[0] and v[1] is different
   try:
-    thisdict = progressdata["img2url_dict"]
-    if len(thisdict) > 0:
-      for k,v in thisdict.items(): 
-        fmake.write(k+","+v[0]+","+v[1]+"\n")
+    if len(modtime_list_sorted) > 0:
+      fmake = open(img2url_file, "a")
+      for part in modtime_list_sorted: 
+        fmake.write(part[0]+","+part[1]+","+part[2]+"\n")
       fmake.close()
   except:
     pass
