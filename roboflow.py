@@ -221,14 +221,14 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   cursor = 1 
   
   #get images from imgur api json
-  imgs_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
-  for img in imgs_json:
+  imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
+  for img in imgs_in_json:
     if len(imgsrc_list) < imgnum_needed:
       imgjson_url = cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix
       imgsrc_list.append(imgjson_url)
   
-  for a in imgsrc_list:
-    img2url_dict[a] = [a]    
+  for imgurl in imgsrc_list:
+    img2url_dict[imgurl] = [imgurl]    
    
   
   '''WEBSTAGRAM BROKE! this code ll need to be conditionalized for when they fix it,
