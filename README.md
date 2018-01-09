@@ -74,6 +74,23 @@ f.write(str("_acc"+str(test_accuracy*100)[:5]) + '\n')
 ```
 
 
+Your directories should look like this:
+
+├── tensorflow                   
+|   ├── roboflow
+|   ├── scripts
+|   ├── tf_files
+| 	| 	├── bottlenecks
+| 	| 	├── models
+| 	| 	├── testing_photos
+| 	| 	| 	├── [basetag dirs...]
+| 	| 	├── training_photos
+| 	| 	| 	├── [basetag dirs...]
+| 	| 	├── training_summaries
+| 	| 	| 	├── [basetag dirs...]
+
+
+
 Et voila, you are ready to explore!
 
 ## Guided usage:
