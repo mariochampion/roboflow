@@ -113,6 +113,8 @@ def getimages_master(progressdata):
     
     #scrape for cursor for next url and img_list
     cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed)
+    
+    #now process the cursor and img srcs
     progressdata["cursor"] = cursor_and_imgs[0]
 
     #bulld NEXT url, already
