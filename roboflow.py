@@ -109,7 +109,14 @@ def getimages_master(progressdata):
     
     #use local version so later can be supplied a pipeline of data files
     with open(fwebname, "r") as jsonfile:
-      jsonobj = json.load(jsonfile)
+      try:
+        jsonobj = json.load(jsonfile)
+      except:
+        print '\033[93m'
+        print "Hmm, Unable to load JSON from imgur api response."
+        print "(usually, the tag has no images. so check  the txt file above, and give it a look online.)"
+        print '\033[0m'
+        robo.goodbye()
     
     #scrape for cursor for next url and img_list
     cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata)
@@ -249,10 +256,12 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
+    print '\033[93m'
     print "================================="
     print "       ***** WARNING *****"
     print "     no images found online! "
     print "================================="
+    print '\033[0m'
 
 
   return cursor_and_imgs
@@ -1240,7 +1249,7 @@ def preflight_getflowlist(preflight_dict):
 def main(args):
   robo.whereami(sys._getframe().f_code.co_name) #global show/dont show in config file
 
-  print robo.greeting()
+  print robo.greeting_big()
   
   #if some params present
   if len(args) > 0:
@@ -1308,17 +1317,22 @@ def main(args):
     path_to_trainingimgs_basetag = cfg.path_to_trainingimgs + cfg.dd + progressdata["basetag"]
     imagedir_counts = robo.getimgdirscount_dict(path_to_trainingimgs_basetag)
     
+    
     print "-----------------------------------------------------------------------"
     if progressdata["imgnum_dled_thiscycle"] > 0:
+      print '\033[92m'
       print "\tWINNING! "+str(progressdata["imgnum_dled_thiscycle"])+" downloads done been downloaded to:"
       print "\t"+progressdata["localdir"]+""
+      print '\033[0m'
     else:
+      print '\033[93m'
       print "\tHOW 'BOUT THAT! no images available to download from:"
       print "\t"+progressdata["url_built"]+""
       print "\t(go check that url for image-having-ness is a good next step.)"
+      print '\033[0m'
     print "-----------------------------------------------------------------------"
     print  
-    
+    print '\033[0m'
     
     
     ####### THE REAL POINT OF THIS: classify or re/train

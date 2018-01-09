@@ -61,6 +61,20 @@ def greeting():
   return ""
   
 
+def greeting_big():
+
+  print'\033[92m'
+  print '''
+----------------------------------------------------------------
+     hello and welcome to roboflow, a tensorflow explorer.
+             __   __   __   __   __       __ 
+            |__| |  | |__\ |  | |__  |   |  | \    /
+            | \  |__| |__/ |__| |    |__ |__|  \/\/
+ 
+ (a virtuous cycle of 1. download 2. classify/label 3. retrain.)
+----------------------------------------------------------------'''
+  print '\033[0m' 
+  return ""
 
 #################################
 # should prolly adapt this to also accept list of dirs and loop thru them
