@@ -145,11 +145,13 @@ def getimages_master(progressdata):
     else:
       print"---doh! NOT written! " + buildfile[1]
   
+  #for convenience dict
   progressdata["imgnum_in_dir"] = robo.getDLedfilecount(progressdata["localdir"]+cfg.dd+progressdata["thistag"])
+  
+  #check progress
   iscomplete(progressdata)
 
-
-  #### OR RECURSE - SO WATCH OUT!
+  ##### and then... RECURSE (or not) - SO WATCH OUT!
   if progressdata["iscomplete"] == True: return progressdata
   else: getimages_master(progressdata)   #RECURSION!
 
@@ -173,7 +175,6 @@ def iscomplete(progressdata):
 def urlbuild(vars_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  #thiscursor = vars_dict["cursor"]
   thistag = vars_dict["thistag"]
   scrapeurl_pagenum = vars_dict["scrapeurl_pagenum"]
   url_built_ending = cfg.imgur_default_sort + cfg.dd + str(scrapeurl_pagenum)
@@ -181,10 +182,6 @@ def urlbuild(vars_dict):
   url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag + cfg.dd + url_built_ending
   vars_dict["scrapeurl_pagenum"] += 1
   
-    
-  '''if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
-  else: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag+"?"+thiscursor
-  '''
   vars_dict["url_built"] = url_built
   return vars_dict
 
@@ -213,7 +210,7 @@ def getnexturl(vars_dict):
 #################################
 def getcursorandimgsrcs(jsonobj, imgnum_needed):
   robo.whereami(sys._getframe().f_code.co_name)
-  
+
   imgsrc_list = []
   img2url_dict = {}
   ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite
@@ -229,33 +226,8 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed):
   
   for imgurl in imgsrc_list:
     img2url_dict[imgurl] = [imgurl]    
-   
+      
   
-  '''WEBSTAGRAM BROKE! this code ll need to be conditionalized for when they fix it,
-     via/linked to a config file var for the scrapeurl and regex source'''
-  '''   
-  for line in webfile:
-    match = ""
-    img_match = ""
-    url_match = ""
-    match = re.search('cursor=([\S]+)"', line)
-    img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
-    url_match =  re.search(r'addthis:url="(.+) addthis:media', line)
-    if match:
-      cursorz = match.group()
-      cursor = cursorz.replace('"',"") #trim off rare trailing double-quotes
-
-    #scrape webfiles for the img srcs
-    if img_match:
-      rawimg = img_match.group()
-      if len(imgsrc_list) < imgnum_needed:
-        imgsrc_list.append( "https://"+rawimg.replace('\\', '') )
-        if url_match:
-          rawurl = url_match.group()
-          imgmatch_url = rawurl.replace('" addthis:media', '').replace('addthis:url="', '')
-          img2url_dict[rawimg.replace('addthis:media="', '')] = [imgmatch_url]
-  '''
-        
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
