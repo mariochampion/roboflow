@@ -112,7 +112,9 @@ def getimages_master(progressdata):
       jsonobj = json.load(jsonfile)
     
     #scrape for cursor for next url and img_list
-    cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed)
+    cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata)
+    
+    #now process the cursor and img srcs
     progressdata["cursor"] = cursor_and_imgs[0]
 
     #bulld NEXT url, already
@@ -145,11 +147,13 @@ def getimages_master(progressdata):
     else:
       print"---doh! NOT written! " + buildfile[1]
   
+  #for convenience dict
   progressdata["imgnum_in_dir"] = robo.getDLedfilecount(progressdata["localdir"]+cfg.dd+progressdata["thistag"])
+  
+  #check progress
   iscomplete(progressdata)
 
-
-  #### OR RECURSE - SO WATCH OUT!
+  ##### and then... RECURSE (or not) - SO WATCH OUT!
   if progressdata["iscomplete"] == True: return progressdata
   else: getimages_master(progressdata)   #RECURSION!
 
@@ -173,7 +177,6 @@ def iscomplete(progressdata):
 def urlbuild(vars_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  #thiscursor = vars_dict["cursor"]
   thistag = vars_dict["thistag"]
   scrapeurl_pagenum = vars_dict["scrapeurl_pagenum"]
   url_built_ending = cfg.imgur_default_sort + cfg.dd + str(scrapeurl_pagenum)
@@ -181,10 +184,6 @@ def urlbuild(vars_dict):
   url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag + cfg.dd + url_built_ending
   vars_dict["scrapeurl_pagenum"] += 1
   
-    
-  '''if thiscursor == None: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag
-  else: url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag+"?"+thiscursor
-  '''
   vars_dict["url_built"] = url_built
   return vars_dict
 
@@ -211,51 +210,42 @@ def getnexturl(vars_dict):
 
 
 #################################
-def getcursorandimgsrcs(jsonobj, imgnum_needed):
+def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   robo.whereami(sys._getframe().f_code.co_name)
-  
+
   imgsrc_list = []
   img2url_dict = {}
   ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite
   ## going with this always exists/true for now	
-  cursor = 1 
+  cursor = 1
   
-  #get images from imgur api json
-  imgs_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
-  for img in imgs_json:
+  #build a list of images for de-dupe. with a refactor, i would make a single list of 
+  # imgnum_needed urls and pass that to a download module... for now i ll check the logfile
+  imgs_existing = []
+  img2url_filename = progressdata["img2url_file"]
+  if img2url_filename:
+    print "yes img2url_filename", img2url_filename
+    if os.path.exists(img2url_filename):
+      img2url_contents = open(img2url_filename, "r").read().split("\n")
+      for i in img2url_contents:
+        imgs_existing.append(i.split(",")[0])
+  else:
+    print "no img2url_filename"
+
+  print "imgs_existing:", len(imgs_existing)
+  
+  #get images from imgur api json response
+  imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
+  for img in imgs_in_json:
     if len(imgsrc_list) < imgnum_needed:
       imgjson_url = cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix
-      imgsrc_list.append(imgjson_url)
+      if imgjson_url not in imgs_existing: #prevent dupes
+        imgsrc_list.append(imgjson_url)
   
-  for a in imgsrc_list:
-    img2url_dict[a] = [a]    
-   
+  for imgurl in imgsrc_list:
+    img2url_dict[imgurl] = [imgurl]    
+      
   
-  '''WEBSTAGRAM BROKE! this code ll need to be conditionalized for when they fix it,
-     via/linked to a config file var for the scrapeurl and regex source'''
-  '''   
-  for line in webfile:
-    match = ""
-    img_match = ""
-    url_match = ""
-    match = re.search('cursor=([\S]+)"', line)
-    img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
-    url_match =  re.search(r'addthis:url="(.+) addthis:media', line)
-    if match:
-      cursorz = match.group()
-      cursor = cursorz.replace('"',"") #trim off rare trailing double-quotes
-
-    #scrape webfiles for the img srcs
-    if img_match:
-      rawimg = img_match.group()
-      if len(imgsrc_list) < imgnum_needed:
-        imgsrc_list.append( "https://"+rawimg.replace('\\', '') )
-        if url_match:
-          rawurl = url_match.group()
-          imgmatch_url = rawurl.replace('" addthis:media', '').replace('addthis:url="', '')
-          img2url_dict[rawimg.replace('addthis:media="', '')] = [imgmatch_url]
-  '''
-        
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
@@ -788,7 +778,7 @@ def buildimg2url_file(progressdata):
   
   thistag = progressdata["thistag"]
   localdir = progressdata["localdir"]
-  img2url_file = localdir + cfg.dd + cfg.img2url_prefix + thistag + cfg.img2url_suffix
+  img2url_file = progressdata["img2url_file"]
   fmake = open(img2url_file, "a")
 
   #write log file (not use createfilefromdict because v[0] and v[1] is different
@@ -895,6 +885,7 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["localdir"] = localdir
   primevars_dict["imagedir"] = imagedir
   primevars_dict["localurlfile"] = localurlfile
+  primevars_dict["img2url_file"] = localdir + cfg.dd + cfg.img2url_prefix + thistag + cfg.img2url_suffix
   primevars_dict["imgnum_in_dir"] = robo.getDLedfilecount(imagedir)
   primevars_dict["path_to_testimgs_basetag"] = cfg.path_to_testimgs + cfg.dd + basetag
   primevars_dict["img2url_dict"] = {}
