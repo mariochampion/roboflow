@@ -237,9 +237,10 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
       img2url_contents = open(img2url_filename, "r").read().split("\n")
       for i in img2url_contents:
         imgs_existing.append(i.split(",")[0])
+      img2url_contents.close()
   else:
     print "no img2url_filename"
-
+  
   print "imgs_existing:", len(imgs_existing)
   
   #get images from imgur api json response
