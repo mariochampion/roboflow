@@ -126,6 +126,9 @@ finalwords_list.append("exiting...")
 finalwords_list.append("bye bye for now.")
 finalwords_list.append("ok good bye i love you.")
 
+# pinched from https://github.com/impshum/Multi-Quote/blob/master/run.py
+class color:
+    white, red, green, yellow = '\033[0m', '\033[91m','\033[92m','\033[93m'
 
 # sms/txt msg variables
 sms_minsecstonotify = 60 # to be notified, downloading must run at least this many seconds.

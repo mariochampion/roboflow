@@ -63,7 +63,7 @@ def greeting():
 
 def greeting_big():
 
-  print'\033[92m'
+  print cfg.color.green
   print '''
 ----------------------------------------------------------------
      hello and welcome to roboflow, a tensorflow explorer.
@@ -73,7 +73,7 @@ def greeting_big():
  
  (a virtuous cycle of 1. download 2. classify/label 3. retrain.)
 ----------------------------------------------------------------'''
-  print '\033[0m' 
+  print cfg.color.white
   return ""
 
 

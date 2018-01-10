@@ -1320,19 +1320,19 @@ def main(args):
     
     print "-----------------------------------------------------------------------"
     if progressdata["imgnum_dled_thiscycle"] > 0:
-      print '\033[92m'
+      print cfg.color.green
       print "\tWINNING! "+str(progressdata["imgnum_dled_thiscycle"])+" downloads done been downloaded to:"
       print "\t"+progressdata["localdir"]+""
       print '\033[0m'
     else:
-      print '\033[93m'
+      print cfg.color.yellow
       print "\tHOW 'BOUT THAT! no images available to download from:"
       print "\t"+progressdata["url_built"]+""
       print "\t(go check that url for image-having-ness is a good next step.)"
       print '\033[0m'
     print "-----------------------------------------------------------------------"
     print  
-    print '\033[0m'
+    print cfg.color.white
     
     
     ####### THE REAL POINT OF THIS: classify or re/train
