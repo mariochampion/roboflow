@@ -210,9 +210,10 @@ def getnexturl(vars_dict):
   nexturl = nexturl_raw.replace("\n","")
   print "nexturl "+ nexturl
   vars_dict["nexturl"]  = nexturl
-  
+  f.close()
+
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
-    
+
   return vars_dict
 
 
@@ -336,7 +337,7 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   img_online = urlopen(imgsrc_url)
   with open(imgsrc_newimgpath, 'wb') as fimg:  
     fimg.write(img_online.read())
-  fimg.close()
+  fimg.close() #perhaps an optional close() but seems good practice
   
   #check that file worked.
   try:
