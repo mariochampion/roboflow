@@ -164,7 +164,7 @@ python roboflow.py [basetag] [imagequantity] [searchtag] [flowsteps]
 note: the flowsteps parameter is optional, and defaults to classify if blank, 
 meaning roboflow will download [imagequantity] of [searchtags] and then classify them.
 
-options for flowstep parameters: 
+options for flowstep parameters:<br> 
 'download | classify | classify_top | retrain | retrain_defaults'
 
 
