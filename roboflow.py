@@ -1363,8 +1363,9 @@ def main(args):
     
     print "-----------------------------------------------------------------------"
     if progressdata["preflight_dict"]["classmodel_verified"] == False:
+      print cfg.color.yellow
       print "\tNOTE: No classification model(s) available to label & sort images.\n\tWhen there are (after at least one retraining), you will be guided to pick one."
-      print
+      print cfg.color.white
     print "\tNote: Classification models are created when you 'retrain' TensorFlow."
     print "\tTo retrain, you need "+str(cfg.retrain_imgcount_default)+" sorted images per label."
     print "\tCurrent counts:"
