@@ -103,9 +103,8 @@ def getimages_master(progressdata):
     print "URL:\t",progressdata["nexturl"]
     print "as:\t", fwebname
     print
-    fweb = open(fwebname, "a")
-    fweb.write(webfile.read())
-    fweb.close()
+    with open(fwebname, 'a') as fweb:
+      fweb.write(webfile.read())
     
     #use local version so later can be supplied a pipeline of data files
     with open(fwebname, "r") as jsonfile:
@@ -202,15 +201,15 @@ def getnexturl(vars_dict):
   
   #open local log file
   urls_list = []
-  f = open(vars_dict["localurlfile"], "rU")
-  for line in f:
-    urls_list.append(line)
+  
+  with open(vars_dict["localurlfile"], "rU") as f:
+    for line in f:
+      urls_list.append(line)
     
   nexturl_raw= urls_list[ (len(urls_list)-1)]
   nexturl = nexturl_raw.replace("\n","")
   print "nexturl "+ nexturl
   vars_dict["nexturl"]  = nexturl
-  f.close()
 
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
 
@@ -237,7 +236,6 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
       img2url_contents = open(img2url_filename, "r").read().split("\n")
       for i in img2url_contents:
         imgs_existing.append(i.split(",")[0])
-      img2url_contents.close()
   else:
     print "no img2url_filename"
   
@@ -273,11 +271,11 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
 def updatenextandbuilturls(vars_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  #write to file
-  sfile = open(vars_dict["localurlfile"], "a") #this will create if not exists, open if it does
-  sfile.write(vars_dict["url_built"]+"\n") # NOTE !! not nexturl - this is being written log file instead
-  sfile.close()
-  
+  #create if not exists, open and write if it does
+  with open(vars_dict["localurlfile"], "a") as sfile:
+    # NOTE !! not nexturl - this is being written log file instead
+    sfile.write(vars_dict["url_built"]+"\n")
+    
   vars_dict["nexturl"] = vars_dict["url_built"] #swap in vars_dict for sequencing reasons
   
   return vars_dict
@@ -338,7 +336,6 @@ def imgsrc_literaldownload(imgsrc_url, imgsrc_newimgpath):
   img_online = urlopen(imgsrc_url)
   with open(imgsrc_newimgpath, 'wb') as fimg:  
     fimg.write(img_online.read())
-  fimg.close() #perhaps an optional close() but seems good practice
   
   #check that file worked.
   try:
@@ -445,12 +442,13 @@ def classifymodel_getlabels(path_to_models, modeldir):
   modeldir_labels = ""
   path_to_labels_file = path_to_models + cfg.dd + modeldir + cfg.dd + cfg.labels_file
   if path_to_labels_file:
-    f = open(path_to_labels_file, "rU")
-    labels_list = []
-    for line in f:
-      labels_list.append(line.replace("\n","").replace(" ", "_"))
-    f.close()
+    with open(path_to_labels_file, "rU") as f:
+      labels_list = []
+      for line in f:
+        labels_list.append(line.replace("\n","").replace(" ", "_"))
+
     modeldir_labels = ', '.join(labels_list)
+
   return modeldir_labels
 
 
@@ -804,10 +802,9 @@ def buildimg2url_file(progressdata):
   #write log file (not use createfilefromdict because v[0] and v[1] is different
   try:
     if len(modtime_list_sorted) > 0:
-      f_img2url = open(img2url_file, "a")
-      for part in modtime_list_sorted: 
-        f_img2url.write(part[0]+","+part[1]+","+part[2]+"\n")
-      f_img2url.close()
+      with open(img2url_file, 'a') as f_img2url:
+        for part in modtime_list_sorted: 
+          f_img2url.write(part[0]+","+part[1]+","+part[2]+"\n")
   except:
     pass
  
@@ -1283,14 +1280,13 @@ def main(args):
   
   # start the localurlfile/nextURL file / setup first url
   localurlfile = vars_dict["localurlfile"]
-  fmake = open(localurlfile, "a")
-  if os.stat(localurlfile).st_size == 0:
-  	urlbuild(vars_dict)
-  	fmake.write(vars_dict["url_built"]+"\n")
-  else:
-    #exists, so add nothing for now...
-    pass
-  fmake.close()
+  with open(localurlfile, "a") as fmake:
+    if os.stat(localurlfile).st_size == 0:
+  	  urlbuild(vars_dict)
+  	  fmake.write(vars_dict["url_built"]+"\n")
+    else:
+      #exists, so add nothing for now...
+      pass
   
   #get nexturl
   progressdata = getnexturl(vars_dict)
