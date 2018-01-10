@@ -111,7 +111,8 @@ python roboflow.py robots 200 robotart download
 python roboflow.py --help
 ```
 
-### and dont forget to explore the config file. 
+### and dont forget to explore the <a href="https://github.com/mariochampion/roboflow/blob/master/robo_config.py">config file.</a> 
+ 
 
 
 

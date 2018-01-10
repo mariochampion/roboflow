@@ -107,7 +107,7 @@ python roboflow.py robots 200 robotart classify
 ```
 python roboflow.py --help
 ```
-#### and dont forget to explore the <a href="../robo_config.py">config file.</a> 
+#### and dont forget to explore the <a href="https://github.com/mariochampion/roboflow/blob/master/robo_config.py">config file.</a> 
 
 
 --------------------------------------------------------------------------------
