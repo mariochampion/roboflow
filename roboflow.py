@@ -804,10 +804,10 @@ def buildimg2url_file(progressdata):
   #write log file (not use createfilefromdict because v[0] and v[1] is different
   try:
     if len(modtime_list_sorted) > 0:
-      fmake = open(img2url_file, "a")
+      f_img2url = open(img2url_file, "a")
       for part in modtime_list_sorted: 
-        fmake.write(part[0]+","+part[1]+","+part[2]+"\n")
-      fmake.close()
+        f_img2url.write(part[0]+","+part[1]+","+part[2]+"\n")
+      f_img2url.close()
   except:
     pass
  
