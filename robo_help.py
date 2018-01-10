@@ -217,9 +217,18 @@ how hyperparameters affect classification accuracy!)
 
 ADVANCED:
 - enter parameters at the command line. as noted in the regular help:'''
-  print "'python " + cfg.download_script + " [BASETAG] [imagequantity] [searchtag] [flowsteps]'"
+  print "'python " + cfg.download_script + " [BASETAG] [imagequantity] [searchtag] [optional flowsteps]'"
   print '''note: the flowsteps parameter is optional, and defaults to classify if blank, 
 meaning roboflow will download [imagequantity] of [searchtags] and then classify them.
+
+- optional flowstep parameters: 
+\t'download | classify | classify_top | retrain | retrain_defaults'
+
+- classify_top as flowstep paramter:
+if you want to automatically choose the classifier with the highest training_accuracy, 
+use the parameter 'classify_top' as the optional flowstep. this will skip a step 
+and make the whole flow more automated, if that is what you desire.
+\texample: 'python roboflow.py robots 200 robotart classify_top' 
 
 - hint: if you have more than the minimum number of images required in labeled 
 sub-dirs at training_photos/BASETAG, and want to skip both downloading and 

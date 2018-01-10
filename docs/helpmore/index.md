@@ -164,10 +164,24 @@ python roboflow.py [basetag] [imagequantity] [searchtag] [flowsteps]
 note: the flowsteps parameter is optional, and defaults to classify if blank, 
 meaning roboflow will download [imagequantity] of [searchtags] and then classify them.
 
+options for flowstep parameters: 
+'download | classify | classify_top | retrain | retrain_defaults'
+
+
+
 #### for example:
 ```
 python roboflow.py robots 200 robotart
 ```
+
+#### classify_top hint:
+```
+python roboflow.py robots 200 robotart classify_top
+```
+if you want to automatically choose the classifier with the highest training_accuracy, 
+use the parameter 'classify_top' as the optional flowstep. this will skip a step 
+and make the whole flow more automated, if that is what you desire.
+
 
 #### hint: if you have more than the minimum number of images required in labeled 
 sub-dirs at training_photos/BASETAG, and want to skip both downloading and 
