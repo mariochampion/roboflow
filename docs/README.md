@@ -23,6 +23,11 @@ https://drive.google.com/file/d/1zvTq5vKqME7sW9O8lEtgn-Wosoavc2gi/view?usp=shari
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+#### NOTE: the primary script is
+```
+roboflow.py
+```
+
 
 #### PREREQUISITES
 #### software
