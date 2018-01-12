@@ -26,6 +26,10 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 roboflow.py
 ```
+#### As a shortcut, add an alias in your .bash_profile to launch roboflow quickly:
+```
+alias roboflow="cd path/to/dir/roboflow/;python roboflow.py"
+```
 
 ### Prerequisites
 
