@@ -7,6 +7,7 @@ RoboFlow was created to get a better sense for TensorFlow's image classifier by 
 
 Issues, Contributions, and Pull Requests welcomed!
 
+![roboflow start](http://mariochampion.com/roboflow/roboflow_cover_640.png)
 
 ## 'BASETAG' concept
 because you can use roboflow for many separate classifiers, you need to pick a term for the broad master classification or theme of your classifier (such as 'robots', or 'birds', or whatever) so that images, classifier models and more can be stored separately under that BASETAG directory. You will do this in either the guided or advanced usages (see below).
