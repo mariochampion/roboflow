@@ -92,7 +92,7 @@ def getimages_master(progressdata):
 
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
-    
+    print progressdata["nexturl"]    
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
     webfile = urlopen(req)
@@ -199,21 +199,30 @@ def urlbuild(vars_dict):
 def getnexturl(vars_dict):
   
   robo.whereami(sys._getframe().f_code.co_name)
-  
-  #open local log file
-  urls_list = []
-  
+
   with open(vars_dict["localurlfile"], "rU") as f:
-    for line in f:
-      urls_list.append(line)
-    
+    urls_list = [line for line in f]
+  print "urls_list", urls_list  
+
   nexturl_raw= urls_list[ (len(urls_list)-1)]
-  nexturl = nexturl_raw.replace("\n","")
+  nexturl_clean = nexturl_raw.replace("\n","")
+  #should have format like: https://api.imgur.com/3/gallery/t/robot/time/3
+  # now increment number at end, and update scrapeurl_pagenum
+  nexturl_clean_parts = nexturl_clean.split("/")
+  nexturl_increment = nexturl_clean_parts[-1] 
+  nexturl_increment_added = str(int(nexturl_increment)+1)
+  nexturl = "".join(nexturl_clean_parts[:-1]) + cfg.dd + nexturl_increment_added
+  print "nexturl_clean", nexturl_clean
+  print "now and next increment", nexturl_increment
   print "nexturl "+ nexturl
   vars_dict["nexturl"]  = nexturl
-
+  vars_dict["scrapeurl_pagenum"]  = nexturl_increment_added
+  
+  for k,v in vars_dict.items():
+    print k, ":", v 
+  
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
-
+  sys.exit(1)
   return vars_dict
 
 
@@ -1290,6 +1299,7 @@ def main(args):
   	  fmake.write(vars_dict["url_built"]+"\n")
     else:
       #exists, so add nothing for now...
+      print "localfile EXISTS, so get next url from it..."
       pass
   
   #get nexturl
