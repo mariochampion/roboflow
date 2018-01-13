@@ -59,7 +59,7 @@ imgur_jsonfile_suffix = ".txt" # sep name for max flex of diff later needs
 imgur_client_id = 'Client-ID 739f573e90420d1'
 imgur_default_sort = "time"
 scrapeurl = "https//api.imgur.com/3/gallery/t"
-scrapeurl_pagenum = 1
+scrapeurl_pagenum = 0
 #scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
 #scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
 labels_file = "retrained_labels.txt"

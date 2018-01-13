@@ -92,10 +92,19 @@ def getimages_master(progressdata):
 
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
-    
+    print "API for:", progressdata["nexturl"]    
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
-    webfile = urlopen(req)
+    
+    try:
+      webfile = urlopen(req)
+    except:
+      print cfg.color.red
+      print "doh, probably 'urllib2.HTTPError: HTTP Error 500: Internal Server Error'"
+      print "(something wrong with imgur API. happens all the time. try again in a min.)"
+      print cfg.color.white
+      robo.goodbye()
+    
     
     #make a local version for, perhaps, later analysis
     fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
@@ -199,21 +208,23 @@ def urlbuild(vars_dict):
 def getnexturl(vars_dict):
   
   robo.whereami(sys._getframe().f_code.co_name)
-  
-  #open local log file
-  urls_list = []
-  
+
   with open(vars_dict["localurlfile"], "rU") as f:
-    for line in f:
-      urls_list.append(line)
+    urls_list = [line for line in f]
     
+  #should have format like: https://api.imgur.com/3/gallery/t/robot/time/3
+  # get/increment number at end, and update scrapeurl_pagenum
   nexturl_raw= urls_list[ (len(urls_list)-1)]
-  nexturl = nexturl_raw.replace("\n","")
-  print "nexturl "+ nexturl
+  nexturl_parts = nexturl_raw.replace("\n","").split("/")
+  nexturl_increment = nexturl_parts[-1] 
+  nexturl_increment_added = str(int(nexturl_increment)+1)
+  nexturl_ending = cfg.imgur_default_sort + cfg.dd + nexturl_increment_added
+  nexturl = cfg.scrapeurl.replace("https","https:") + cfg.dd + vars_dict["thistag"] + cfg.dd + nexturl_ending
   vars_dict["nexturl"]  = nexturl
-
+  vars_dict["scrapeurl_pagenum"]  = int(nexturl_increment_added)
+  
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
-
+  
   return vars_dict
 
 
@@ -232,7 +243,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   imgs_existing = []
   img2url_filename = progressdata["img2url_file"]
   if img2url_filename:
-    print "yes img2url_filename", img2url_filename
+    print "DLed imgs list", img2url_filename
     if os.path.exists(img2url_filename):
       img2url_contents = open(img2url_filename, "r").read().split("\n")
       for i in img2url_contents:
@@ -240,7 +251,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   else:
     print "no img2url_filename"
   
-  print "imgs_existing:", len(imgs_existing)
+  print "DLed imgs count:", len(imgs_existing)
   
   #get images from imgur api json response
   imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
@@ -260,7 +271,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
     print '\033[93m'
     print "================================="
     print "       ***** WARNING *****"
-    print "     no images found online! "
+    print "   no JPG images found online! "
     print "================================="
     print '\033[0m'
 
@@ -1290,6 +1301,7 @@ def main(args):
   	  fmake.write(vars_dict["url_built"]+"\n")
     else:
       #exists, so add nothing for now...
+      print "localfile EXISTS, so get next url from it..."
       pass
   
   #get nexturl
