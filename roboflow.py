@@ -207,22 +207,20 @@ def getnexturl(vars_dict):
   nexturl_raw= urls_list[ (len(urls_list)-1)]
   nexturl_clean = nexturl_raw.replace("\n","")
   #should have format like: https://api.imgur.com/3/gallery/t/robot/time/3
-  # now increment number at end, and update scrapeurl_pagenum
+  # get/increment number at end, and update scrapeurl_pagenum
   nexturl_clean_parts = nexturl_clean.split("/")
   nexturl_increment = nexturl_clean_parts[-1] 
   nexturl_increment_added = str(int(nexturl_increment)+1)
-  nexturl = "".join(nexturl_clean_parts[:-1]) + cfg.dd + nexturl_increment_added
-  print "nexturl_clean", nexturl_clean
-  print "now and next increment", nexturl_increment
+  nexturl_ending = cfg.imgur_default_sort + cfg.dd + nexturl_increment_added
+  nexturl = cfg.scrapeurl.replace("https","https:") + cfg.dd + vars_dict["thistag"] + cfg.dd + nexturl_ending
+  print "thisurl NOW", nexturl_clean
+  print "this increment", nexturl_increment
   print "nexturl "+ nexturl
   vars_dict["nexturl"]  = nexturl
   vars_dict["scrapeurl_pagenum"]  = nexturl_increment_added
   
-  for k,v in vars_dict.items():
-    print k, ":", v 
-  
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
-  sys.exit(1)
+
   return vars_dict
 
 
