@@ -100,9 +100,10 @@ def getimages_master(progressdata):
     #make a local version for, perhaps, later analysis
     fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
     fwebname = fwebpath + cfg.dd + cfg.imgur_jsonfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + cfg.imgur_jsonfile_suffix
+    print cfg.color.yellow
     print "URL:\t",progressdata["nexturl"]
     print "as:\t", fwebname
-    print
+    print cfg.color.white
     with open(fwebname, 'a') as fweb:
       fweb.write(webfile.read())
     
@@ -428,7 +429,9 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
   except:
     classmodeldir_choice = modeldirs_dict[topacc][0] #if they picked outside range or letter, etc
   
-  print "classmodeldir_choice:", classmodeldir_choice
+  print cfg.color.yellow
+  print "ok, classmodeldir_choice:", classmodeldir_choice
+  print cfg.color.white
   print "-----------------------------------------"
   print
   
@@ -853,11 +856,12 @@ def classify_downloadedimages(progressdata):
   if classmodeldir_start == "i": model_data["model_type"] = cfg.inception_model 
   if classmodeldir_start == "m": model_data["model_type"] = cfg.mobile_model	
 
-  print #special case here so speaicl top print spacer line
+  print #special case here so special top print spacer line
+  print cfg.color.yellow
   print "============== START THE REAL ACTION ===================="
   print " classify with: "+ model_data["model_dir"]
   print "========================================================="
-  print
+  print cfg.color.white
   
   ### kick off tensorflow classifier
   status = roboclass.main(model_data)
