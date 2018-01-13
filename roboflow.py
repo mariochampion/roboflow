@@ -92,10 +92,19 @@ def getimages_master(progressdata):
 
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
-    print progressdata["nexturl"]    
+    print "API for:", progressdata["nexturl"]    
     req = Request(progressdata["nexturl"])
     req.add_header('Authorization', cfg.imgur_client_id)
-    webfile = urlopen(req)
+    
+    try:
+      webfile = urlopen(req)
+    except:
+      print cfg.color.red
+      print "doh, probably 'urllib2.HTTPError: HTTP Error 500: Internal Server Error'"
+      print "(something wrong with imgur API. happens all the time. try again in a min.)"
+      print cfg.color.white
+      robo.goodbye()
+    
     
     #make a local version for, perhaps, later analysis
     fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
@@ -212,7 +221,7 @@ def getnexturl(vars_dict):
   nexturl_ending = cfg.imgur_default_sort + cfg.dd + nexturl_increment_added
   nexturl = cfg.scrapeurl.replace("https","https:") + cfg.dd + vars_dict["thistag"] + cfg.dd + nexturl_ending
   vars_dict["nexturl"]  = nexturl
-  vars_dict["scrapeurl_pagenum"]  = nexturl_increment_added
+  vars_dict["scrapeurl_pagenum"]  = int(nexturl_increment_added)
   
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
   
@@ -234,7 +243,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   imgs_existing = []
   img2url_filename = progressdata["img2url_file"]
   if img2url_filename:
-    print "yes img2url_filename", img2url_filename
+    print "DLed imgs list", img2url_filename
     if os.path.exists(img2url_filename):
       img2url_contents = open(img2url_filename, "r").read().split("\n")
       for i in img2url_contents:
@@ -242,7 +251,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   else:
     print "no img2url_filename"
   
-  print "imgs_existing:", len(imgs_existing)
+  print "DLed imgs count:", len(imgs_existing)
   
   #get images from imgur api json response
   imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
@@ -262,7 +271,7 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
     print '\033[93m'
     print "================================="
     print "       ***** WARNING *****"
-    print "     no images found online! "
+    print "   no JPG images found online! "
     print "================================="
     print '\033[0m'
 
