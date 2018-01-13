@@ -25,7 +25,7 @@ Also, OPTIONAL txt msg notifications require twilio account setup with credit ca
 
 
 
-import time
+import os, time
 
 #roboflow files and two core functions
 download_script = "roboflow.py"
@@ -56,7 +56,7 @@ imgur_jsonfile_prefix = "__imgurJSON_"
 imgur_jsonfile_suffix = ".txt" # sep name for max flex of diff later needs
 
 # destinations and some defaults
-imgur_client_id = 'Client-ID 739f573e90420d1'
+imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')
 imgur_default_sort = "time"
 scrapeurl = "https//api.imgur.com/3/gallery/t"
 scrapeurl_pagenum = 0
