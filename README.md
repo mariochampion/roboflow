@@ -39,7 +39,8 @@ alias roboflow="cd path/to/dir/roboflow/;python roboflow.py"
 install shortcut: https://github.com/googlecodelabs/tensorflow-for-poets-2 <br>
 or also at https://www.tensorflow.org/install/
 * Imgur API Client-ID (https://apidocs.imgur.com/)<br>
- ** added to your ENVIRONMENT variables as 'IMGURAPI_ID', see config file line 59
+ ** added to your ENVIRONMENT variables as 'IMGURAPI_ID', see config file line 59<br>
+ ** http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/
 * Terminal/Command Line familiarity
 * Optional: Tensorboard (https://github.com/tensorflow/tensorboard)
 * Optional: Twilio for txt msg notifications (https://www.twilio.com/sms)
