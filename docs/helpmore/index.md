@@ -25,12 +25,16 @@ note: important and defined words are CAPITALIZED
 
 <a name = "requirements">&nbsp;</a>
 ## REQUIREMENTS:
-* python 2.7 (i used 2.7, but i dont know it wont run in 3.x)
-* tensorflow (https://www.tensorflow.org/install/) 
-* permissions to download and create files and directories
-* optional: tensorboard (https://github.com/tensorflow/tensorboard)
-* terminal/command line comfort (or willingness to learn)
-
+* Python (2.7 - but i havent tried 3.x so that might work, too) (<a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a>)
+* TensorFlow - learn about it: <a href="https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/">https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/</a> <br>
+install shortcut: <a href="https://github.com/googlecodelabs/tensorflow-for-poets-2">https://github.com/googlecodelabs/tensorflow-for-poets-2</a><br>
+or also at <a href="https://www.tensorflow.org/install/">https://www.tensorflow.org/install/</a>
+* Imgur API Client-ID (<a href="https://apidocs.imgur.com/">https://apidocs.imgur.com/</a>)<br>
+ ** added to your ENVIRONMENT variables as 'IMGURAPI_ID', see config file line 59<br>
+ ** <a href="http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/">http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/</a>
+* Terminal/Command Line familiarity
+* <b>Optional</b>: Tensorboard (<a href="https://github.com/tensorflow/tensorboard">https://github.com/tensorflow/tensorboard</a>)
+* <b>Optional</b>: Twilio for txt msg notifications (<a href="https://www.twilio.com/sms">https://www.twilio.com/sms</a>)
 
 <a name = "definitions">&nbsp;</a>
 ## DEFINITIONS:
