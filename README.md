@@ -38,7 +38,7 @@ alias roboflow="cd path/to/dir/roboflow/;python roboflow.py"
 * TensorFlow - learn about it: https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/ <br>
 install shortcut: https://github.com/googlecodelabs/tensorflow-for-poets-2 <br>
 or also at https://www.tensorflow.org/install/
-* Imgur API Client-ID (https://apidocs.imgur.com/) 
+* Imgur API Client-ID (https://apidocs.imgur.com/)<br>
  ** added to your ENVIRONMENT variables as 'IMGURAPI_ID', see config file line 59
 * Terminal/Command Line familiarity
 * Optional: Tensorboard (https://github.com/tensorflow/tensorboard)
