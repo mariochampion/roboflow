@@ -50,6 +50,7 @@ or also at https://www.tensorflow.org/install/
 * Internet Access
 * Image downloading
 * File and directory creation permissions
+* Create ENVIRONMENT variables in ~./bash_profile (or equivalent)
 
 
 ## Installing
