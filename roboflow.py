@@ -142,11 +142,7 @@ def getimages_master(progressdata):
   #build img2url log file
   if progressdata["img2url_dict"] :
     buildfile = buildimg2url_file(progressdata)
-    if buildfile[0] == True:
-      print "YAY! written/appended: " + buildfile[1]
-      progressdata["img2url_dict"] = img2url_dict # which should be empty at this point
-    else:
-      print"---doh! NOT written! " + buildfile[1]
+    progressdata["img2url_dict"] = img2url_dict # which should be empty at this point 
   
   #for convenience dict
   progressdata["imgnum_in_dir"] = robo.getDLedfilecount(progressdata["localdir"]+cfg.dd+progressdata["thistag"])
@@ -720,11 +716,13 @@ def buildimg2url_file(progressdata):
     pass
  
   #check it worked
-  if os.stat(img2url_file).st_size == 0: status = False
-  else: status = True 
+  if os.stat(img2url_file).st_size == 0: 
+    print"---doh! NOT written! " + img2url_file
+  else:
+    print "YAY! written/appended: " + img2url_file
   
-  print
-  return (status, img2url_file)
+  
+  return progressdata
 
 
 #################################
