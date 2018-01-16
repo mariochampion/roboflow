@@ -1067,7 +1067,10 @@ def preflightchecks(args):
     preflight_dict["classmodel_verified"] = False
     if flowasinput == "classify":
       print "----------- NOTE ----------- "
-      print "No classification model(s) available to label & sort images.\nWhen there are (after at least one retraining), you will be guided to pick one.\n\nFor now, let us just do some downloading?"
+      print cfg.color.yellow      
+      print "No classification model(s) available to label & sort images.\nWhen there are (after at least one retraining), you will be guided to pick one."
+      print cfg.color.white
+      print "For now, let us just do some downloading?"
       justdownload_raw = raw_input("[h] for help & additional explanation\n[q] to quit\n[enter] to get to downloadin'... \n")
       if justdownload_raw == 'q':robo.goodbye()
       elif justdownload_raw == 'h':releasethehelp()
