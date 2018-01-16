@@ -1010,9 +1010,6 @@ def preflightchecks(args):
   
   preflight_dict = {}
 
-  #if scrapesite == "imgur":
-    #preflight_dict["imgur_client_id"] = scraper.imgurapi_clientid_confirm()
-
   # check for REQD dirs - train_photos, test_photos, training_summs
   for setupdir in cfg.paths_to_reqddirs_list:
     robo.findormakedir(setupdir)
