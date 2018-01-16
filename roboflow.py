@@ -94,7 +94,7 @@ def getimages_master(progressdata):
     webfile = None #clear it up for recursive runs
     print "API for:", progressdata["nexturl"]    
     req = Request(progressdata["nexturl"])
-    req.add_header('Authorization', cfg.imgur_client_id)
+    req.add_header('Authorization', robo.imgurapi_clientid_confirm())
     
     try:
       webfile = urlopen(req)
@@ -1004,6 +1004,9 @@ def preflightchecks(args):
   robo.whereami(sys._getframe().f_code.co_name)
   
   preflight_dict = {}
+  
+  preflight_dict["imgur_client_id"] = robo.imgurapi_clientid_confirm()
+  
   # check for REQD dirs - train_photos, test_photos, training_summs
   for setupdir in cfg.paths_to_reqddirs_list:
     robo.findormakedir(setupdir)
