@@ -204,7 +204,7 @@ def getnexturl(vars_dict):
   nexturl_increment = nexturl_parts[-1] 
   nexturl_increment_added = str(int(nexturl_increment)+1)
   nexturl_ending = scrape_sort + cfg.dd + nexturl_increment_added
-  nexturl = cfg.scrapeurl.replace("https","https:") + cfg.dd + vars_dict["thistag"] + cfg.dd + nexturl_ending
+  nexturl = scrapeurl.replace("https","https:") + cfg.dd + vars_dict["thistag"] + cfg.dd + nexturl_ending
   vars_dict["nexturl"]  = nexturl
   vars_dict["scrapeurl_pagenum"]  = int(nexturl_increment_added)
   

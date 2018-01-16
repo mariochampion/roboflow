@@ -1206,7 +1206,7 @@ def main(args):
       pass
   
   #get nexturl
-  progressdata = getnexturl(vars_dict)
+  progressdata = scraper.getnexturl(vars_dict)
   
   #get some images from it
   progressdata["imgnum_dled_thiscycle"] = 0
