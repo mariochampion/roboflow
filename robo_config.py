@@ -62,19 +62,31 @@ scrapeurls = {
 	{"regex_img":"i.imgur.com/(.{7})(.jpg)"},
 	{"regex_urlnext":"None"},
 	{"scrape_default_sort":"time"},
-	{"pagenum_start":0}],
+	{"pagenum_start":0},
+	{"image_prefix":"https//i.imgur.com/"}, # used in imgsrc_list
+	{"image_suffix":".jpg"},
+	{"logfile_prefix":"__imgurJSON_"}, # for local copy of downloaded file
+	{"logfile_suffix":".txt"}],
 "webstagram":[
 	{"scrapeurl":"https//web.stagram.com/tag"},
 	{"regex_img":"sss"}, 
 	{"regex_urlnext":"sss"}, 
 	{"scrape_default_sort":"None"},
-	{"pagenum_start":"None"}],
+	{"pagenum_start":0},
+	{"image_prefix":"None"}, # used in imgsrc_list, if none get from DLed file
+	{"image_suffix":".jpg"},
+	{"logfile_prefix":"__webstagram_"}, # for local copy of downloaded file
+	{"logfile_suffix":".txt"}],
 "pinterest":[
 	{"scrapeurl":"https//pinterest.com/search/pins/?q="},
 	{"regex_img":"sss"}, 
 	{"regex_urlnext":"sss"}, 
 	{"scrape_default_sort":"None"},
-	{"pagenum_start":"None"}]
+	{"pagenum_start":0},
+	{"image_prefix":"None"}, # used in imgsrc_list, if none get from DLed file
+	{"image_suffix":".jpg"},
+	{"logfile_prefix":"__pinterest_"}, # for local copy of downloaded file
+	{"logfile_suffix":".txt"}],
 }
 
 imgur_default_sort = "time"
