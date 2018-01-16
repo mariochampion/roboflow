@@ -52,8 +52,8 @@ unsorted_name = "unsorted_"
 sorted_name = "sorted_"
 imgur_prefix = "https//i.imgur.com/"
 imgur_suffix = ".jpg"
-imgur_jsonfile_prefix = "__imgurJSON_"
-imgur_jsonfile_suffix = ".txt" # sep name for max flex of diff later needs
+local_webfile_prefix = "__imgurJSON_"
+local_webfile_suffix = ".txt" # sep name for max flex of diff later needs
 
 # scrape sites, regexes, etc
 scrapeurls = {

@@ -108,13 +108,15 @@ def getimages_master(progressdata):
     
     #make a local version for, perhaps, later analysis
     fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
-    fwebname = fwebpath + cfg.dd + cfg.imgur_jsonfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + cfg.imgur_jsonfile_suffix
+    fwebname = fwebpath + cfg.dd + cfg.local_webfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + cfg.local_webfile_suffix
+    with open(fwebname, 'a') as fweb:
+      fweb.write(webfile.read())
+      
+    ## provide a little feedback/update to user
     print cfg.color.yellow
     print "URL:\t",progressdata["nexturl"]
     print "as:\t", fwebname
     print cfg.color.white
-    with open(fwebname, 'a') as fweb:
-      fweb.write(webfile.read())
     
     #use local version so later can be supplied a pipeline of data files
     with open(fwebname, "r") as jsonfile:
