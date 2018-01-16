@@ -55,12 +55,35 @@ imgur_suffix = ".jpg"
 imgur_jsonfile_prefix = "__imgurJSON_"
 imgur_jsonfile_suffix = ".txt" # sep name for max flex of diff later needs
 
-# destinations and some defaults
+# scrape sites, regexes, etc
+scrapeurls = {
+"imgur_api":[
+	{"scrapeurl":"https//api.imgur.com/3/gallery/t"},
+	{"regex_img":"i.imgur.com/(.{7})(.jpg)"},
+	{"regex_urlnext":"None"},
+	{"scrape_default_sort":"time"},
+	{"pagenum_start":0}],
+"webstagram":[
+	{"scrapeurl":"https//web.stagram.com/tag"},
+	{"regex_img":"sss"}, 
+	{"regex_urlnext":"sss"}, 
+	{"scrape_default_sort":"None"},
+	{"pagenum_start":"None"}],
+"pinterest":[
+	{"scrapeurl":"https//pinterest.com/search/pins/?q="},
+	{"regex_img":"sss"}, 
+	{"regex_urlnext":"sss"}, 
+	{"scrape_default_sort":"None"},
+	{"pagenum_start":"None"}]
+}
+
 imgur_default_sort = "time"
 scrapeurl = "https//api.imgur.com/3/gallery/t"
 scrapeurl_pagenum = 0 #starting num
-#scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
 #scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
+
+
+# destinations and some defaults
 labels_file = "retrained_labels.txt"
 flow_default = "classify"
 tagname_default = "robot"
