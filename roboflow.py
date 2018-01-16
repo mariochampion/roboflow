@@ -268,12 +268,12 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
-    print '\033[93m'
+    print cfg.color.yellow
     print "================================="
     print "       ***** WARNING *****"
     print "   no JPG images found online! "
     print "================================="
-    print '\033[0m'
+    print cfg.color.white
 
 
   return cursor_and_imgs
