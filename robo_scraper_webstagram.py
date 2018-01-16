@@ -39,14 +39,42 @@ print cfg.color.white
 ###  hey, have some functions  ###	  
 ##################################
 
-#################################	
-def zzz():
+#################################
+def getcursorandimgsrcs(webfile, imgnum_needed):
   robo.whereami(sys._getframe().f_code.co_name)
   
+  imgsrc_list = []
+  img2url_dict = {}
+  cursor = None	
   
+  for line in webfile:
+    match = ""
+    img_match = ""
+    url_match = ""
+    match = re.search('cursor=([\S]+)"', line)
+    img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
+    url_match =  re.search(r'addthis:url="(.+) addthis:media', line)
+    if match:
+      cursorz = match.group()
+      cursor = cursorz.replace('"',"") #trim off rare trailing double-quotes
   
+    #scrape webfiles for the img srcs
+    if img_match:
+      rawimg = img_match.group()
+      if len(imgsrc_list) < imgnum_needed:
+        imgsrc_list.append( rawimg.replace('addthis:media="', '') )
+        if url_match:
+          rawurl = url_match.group()
+          imgmatch_url = rawurl.replace('" addthis:media', '').replace('addthis:url="', '')
+          img2url_dict[rawimg.replace('addthis:media="', '')] = [imgmatch_url]
+        
+  cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
-  return
-
-
-#################################	
+  if len(imgsrc_list) < 1:
+    print "================================="
+    print "       ***** WARNING *****"
+    print "     no images found online! "
+    print "================================="
+    
+  return cursor_and_imgs
+  

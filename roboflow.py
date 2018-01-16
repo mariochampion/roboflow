@@ -35,7 +35,7 @@ and dont forget to explore the config file.
 
 
 
-import os, sys, signal, time, shutil, re, json
+import os, sys, signal, time, shutil, re
 from urllib2 import Request, urlopen
 
 #import roboflow specific stuff
@@ -95,45 +95,25 @@ def getimages_master(progressdata):
 
   if imgnum_needed > 0:
     webfile = None #clear it up for recursive runs
-    print "API for:", progressdata["nexturl"]    
-    req = Request(progressdata["nexturl"])
-    req.add_header('Authorization', scraper.imgurapi_clientid_confirm())
-    
-    try:
-      webfile = urlopen(req)
-    except:
-      print cfg.color.red
-      print "doh, probably 'urllib2.HTTPError: HTTP Error 500: Internal Server Error'"
-      print "(something wrong with imgur API. happens all the time. try again in a min.)"
-      print cfg.color.white
-      robo.goodbye()
-    
+    webfile = scraper.getwebfile(progressdata["nexturl"])
     
     #make a local version for, perhaps, later analysis
     fwebpath = cfg.path_to_testimgs + cfg.dd + progressdata["basetag"] + cfg.dd + cfg.unsorted_name + progressdata["thistag"]
-    fwebname = fwebpath + cfg.dd + cfg.local_webfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + cfg.local_webfile_suffix
+    fwebname = fwebpath + cfg.dd + scraper.local_webfile_prefix + progressdata["thistag"]+ "_" + time.strftime("%M%S") + scraper.local_webfile_suffix
     with open(fwebname, 'a') as fweb:
       fweb.write(webfile.read())
       
-    ## provide a little feedback/update to user
-    print cfg.color.yellow
-    print "URL:\t",progressdata["nexturl"]
-    print "as:\t", fwebname
-    print cfg.color.white
+      ## provide a little feedback/update to user
+      print cfg.color.yellow
+      print "URL:\t",progressdata["nexturl"]
+      print "as:\t", fwebname
+      print cfg.color.white
     
-    #use local version so later can be supplied a pipeline of data files
-    with open(fwebname, "r") as jsonfile:
-      try:
-        jsonobj = json.load(jsonfile)
-      except:
-        print '\033[93m'
-        print "Hmm, Unable to load JSON from imgur api response."
-        print "(usually, the tag has no images. so check  the txt file above, and give it a look online.)"
-        print '\033[0m'
-        robo.goodbye()
+    #prep local version. local so later can be supplied a pipeline of data files
+    webfile_prepped = scraper.webfile_prep(fwebname)
     
     #scrape for cursor for next url and img_list
-    cursor_and_imgs = getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata)
+    cursor_and_imgs = scraper.getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata)
     
     #now process the cursor and img srcs
     progressdata["cursor"] = cursor_and_imgs[0]
@@ -142,7 +122,7 @@ def getimages_master(progressdata):
     if "url_built" in progressdata and progressdata["cursor"] == None:
         progressdata["nexturl"] = cfg.nomoreurls #done
     else:
-      progressdata = urlbuild(progressdata)
+      progressdata = scraper.urlbuild(progressdata)
       updatenextandbuilturls(progressdata) #swap in vars_dict (also for logfile later)
     
     #save image2url_list
@@ -194,94 +174,6 @@ def iscomplete(progressdata):
   return progressdata
   
 
-#################################
-def urlbuild(vars_dict):
-  robo.whereami(sys._getframe().f_code.co_name)
-  
-  thistag = vars_dict["thistag"]
-  scrapeurl_pagenum = vars_dict["scrapeurl_pagenum"]
-  url_built_ending = cfg.imgur_default_sort + cfg.dd + str(scrapeurl_pagenum)
-  
-  url_built = cfg.scrapeurl.replace("https","https:") + cfg.dd + thistag + cfg.dd + url_built_ending
-  vars_dict["scrapeurl_pagenum"] += 1
-  
-  vars_dict["url_built"] = url_built
-  return vars_dict
-
-
-#################################
-def getnexturl(vars_dict):
-  
-  robo.whereami(sys._getframe().f_code.co_name)
-
-  with open(vars_dict["localurlfile"], "rU") as f:
-    urls_list = [line for line in f]
-    
-  #should have format like: https://api.imgur.com/3/gallery/t/robot/time/3
-  # get/increment number at end, and update scrapeurl_pagenum
-  nexturl_raw= urls_list[ (len(urls_list)-1)]
-  nexturl_parts = nexturl_raw.replace("\n","").split("/")
-  nexturl_increment = nexturl_parts[-1] 
-  nexturl_increment_added = str(int(nexturl_increment)+1)
-  nexturl_ending = cfg.imgur_default_sort + cfg.dd + nexturl_increment_added
-  nexturl = cfg.scrapeurl.replace("https","https:") + cfg.dd + vars_dict["thistag"] + cfg.dd + nexturl_ending
-  vars_dict["nexturl"]  = nexturl
-  vars_dict["scrapeurl_pagenum"]  = int(nexturl_increment_added)
-  
-  if nexturl == cfg.nomoreurls: iscomplete(progressdata)
-  
-  return vars_dict
-
-
-#################################
-def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
-  robo.whereami(sys._getframe().f_code.co_name)
-
-  imgsrc_list = []
-  img2url_dict = {}
-  ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite
-  ## going with this always exists/true for now	
-  cursor = 1
-  
-  #build a list of images for de-dupe. with a refactor, i would make a single list of 
-  # imgnum_needed urls and pass that to a download module... for now i ll check the logfile
-  imgs_existing = []
-  img2url_filename = progressdata["img2url_file"]
-  if img2url_filename:
-    print "DLed imgs list", img2url_filename
-    if os.path.exists(img2url_filename):
-      img2url_contents = open(img2url_filename, "r").read().split("\n")
-      for i in img2url_contents:
-        imgs_existing.append(i.split(",")[0])
-  else:
-    print "no img2url_filename"
-  
-  print "DLed imgs count:", len(imgs_existing)
-  
-  #get images from imgur api json response
-  imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
-  for img in imgs_in_json:
-    if len(imgsrc_list) < imgnum_needed:
-      imgdlfile_url = cfg.imgdlfile_url_prefix.replace("https","https:")+img[0]+cfg.imgdlfile_url_suffix
-      if imgdlfile_url not in imgs_existing: #prevent dupes
-        imgsrc_list.append(imgdlfile_url)
-  
-  for imgurl in imgsrc_list:
-    img2url_dict[imgurl] = [imgurl]    
-      
-  
-  cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
-  
-  if len(imgsrc_list) < 1:
-    print cfg.color.yellow
-    print "================================="
-    print "       ***** WARNING *****"
-    print "   no JPG images found online! "
-    print "================================="
-    print cfg.color.white
-
-
-  return cursor_and_imgs
   
 
 #################################
@@ -809,7 +701,7 @@ def buildimg2url_file(progressdata):
   img2url_file = progressdata["img2url_file"]
   thisdict = progressdata["img2url_dict"]
   
-  #sort dict by... imgnum/incremented num? creation date?
+  #sort dict by modified
   modtime_list = []
   for k,v in thisdict.items():
     mod_tuple = ()
@@ -818,7 +710,7 @@ def buildimg2url_file(progressdata):
     modtime_list.append(mod_tuple)
   modtime_list_sorted = sorted(modtime_list, key=lambda x: x[3])
 
-  #write log file (not use createfilefromdict because v[0] and v[1] is different
+  #write log file (not use robo.createfilefromdict() because v[0] and v[1] different
   try:
     if len(modtime_list_sorted) > 0:
       with open(img2url_file, 'a') as f_img2url:
@@ -914,7 +806,7 @@ def setup_args_vars_dirs(args, preflight_dict):
   robo.findormakedir(cfg.path_to_trainingimgs + cfg.dd + basetag)   	  
 
   # add it all to a dict(s) for convenience, even if some duplimadupitercation
-  primevars_dict["scrapeurl_pagenum"] = cfg.scrapeurl_pagenum
+  primevars_dict["scrapeurl_pagenum"] = scraper.scrapeurl_pagenum
   primevars_dict["time_start"] = time.strftime("%H%M%S")
   primevars_dict["imgnum_max"] = imgnum_maxTHIScycle
   primevars_dict["basetag"] = basetag
@@ -1306,7 +1198,7 @@ def main(args):
   localurlfile = vars_dict["localurlfile"]
   with open(localurlfile, "a") as fmake:
     if os.stat(localurlfile).st_size == 0:
-  	  urlbuild(vars_dict)
+  	  scraper.urlbuild(vars_dict)
   	  fmake.write(vars_dict["url_built"]+"\n")
     else:
       #exists, so add nothing for now...
