@@ -219,29 +219,6 @@ def sendsms(sendmsg):
   return status                    
 
 
-##################################	
-def imgurapi_clientid_confirm():
-  whereami(sys._getframe().f_code.co_name)
-  
-  try:
-    imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')
-    return imgur_client_id
-    
-  except:
-    print cfg.color.yellow + '''
-Slowwww down -- no Imgur API Client-ID in environment variables.
-(and thus, no ability to download images from imgur.com...) 
-Set yourself up at: 
-\thttps://apidocs.imgur.com/
-take 10 seconds to add it to your environment (on mac) at:
-\thttp://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/
-'''
-    print cfg.color.white 
-    goodbye() 
-  
-  sys.exit(1) # for safety
-    
-
 
 
 ##################################	

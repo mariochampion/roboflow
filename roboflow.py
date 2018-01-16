@@ -44,7 +44,10 @@ import robo_support as robo
 import robo_tfclassifier as roboclass
 import robo_tfretrain as roboretrain
 import robo_help as help
-
+#decide on scrapesite
+scrapesite = cfg.scrapesite_default
+if scrapesite == "imgurapi": import robo_scraper_imgur as scraper
+elif scrapesite == "webstagram": import robo_scraper_webstagram as scraper
 
 ##################################	  
 ###  hey, have some functions  ###	  
@@ -94,7 +97,7 @@ def getimages_master(progressdata):
     webfile = None #clear it up for recursive runs
     print "API for:", progressdata["nexturl"]    
     req = Request(progressdata["nexturl"])
-    req.add_header('Authorization', robo.imgurapi_clientid_confirm())
+    req.add_header('Authorization', scraper.imgurapi_clientid_confirm())
     
     try:
       webfile = urlopen(req)
@@ -259,9 +262,9 @@ def getcursorandimgsrcs(jsonobj, imgnum_needed, progressdata):
   imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(jsonobj))
   for img in imgs_in_json:
     if len(imgsrc_list) < imgnum_needed:
-      imgjson_url = cfg.imgur_prefix.replace("https","https:")+img[0]+cfg.imgur_suffix
-      if imgjson_url not in imgs_existing: #prevent dupes
-        imgsrc_list.append(imgjson_url)
+      imgdlfile_url = cfg.imgdlfile_url_prefix.replace("https","https:")+img[0]+cfg.imgdlfile_url_suffix
+      if imgdlfile_url not in imgs_existing: #prevent dupes
+        imgsrc_list.append(imgdlfile_url)
   
   for imgurl in imgsrc_list:
     img2url_dict[imgurl] = [imgurl]    
@@ -1006,9 +1009,10 @@ def preflightchecks(args):
   robo.whereami(sys._getframe().f_code.co_name)
   
   preflight_dict = {}
-  
-  preflight_dict["imgur_client_id"] = robo.imgurapi_clientid_confirm()
-  
+
+  #if scrapesite == "imgur":
+    #preflight_dict["imgur_client_id"] = scraper.imgurapi_clientid_confirm()
+
   # check for REQD dirs - train_photos, test_photos, training_summs
   for setupdir in cfg.paths_to_reqddirs_list:
     robo.findormakedir(setupdir)
