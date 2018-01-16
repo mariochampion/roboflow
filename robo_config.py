@@ -56,10 +56,9 @@ imgur_jsonfile_prefix = "__imgurJSON_"
 imgur_jsonfile_suffix = ".txt" # sep name for max flex of diff later needs
 
 # destinations and some defaults
-imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')
 imgur_default_sort = "time"
 scrapeurl = "https//api.imgur.com/3/gallery/t"
-scrapeurl_pagenum = 0
+scrapeurl_pagenum = 0 #starting num
 #scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
 #scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
 labels_file = "retrained_labels.txt"
