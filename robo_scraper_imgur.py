@@ -47,15 +47,21 @@ scrapeurl_pagenum = 0 #starting num
 ###  hey, have some functions  ###	  
 ##################################
 
+
+##################################
+def functionsloaded():
+  robo.whereami(sys._getframe().f_code.co_name)
+  print cfg.color.yellow + "IMGUR FUNCTIONS LOADING..."
+  print cfg.color.white
+  return
+
+
 ##################################	
 def imgurapi_clientid_confirm():
   robo.whereami(sys._getframe().f_code.co_name)
   
   try:
     imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')
-    print cfg.color.yellow + "IMGUR API 'Client-ID' LOADED"
-    print cfg.color.white
-    
     return imgur_client_id
     
   except:

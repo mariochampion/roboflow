@@ -43,19 +43,17 @@ scrapeurl_pagenum = None
 
 
 
-print cfg.color.green
-print "+++++++++++++++++++++++++++++++++++++"
-print "     WEBSTAGRAM FUNCTIONS LOADED"
-print "+++++++++++++++++++++++++++++++++++++"
-print cfg.color.white
-
-
-
-
 ##################################	  
 ###  hey, have some functions  ###	  
 ##################################
 
+##################################
+def functionsloaded():
+  robo.whereami(sys._getframe().f_code.co_name)
+  print cfg.color.yellow + "WEBSTAGRAM FUNCTIONS LOADING..."
+  print cfg.color.white
+  return
+  
 #################################
 def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   robo.whereami(sys._getframe().f_code.co_name)
@@ -112,10 +110,10 @@ def urlbuild(vars_dict):
   
   thistag = vars_dict["thistag"]
   scrapeurl_pagenum = vars_dict["scrapeurl_pagenum"]
-  url_built_ending = scrape_sort + cfg.dd + str(scrapeurl_pagenum)
+  #url_built_ending = scrape_sort + cfg.dd + str(scrapeurl_pagenum)
   
-  url_built = scrapeurl.replace("https","https:") + cfg.dd + thistag + cfg.dd + url_built_ending
-  vars_dict["scrapeurl_pagenum"] += 1
+  url_built = scrapeurl.replace("https","https:") + cfg.dd + thistag
+  #vars_dict["scrapeurl_pagenum"] += 1
   
   vars_dict["url_built"] = url_built
   return vars_dict
@@ -126,18 +124,14 @@ def urlbuild(vars_dict):
 def getwebfile(webfileurl):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  print "API for:", webfileurl
-  imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')    
-  req = Request(webfileurl)
-  req.add_header('Authorization', imgur_client_id)
-    
+  print "get data from:", webfileurl
+
   try:
-    webfile = urlopen(req)
+    webfile = urlopen(webfileurl)
     return webfile
   except:
     print cfg.color.red
-    print "doh, probably 'urllib2.HTTPError: HTTP Error 500: Internal Server Error'"
-    print "(something wrong with imgur API. happens all the time. try again in a min.)"
+    print "doh, didnt get file...(todo:better msgs. ha!)"
     print cfg.color.white
     robo.goodbye()
     
@@ -149,16 +143,15 @@ def getwebfile(webfileurl):
 def webfile_prep(fwebname):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  with open(fwebname, "r") as webfile_local:
-    try:
-      webfile_prepped = json.load(webfile_local)
-      return webfile_prepped
-    except:
-      print cfg.color.yellow
-      print "Hmm, Unable to load JSON from IMGUR API response."
-      print "(usually, the tag has no images. so check  the txt file above, and give it a look online.)"
-      print cfg.color.white
-      robo.goodbye()
+  try:
+    webfile_prepped = open(fwebname, "r")
+    return webfile_prepped
+  except:
+    print cfg.color.yellow
+    print "Hmm, Unable to load WEBSTAGRAM response: "+fwebname
+    print "(usually, the tag has no images. so check the txt file, and also give it a look online.)"
+    print cfg.color.white
+    robo.goodbye()
 
   sys.exit(1) #shouldnt get here, but for safety 
 
@@ -171,18 +164,15 @@ def getnexturl(vars_dict):
   with open(vars_dict["localurlfile"], "rU") as f:
     urls_list = [line for line in f]
     
-  #should have format like: https://api.imgur.com/3/gallery/t/robot/time/3
-  # get/increment number at end, and update scrapeurl_pagenum
   nexturl_raw= urls_list[ (len(urls_list)-1)]
-  nexturl_parts = nexturl_raw.replace("\n","").split("/")
-  nexturl_increment = nexturl_parts[-1] 
-  nexturl_increment_added = str(int(nexturl_increment)+1)
-  nexturl_ending = scrape_sort + cfg.dd + nexturl_increment_added
-  nexturl = scrapeurl.replace("https","https:") + cfg.dd + vars_dict["thistag"] + cfg.dd + nexturl_ending
+  nexturl = nexturl_raw.replace("\n","")
+  print "nexturl "+ nexturl
   vars_dict["nexturl"]  = nexturl
-  vars_dict["scrapeurl_pagenum"]  = int(nexturl_increment_added)
-  
+
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
+  
+  for k,v in vars_dict.items():
+    print k,":",v
   
   return vars_dict
 
