@@ -24,7 +24,6 @@ Also, OPTIONAL txt msg notifications require twilio account setup with credit ca
 ## ===================================================================
 
 
-
 import os, time
 
 #roboflow files and two core functions
@@ -33,9 +32,9 @@ retrain_script = "robo_tftrain.py"
 classifying_script = "robo_tfclassifier.py"
 config_script = "robo_config.py"
 show_whereami = True # if True, prints '---functionname---' to help trace app flow
-
-# details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
 twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
+# details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
+
 
 # dynamically created files, etc
 urlfile_prefix = "_urls_"
@@ -50,6 +49,7 @@ harvested_basename = "harvested_"
 harvested_suffix = ".txt" # sep name for max flex of diff later needs
 unsorted_name = "unsorted_"
 sorted_name = "sorted_"
+
 
 # scrapesite_default can be "imgurapi" (requires you get API KEY from https://apidocs.imgur.com/) 
 # or "webstagram" which can be done anonymously
@@ -121,9 +121,11 @@ finalwords_list.append("exiting...")
 finalwords_list.append("bye bye for now.")
 finalwords_list.append("ok good bye i love you.")
 
+
 # pinched from https://github.com/impshum/Multi-Quote/blob/master/run.py
 class color:
     white, red, green, yellow = '\033[0m', '\033[91m','\033[92m','\033[93m'
+
 
 # sms/txt msg variables
 sms_minsecstonotify = 60 # to be notified, downloading must run at least this many seconds.
