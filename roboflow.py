@@ -89,7 +89,7 @@ def getimages_master(progressdata):
   #now build some urls and download files -- IF imgnum_have<imgnum_max
   imgnum_needed = int(progressdata["imgnum_max"]) - int(progressdata["imgnum_dled_thiscycle"])
   if imgnum_needed < 0: imgnum_needed = 0 # in case gets out of whack
-  print "/nimgnum_needed:",imgnum_needed,"/n"
+  print "\nimgnum_needed:",imgnum_needed,"\n"
   
   #master delegations
   if imgnum_needed > 0:
@@ -1155,6 +1155,7 @@ def main(args):
   robo.whereami(sys._getframe().f_code.co_name) #global show/dont show in config file
 
   print robo.greeting_big()
+  scraper.imgurapi_clientid_confirm()
   
   #if some params present
   if len(args) > 0:

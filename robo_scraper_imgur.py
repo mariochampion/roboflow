@@ -30,12 +30,6 @@ import robo_config as cfg
 import robo_support as robo 
 
 
-print cfg.color.yellow
-print "+++++++++++++++++++++++++++++++++++++++++++"
-print "     IMGUR API FUNCTIONS & VARS LOADED"
-print "+++++++++++++++++++++++++++++++++++++++++++"
-print cfg.color.white
-
 # SPECIFIC 'GLOBAL' VARS FOR THIS SCRAPER
 scrapeurl = "https//api.imgur.com/3/gallery/t"
 imgdlfile_url_prefix = "https//i.imgur.com/"
@@ -46,13 +40,9 @@ scrape_sort = "time"
 scrapeurl_pagenum = 0 #starting num
 
 
-
-
-
 ##################################	  
 ###  hey, have some functions  ###	  
 ##################################
-
 
 ##################################	
 def imgurapi_clientid_confirm():
@@ -60,19 +50,25 @@ def imgurapi_clientid_confirm():
   
   try:
     imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')
+    print cfg.color.yellow + '''
++++++++++++++++++++++++++++++++++++++++++++
+\tIMGUR API 'Client-ID' LOADED
++++++++++++++++++++++++++++++++++++++++++++'''
+    print cfg.color.white
+    
     return imgur_client_id
     
   except:
-    print cfg.color.yellow + '''
-Slowwww down -- no Imgur API Client-ID in environment variables.
-(and thus, no ability to download images from imgur.com...) 
-Set yourself up at: 
+    print cfg.color.red + '''
+Whelp! no Imgur API Client-ID found in environment variables.
+(and thus, no ability to download images from imgur.com...) '''
+    print cfg.color.white  + '''
+Change 'scrapesite_default' in config file, or 
+Set yourself up an API key at: 
 \thttps://apidocs.imgur.com/
-take 10 seconds to add it to your environment (on mac) at:
-\thttp://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/
-'''
-    print cfg.color.white 
-    goodbye() 
+then take 10 seconds to add it to your environment (on mac) at:
+\thttp://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/'''
+    robo.goodbye() 
   
   sys.exit(1) # for safety
    
@@ -153,9 +149,10 @@ def urlbuild(vars_dict):
 def getwebfile(webfileurl):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  print "API for:", webfileurl    
+  print "API for:", webfileurl
+  imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')    
   req = Request(webfileurl)
-  req.add_header('Authorization', imgurapi_clientid_confirm())
+  req.add_header('Authorization', imgur_client_id)
     
   try:
     webfile = urlopen(req)
