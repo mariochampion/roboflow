@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 '''
 robo_scraper_imgur contains the IMGUR API specific versions of the scraping functions:
--getimagesmaster()
--getnexturl()
--getcursorandimgsrcs()
+- getimagesmaster()
+- getnexturl()
+- getcursorandimgsrcs()
+- urlbuild()
+- webfileprep()
+
 
 '''
 ## ===================================================================
@@ -90,18 +93,8 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   
   #build a list of images for de-dupe. with a refactor, i would make a single list of 
   # imgnum_needed urls and pass that to a download module... for now i ll check the logfile
-  imgs_existing = []
-  img2url_filename = progressdata["img2url_file"]
-  if img2url_filename:
-    print "DLed imgs list", img2url_filename
-    if os.path.exists(img2url_filename):
-      img2url_contents = open(img2url_filename, "r").read().split("\n")
-      for i in img2url_contents:
-        imgs_existing.append(i.split(",")[0])
-  else:
-    print "no img2url_filename"
+  imgs_existing = robo.imgs_existing_build(progressdata["img2url_file"])
   
-  print "DLed imgs count:", len(imgs_existing)
   
   #get images from imgur api json response
   imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(webfile_prepped))

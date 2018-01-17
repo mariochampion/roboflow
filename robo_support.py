@@ -198,6 +198,27 @@ def makelocalofwebfile(webfile, progressdata):
   return webfile_local
 
 
+
+##################################
+def imgs_existing_build(img2url_filename):
+  whereami(sys._getframe().f_code.co_name)
+  
+  imgs_existing = []
+  if img2url_filename:
+    print "DLed imgs list", img2url_filename
+    if os.path.exists(img2url_filename):
+      img2url_contents = open(img2url_filename, "r").read().split("\n")
+      for i in img2url_contents:
+        imgs_existing.append(i.split(",")[0])
+  else:
+    print "no img2url_filename"
+  
+  print "DLed imgs count:", len(imgs_existing)
+  
+  
+  return imgs_existing
+
+
 ##################################
 def getimagelist_fromdir(thisdir):
   whereami(sys._getframe().f_code.co_name)
