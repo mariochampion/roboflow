@@ -51,20 +51,9 @@ harvested_suffix = ".txt" # sep name for max flex of diff later needs
 unsorted_name = "unsorted_"
 sorted_name = "sorted_"
 
-#scraped url infos, regexes, etc
-scrapesite_default = "imgurapi" # can be "imgurapi" "webstagram"
-'''
-imgdlfile_url_prefix = "https//i.imgur.com/"
-imgdlfile_url_suffix = ".jpg"
-local_webfile_prefix = "__imgurJSON_"
-local_webfile_suffix = ".txt" # sep name for max flex of diff later needs
-imgur_default_sort = "time"
-scrapeurl = "https//api.imgur.com/3/gallery/t"
-scrapeurl_pagenum = 0 #starting num
-'''
-
-
-#scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
+# scrapesite_default can be "imgurapi" (requires you get API KEY from https://apidocs.imgur.com/) 
+# or "webstagram" which can be done anonymously
+scrapesite_default = "imgurapi" # or "webstagram"
 
 
 # destinations and some defaults
