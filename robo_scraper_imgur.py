@@ -118,11 +118,11 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
-    print cfg.color.yellow
-    print "================================="
-    print "       ***** WARNING *****"
-    print "   no JPG images found online! "
-    print "================================="
+    print cfg.color.yellow + '''
+=================================
+       ***** WARNING *****
+   no JPG images found online! 
+================================='''
     print cfg.color.white
 
 
