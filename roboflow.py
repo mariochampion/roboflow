@@ -1155,7 +1155,7 @@ def main(args):
   robo.whereami(sys._getframe().f_code.co_name) #global show/dont show in config file
 
   print robo.greeting_big()
-  scraper.imgurapi_clientid_confirm()
+  if scrapesite == "imgurapi": scraper.imgurapi_clientid_confirm()
   
   #if some params present
   if len(args) > 0:

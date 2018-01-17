@@ -85,7 +85,7 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
       if len(imgsrc_list) < imgnum_needed:
         imgdlfile_url = rawimg.replace('addthis:media="', '')
         if imgdlfile_url not in imgs_existing: #prevent dupes
-        imgsrc_list.append(imgdlfile_url)
+          imgsrc_list.append(imgdlfile_url)
         
         if url_match:
           rawurl = url_match.group()
@@ -95,64 +95,15 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
-    print "================================="
-    print "       ***** WARNING *****"
-    print "     no images found online! "
-    print "================================="
-    
-  return cursor_and_imgs
-  
-
-
-#################################
-def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
-  robo.whereami(sys._getframe().f_code.co_name)
-
-  imgsrc_list = []
-  img2url_dict = {}
-  ## WHELP... cursor is used to check if no mo data, but for imgurapi rewrite
-  ## going with this always exists/true for now	
-  cursor = 1
-  
-  #build a list of images for de-dupe. with a refactor, i would make a single list of 
-  # imgnum_needed urls and pass that to a download module... for now i ll check the logfile
-  imgs_existing = []
-  img2url_filename = progressdata["img2url_file"]
-  if img2url_filename:
-    print "DLed imgs list", img2url_filename
-    if os.path.exists(img2url_filename):
-      img2url_contents = open(img2url_filename, "r").read().split("\n")
-      for i in img2url_contents:
-        imgs_existing.append(i.split(",")[0])
-  else:
-    print "no img2url_filename"
-  
-  print "DLed imgs count:", len(imgs_existing)
-  
-  #get images from imgur api json response
-  imgs_in_json = re.findall(r'i.imgur.com/(.{7})(.jpg)', str(webfile_prepped))
-  for img in imgs_in_json:
-    if len(imgsrc_list) < imgnum_needed:
-      imgdlfile_url = imgdlfile_url_prefix.replace("https","https:") + img[0] + imgdlfile_url_suffix
-      if imgdlfile_url not in imgs_existing: #prevent dupes
-        imgsrc_list.append(imgdlfile_url)
-  
-  for imgurl in imgsrc_list:
-    img2url_dict[imgurl] = [imgurl]    
-      
-  
-  cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
-  
-  if len(imgsrc_list) < 1:
     print cfg.color.yellow + '''
 =================================
        ***** WARNING *****
    no JPG images found online! 
 ================================='''
     print cfg.color.white
-
-
+    
   return cursor_and_imgs
+  
 
 
 #################################
