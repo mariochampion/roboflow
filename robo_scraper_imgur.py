@@ -40,8 +40,8 @@ print cfg.color.white
 scrapeurl = "https//api.imgur.com/3/gallery/t"
 imgdlfile_url_prefix = "https//i.imgur.com/"
 imgdlfile_url_suffix = ".jpg"
-local_webfile_prefix = "__imgurJSON_"
-local_webfile_suffix = ".txt" # sep name for max flex of diff later needs
+scrapefile_prefix = "__imgurJSON_"
+scrapefile_suffix = ".txt" # sep name for max flex of diff later needs
 scrape_sort = "time"
 scrapeurl_pagenum = 0 #starting num
 
@@ -211,4 +211,13 @@ def getnexturl(vars_dict):
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
   
   return vars_dict
+
+
+
+
+
+
+
+
+
 

@@ -26,7 +26,7 @@ Details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-us
 
 
 
-import os, sys, random
+import os, sys, random, time
 from glob import glob1
 #import roboflow specific stuff
 import robo_config as cfg
@@ -174,6 +174,28 @@ def createfilefromdict(path_to_file, thisdict):
   print #just a line for readability
   return status
 
+
+#################################	 
+def makelocalofwebfile(webfile, progressdata):
+  whereami(sys._getframe().f_code.co_name)
+  
+  basetag = progressdata["basetag"]
+  thistag = progressdata["thistag"]
+  scrapefile_prefix = progressdata["scrapefile_prefix"]
+  scrapefile_suffix = progressdata["scrapefile_suffix"]
+  
+  fwebpath = cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + cfg.unsorted_name + thistag
+  webfile_local = fwebpath + cfg.dd + scrapefile_prefix + thistag + "_" + time.strftime("%M%S") + scrapefile_suffix
+  with open(webfile_local, 'a') as fweb:
+    fweb.write(webfile.read())
+      
+    ## provide a little feedback/update to user
+    print cfg.color.yellow
+    print "URL:\t",progressdata["nexturl"]
+    print "as:\t", webfile_local
+    print cfg.color.white
+    
+  return webfile_local
 
 
 ##################################
