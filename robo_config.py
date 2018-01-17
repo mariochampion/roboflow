@@ -31,10 +31,14 @@ download_script = "roboflow.py"
 retrain_script = "robo_tftrain.py"
 classifying_script = "robo_tfclassifier.py"
 config_script = "robo_config.py"
-show_whereami = True # if True, prints '---functionname---' to help trace app flow
+show_whereami = False # if True, prints '---functionname---' to help trace app flow
 twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
 # details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
 
+## scrapesite_default can be:
+# "imgurapi" (requires you get API KEY from https://apidocs.imgur.com/) 
+# "webstagram" (which can be used anonymously)
+scrapesite_default = "imgurapi"
 
 # dynamically created files, etc
 urlfile_prefix = "_urls_"
@@ -49,11 +53,6 @@ harvested_basename = "harvested_"
 harvested_suffix = ".txt" # sep name for max flex of diff later needs
 unsorted_name = "unsorted_"
 sorted_name = "sorted_"
-
-
-# scrapesite_default can be "imgurapi" (requires you get API KEY from https://apidocs.imgur.com/) 
-# or "webstagram" which can be done anonymously
-scrapesite_default = "imgurapi" # or "webstagram"
 
 
 # destinations and some defaults

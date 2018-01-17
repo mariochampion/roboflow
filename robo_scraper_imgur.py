@@ -53,10 +53,7 @@ def imgurapi_clientid_confirm():
   
   try:
     imgur_client_id = 'Client-ID '+os.environ.get('IMGURAPI_ID')
-    print cfg.color.yellow + '''
-+++++++++++++++++++++++++++++++++++++++++++
-\tIMGUR API 'Client-ID' LOADED
-+++++++++++++++++++++++++++++++++++++++++++'''
+    print cfg.color.yellow + "IMGUR API 'Client-ID' LOADED"
     print cfg.color.white
     
     return imgur_client_id
@@ -66,11 +63,11 @@ def imgurapi_clientid_confirm():
 Whelp! no Imgur API Client-ID found in environment variables.
 (and thus, no ability to download images from imgur.com...) '''
     print cfg.color.white  + '''
-Change 'scrapesite_default' in config file, or 
-Set yourself up an API key at: 
-\thttps://apidocs.imgur.com/
-then take 10 seconds to add it to your environment (on mac) at:
-\thttp://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/'''
+SOLUTIONS:
+1. Change 'scrapesite_default' in config file, or 
+2. Set yourself up an API key at: https://apidocs.imgur.com/
+   then take 10 seconds to add it to your environment (on mac) at:
+   http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/'''
     robo.goodbye() 
   
   sys.exit(1) # for safety
