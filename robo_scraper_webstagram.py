@@ -81,11 +81,11 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
       print "imgdlfile_url", imgdlfile_url
       imgdlfile_url_txt = urlopen(imgdlfile_url)
       rawimg_url_big = re.findall( r'(.+)img-fluid', imgdlfile_url_txt.read() )
-      print "rawimg_url_big", len(rawimg_url_big)
-      print rawimg_url_big
+      #print "rawimg_url_big", len(rawimg_url_big)
+      #print rawimg_url_big
       try:
         rawimg_url = rawimg_url_big[0].split('"')[1]
-        print "rawimg_url", rawimg_url
+        #print "rawimg_url", rawimg_url
         if rawimg_url not in imgs_existing: #prevent dupes
           imgsrc_list.append(rawimg_url)
       except:
