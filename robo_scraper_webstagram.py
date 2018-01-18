@@ -28,7 +28,6 @@ robo_scraper_webstagram contains the WEBSTAGRAM specific versions of the scrapin
 
 import os, sys, re, json
 from urllib2 import Request, urlopen
-from urllib import urlopen as urlopen_alt
 import robo_config as cfg
 import robo_support as robo 
 
