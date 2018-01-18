@@ -101,7 +101,7 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
         except:
           pass #regex issue, skip it
       except:
-        print cfg.color.magenta + "failed: urlopen("+imgdlfile_url+"). moving on"+ cfg.color.white
+        print cfg.color.magenta + "FAILED: urlopen("+imgdlfile_url+"). moving on"+ cfg.color.white
   
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
@@ -144,7 +144,8 @@ def getwebfile(webfileurl):
     return webfile
   except:
     print cfg.color.magenta
-    print "doh, didnt get file! usually this is random. good next steps:"
+    print "doh, didnt get file from "+webfileurl+"!"
+    print "usually this is random. good next steps:"
     print "1. maybe check the url in a browser or\n2. wait like 15 seconds and try again."
     print cfg.color.white
     robo.goodbye()
