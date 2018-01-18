@@ -36,7 +36,7 @@ import robo_support as robo
 scrapeurl = "https//api.imgur.com/3/gallery/t"
 imgdlfile_url_prefix = "https//i.imgur.com/"
 imgdlfile_url_suffix = ".jpg"
-scrapefile_prefix = "__imgurJSON_"
+scrapefile_prefix = "__imgur_"
 scrapefile_suffix = ".txt" # sep name for max flex of diff later needs
 scrape_sort = "time"
 scrapeurl_pagenum = 0 #starting num

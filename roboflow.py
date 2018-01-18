@@ -784,7 +784,7 @@ def setup_args_vars_dirs(args, preflight_dict):
   #then build up the structure
   localdir = cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + cfg.unsorted_name+thistag
   imagedir = cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + cfg.unsorted_name+thistag + cfg.dd + thistag  	
-  localurlfile = localdir + cfg.dd + cfg.urlfile_prefix + thistag + cfg.urlfile_suffix
+  localurlfile = localdir + cfg.dd + cfg.urlfile_prefix +scraper.scrapefile_prefix+ thistag + cfg.urlfile_suffix
   robo.findormakedir(cfg.path_to_testimgs)
   robo.findormakedir(localdir) #stores log files and imagedir
   robo.findormakedir(imagedir) #stores UNSORTED downloaded images
@@ -1212,7 +1212,7 @@ def main(args):
     progressdata["time_end"] = time.strftime("%H%M%S")
     progressdata["time_avg"] = (float(progressdata["time_end"])-float(progressdata["time_start"])) / float(imgnumdled)
     
-    print "iscomplete() PROGRESSDATA: "
+    print cfg.color.yellow+"\niscomplete() PROGRESSDATA: "+cfg.color.white
     for k,v in progressdata.items(): print k,":",v
     print
     
