@@ -81,32 +81,23 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
       print "imgdlfile_url", imgdlfile_url
       imgdlfile_url_txt = urlopen(imgdlfile_url)
       #print imgdlfile_url_txt.read()
-      imgdlfile_url_txt_local = fwebpath + cfg.dd + scrapefile_prefix + img_loc
+      '''imgdlfile_url_txt_local = fwebpath + cfg.dd + scrapefile_prefix + img_loc
       with open(imgdlfile_url_txt_local, 'a') as tmplocalfile:
         tmplocalfile.write(imgdlfile_url_txt.read())
         print "local file written:", scrapefile_prefix + img_loc
-      tmplocalfile.close()
-      
-      # cleanup img_in_file_toobig to get actual imgsrc
-      #img_in_file_big = img_in_file_toobig[0].split('"')[1]
-      #print "actual img", rawimg_split
-      #if imgdlfile_url not in imgs_existing: #prevent dupes
-      #  imgsrc_list.append(img_in_file_big)
-    
-  print "imgurl_list", imgurl_list
-  print "lasy local scrape", imgdlfile_url_txt_local   
-  open(imgdlfile_url_txt_local,'r')
-  for thisline in imgdlfile_url_txt_local.read():
-    print "\nthisline", thisline
-    img_match = re.search( r'\/small(.+)img-fluid', thisline )
-    if img_match:
-      rawimg_greedy = img_match.group()
-      rawimg_url = rawimg_greedy.split('"')[1]
-      print "actual img", rawimg_url
-      if rawimg_url not in imgs_existing: #prevent dupes
-        imgsrc_list.append(rawimg_url)
+      '''  
+      #imgdlfile_url_txt.seek(0)
+      rawimg_url_big = re.findall( r'(.+)img-fluid', imgdlfile_url_txt.read() )
+      print "rawimg_url_big", len(rawimg_url_big)
+      print rawimg_url_big
+      rawimg_url = rawimg_url_big[0].split('"')[1]
+      print "rawimg_url", rawimg_url
+      sys.exit(1)
+ 
 
-
+ 
+ 
+ 
   sys.exit(1)
   print "IMGSRC LIST"
   for xxx in imgsrc_list:
