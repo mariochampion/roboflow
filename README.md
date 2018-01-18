@@ -3,16 +3,14 @@
 
 
 ## Purpose & Goal
-RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from the Imgur API) and then sorted, according to a 'confidencemin' variable, into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
+RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from the Imgur API) and then sorted, according to a 'confidencemin' variable, into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers.<br>
+<b>Issues, Contributions, and Pull Requests welcomed!</b>
 
 
 ### downloads sources (imgur api or webstagram)
 as of now, choice in the config file from two useful (and randomly non-responsive sources):<br>
 Imgur API (much quicker, fewer tags, requires you get a free API key) or
 webstagram (slower, more tags, no API key required)
-
-
-Issues, Contributions, and Pull Requests welcomed!
 
 
 ### 'basetag' concept
