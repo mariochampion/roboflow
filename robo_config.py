@@ -39,7 +39,7 @@ twilio_active = False # make True if you set up a twilio acct AND want to send t
 ## scrapesite_default can be:
 # "imgurapi" (requires you get API KEY from https://apidocs.imgur.com/) 
 # "webstagram" (which can be used anonymously)
-scrapesite_default = "imgurapi"
+scrapesite_default = "webstagram"
 
 
 # dynamically created files, etc
