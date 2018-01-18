@@ -24,7 +24,6 @@ Also, OPTIONAL txt msg notifications require twilio account setup with credit ca
 ## ===================================================================
 
 
-
 import os, time
 
 #roboflow files and two core functions
@@ -32,10 +31,16 @@ download_script = "roboflow.py"
 retrain_script = "robo_tftrain.py"
 classifying_script = "robo_tfclassifier.py"
 config_script = "robo_config.py"
-show_whereami = False # if True, prints '---functionname---' to help trace app flow
 
-# details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
+show_whereami = False # if True, prints '---functionname---' to help trace app flow
 twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
+# details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
+
+## scrapesite_default can be:
+# "imgurapi" (requires you get API KEY from https://apidocs.imgur.com/) 
+# "webstagram" (which can be used anonymously)
+scrapesite_default = "webstagram"
+
 
 # dynamically created files, etc
 urlfile_prefix = "_urls_"
@@ -50,17 +55,9 @@ harvested_basename = "harvested_"
 harvested_suffix = ".txt" # sep name for max flex of diff later needs
 unsorted_name = "unsorted_"
 sorted_name = "sorted_"
-imgur_prefix = "https//i.imgur.com/"
-imgur_suffix = ".jpg"
-imgur_jsonfile_prefix = "__imgurJSON_"
-imgur_jsonfile_suffix = ".txt" # sep name for max flex of diff later needs
+
 
 # destinations and some defaults
-imgur_default_sort = "time"
-scrapeurl = "https//api.imgur.com/3/gallery/t"
-scrapeurl_pagenum = 0 #starting num
-#scrapeurl = "https//api.imgur.com/3/gallery/search/?q="
-#scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. so added inline when used. weird, i know...
 labels_file = "retrained_labels.txt"
 flow_default = "classify"
 tagname_default = "robot"
@@ -125,9 +122,32 @@ finalwords_list.append("exiting...")
 finalwords_list.append("bye bye for now.")
 finalwords_list.append("ok good bye i love you.")
 
-# pinched from https://github.com/impshum/Multi-Quote/blob/master/run.py
+
+# pinched and tweaked from https://github.com/impshum/Multi-Quote/blob/master/run.py
 class color:
-    white, red, green, yellow = '\033[0m', '\033[91m','\033[92m','\033[93m'
+  white, cyan, blue, red, green, yellow, magenta, gray = '\033[0m', '\033[96m','\033[94m', '\033[91m','\033[92m','\033[93m','\033[95m', '\033[90m'  
+
+# maybe add bks, bolds, etc from https://godoc.org/github.com/whitedevops/colors
+class bkcolor:
+  resetall = "\033[0m"
+  default      = "\033[49m"
+  black        = "\033[40m"
+  red          = "\033[41m"
+  green        = "\033[42m"
+  yellow       = "\033[43m"
+  blue         = "\033[44m"
+  magenta      = "\033[45m"
+  cyan         = "\033[46m"
+  lightgray    = "\033[47m"
+  darkgray     = "\033[100m"
+  lightred     = "\033[101m"
+  lightgreen   = "\033[102m"
+  lightyellow  = "\033[103m"
+  lightblue    = "\033[104m"
+  lightmagenta = "\033[105m"
+  lightcyan    = "\033[106m"
+  white        = "\033[107m"
+
 
 # sms/txt msg variables
 sms_minsecstonotify = 60 # to be notified, downloading must run at least this many seconds.
