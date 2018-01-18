@@ -5,6 +5,13 @@
 ## Purpose & Goal
 RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from the Imgur API) and then sorted, according to a 'confidencemin' variable, into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
 
+
+### downloads sources (imgur api or webstagram)
+as of now, choice in the config file from two useful (and randomly non-responsive sources):<br>
+Imgur API (much quicker, fewer tags, requires you get a free API key) or
+webstagram (slower, more tags, no API key required)
+
+
 Issues, Contributions, and Pull Requests welcomed!
 
 
@@ -38,10 +45,10 @@ alias roboflow="cd path/to/dir/roboflow/;python roboflow.py"
 * TensorFlow - learn about it: <a href="https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/">https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/</a> <br>
 install shortcut: <a href="https://github.com/googlecodelabs/tensorflow-for-poets-2">https://github.com/googlecodelabs/tensorflow-for-poets-2</a><br>
 or also at <a href="https://www.tensorflow.org/install/">https://www.tensorflow.org/install/</a>
-* Imgur API Client-ID (<a href="https://apidocs.imgur.com/">https://apidocs.imgur.com/</a>)<br>
+* Terminal/Command Line familiarity
+* <b>Optional</b>: Imgur API Client-ID (<a href="https://apidocs.imgur.com/">https://apidocs.imgur.com/</a>)<br>
  ** added to your ENVIRONMENT variables as 'IMGURAPI_ID', see config file line 59<br>
  ** <a href="http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/">http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/</a>
-* Terminal/Command Line familiarity
 * <b>Optional</b>: Tensorboard (<a href="https://github.com/tensorflow/tensorboard">https://github.com/tensorflow/tensorboard</a>)
 * <b>Optional</b>: Twilio for txt msg notifications (<a href="https://www.twilio.com/sms">https://www.twilio.com/sms</a>)
 
