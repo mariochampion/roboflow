@@ -72,42 +72,28 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   
   imgs_in_file = re.findall( r'\/p\/(.{11})', webfile_prepped.read() )
   for img_loc in imgs_in_file:
+    imgdlfile_url_a = imgdlfile_url_prefix.replace("https","https:") + img_loc
+    imgdlfile_url = imgdlfile_url_a.replace('"','')#strip trailing quotes
+    imgurl_list.append(imgdlfile_url)
+    
+    #now go to primary page to get useful sized image
     if len(imgsrc_list) < imgnum_needed:
-      imgdlfile_url_a = imgdlfile_url_prefix.replace("https","https:") + img_loc
-      imgdlfile_url = imgdlfile_url_a.replace('"','')#strip trailing quotes
-      imgurl_list.append(imgdlfile_url)
-        
-      #now go to primary page to get useful sized image
       print "imgdlfile_url", imgdlfile_url
       imgdlfile_url_txt = urlopen(imgdlfile_url)
-      #print imgdlfile_url_txt.read()
-      '''imgdlfile_url_txt_local = fwebpath + cfg.dd + scrapefile_prefix + img_loc
-      with open(imgdlfile_url_txt_local, 'a') as tmplocalfile:
-        tmplocalfile.write(imgdlfile_url_txt.read())
-        print "local file written:", scrapefile_prefix + img_loc
-      '''  
-      #imgdlfile_url_txt.seek(0)
       rawimg_url_big = re.findall( r'(.+)img-fluid', imgdlfile_url_txt.read() )
       print "rawimg_url_big", len(rawimg_url_big)
       print rawimg_url_big
-      rawimg_url = rawimg_url_big[0].split('"')[1]
-      print "rawimg_url", rawimg_url
-      sys.exit(1)
+      try:
+        rawimg_url = rawimg_url_big[0].split('"')[1]
+        print "rawimg_url", rawimg_url
+        if rawimg_url not in imgs_existing: #prevent dupes
+          imgsrc_list.append(rawimg_url)
+      except:
+        pass #regex issue, skip it
+      
  
-
- 
- 
- 
-  sys.exit(1)
-  print "IMGSRC LIST"
-  for xxx in imgsrc_list:
-    print xxx
-  
-  sys.exit(1)
-  
   for imgurl in imgsrc_list:
     img2url_dict[imgurl] = [imgurl]
-  
           
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
@@ -119,8 +105,6 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
 ================================='''
     print cfg.color.white
   
-  
-  sys.exit(1)  
   return cursor_and_imgs
   
 
