@@ -40,7 +40,7 @@ imgdlfile_url_suffix = ".jpg"
 scrapefile_prefix = "__webstagram_"
 scrapefile_suffix = ".txt" # sep name for max flex of diff later needs
 scrape_sort = None
-scrapeurl_pagenum = None
+scrapeurl_pagenum = "?cursor="
 
 
 
@@ -65,12 +65,20 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   cursor = None	
   basetag = progressdata["basetag"]
   thistag = progressdata["thistag"]
-  localfile_path = cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + cfg.unsorted_name + thistag
-  
+
   #build a list of images for de-dupe. with a refactor, i would make a single list of 
   # imgnum_needed urls and pass that to a download module... for now i ll check the logfile
   imgs_existing = robo.imgs_existing_build(progressdata["img2url_file"])
   
+  #get cursor - \/(.+)Load more
+  cursor_match = re.findall( r'(.+)Load More', webfile_prepped.read() )
+  try:
+    cursor_thegoodpart = cursor_match[0].split("?cursor=")[1]
+    cursor = cursor_thegoodpart.replace('">','')
+  except:
+    pass #regex issue
+  
+  webfile_prepped.seek(0)    
   imgs_in_file = re.findall( r'\/p\/(.{11})', webfile_prepped.read() )
   for img_loc in imgs_in_file:
     imgdlfile_url_a = imgdlfile_url_prefix.replace("https","https:") + img_loc
@@ -92,11 +100,7 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
 
       except:
         pass #regex issue, skip it
-        
-      if cfg.generate_localcopies_of_urls == True:
-        pass
-        
-        
+  
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
@@ -115,14 +119,14 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
 def urlbuild(vars_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
+  thiscursor = vars_dict["cursor"]
   thistag = vars_dict["thistag"]
-  scrapeurl_pagenum = vars_dict["scrapeurl_pagenum"]
-  #url_built_ending = scrape_sort + cfg.dd + str(scrapeurl_pagenum)
   
-  url_built = scrapeurl.replace("https","https:") + cfg.dd + thistag
-  #vars_dict["scrapeurl_pagenum"] += 1
+  if thiscursor == None: url_built = scrapeurl.replace("https","https:") + cfg.dd + thistag
+  else: url_built = scrapeurl.replace("https","https:") + cfg.dd + thistag+scrapeurl_pagenum+thiscursor
   
   vars_dict["url_built"] = url_built
+  
   return vars_dict
 
 

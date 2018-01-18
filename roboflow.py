@@ -108,12 +108,24 @@ def getimages_master(progressdata):
     #now process the cursor and img srcs
     progressdata["cursor"] = cursor_and_imgs[0]
 
-    #bulld NEXT url, already
+    #build NEXT url, already
+    print cfg.color.cyan + "-------------1 PROGRESSDATA in GETIMAGES:" + cfg.color.white
+    for k,v in progressdata.items():
+      print k," : ",v
+
     if "url_built" in progressdata and progressdata["cursor"] == None:
         progressdata["nexturl"] = cfg.nomoreurls #done
     else:
       progressdata = scraper.urlbuild(progressdata)
       updatenextandbuilturls(progressdata) #swap in vars_dict (also for logfile later)
+    
+    
+    print cfg.color.magenta + "-------------2 PROGRESSDATA in GETIMAGES:" + cfg.color.white
+    for k,v in progressdata.items():
+      print k," : ",v
+
+    
+    sys.exit(1)
     
     #save image2url_list
     img2url_dict = cursor_and_imgs[2]
@@ -797,6 +809,7 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["scrapeurl_pagenum"] = scraper.scrapeurl_pagenum
   primevars_dict["scrapefile_prefix"] = scraper.scrapefile_prefix
   primevars_dict["scrapefile_suffix"] = scraper.scrapefile_suffix
+  primevars_dict["cursor"] = None
   primevars_dict["time_start"] = time.strftime("%H%M%S")
   primevars_dict["imgnum_max"] = imgnum_maxTHIScycle
   primevars_dict["basetag"] = basetag
@@ -1228,7 +1241,7 @@ def main(args):
     print "-----------------------------------------------------------------------"
     if progressdata["imgnum_dled_thiscycle"] > 0:
       print cfg.color.green
-      print "\tWINNING! "+str(progressdata["imgnum_dled_thiscycle"])+" downloads done been downloaded to:"
+      print "\tW I N N I N G ! "+str(progressdata["imgnum_dled_thiscycle"])+" downloads done been downloaded to:"
       print "\t"+progressdata["localdir"]+""
       print '\033[0m'
     else:
