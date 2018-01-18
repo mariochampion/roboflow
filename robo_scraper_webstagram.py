@@ -65,7 +65,8 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   cursor = None	
   basetag = progressdata["basetag"]
   thistag = progressdata["thistag"]
-  fwebpath = cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + cfg.unsorted_name + thistag
+  localfile_path = cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + cfg.unsorted_name + thistag
+  
   #build a list of images for de-dupe. with a refactor, i would make a single list of 
   # imgnum_needed urls and pass that to a download module... for now i ll check the logfile
   imgs_existing = robo.imgs_existing_build(progressdata["img2url_file"])
@@ -81,20 +82,21 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
       print "imgdlfile_url", imgdlfile_url
       imgdlfile_url_txt = urlopen(imgdlfile_url)
       rawimg_url_big = re.findall( r'(.+)img-fluid', imgdlfile_url_txt.read() )
-      #print "rawimg_url_big", len(rawimg_url_big)
-      #print rawimg_url_big
       try:
         rawimg_url = rawimg_url_big[0].split('"')[1]
-        #print "rawimg_url", rawimg_url
         if rawimg_url not in imgs_existing: #prevent dupes
+          #this is rhe download list
           imgsrc_list.append(rawimg_url)
+          # this is dict for img2url logfile
+          for imgurl in imgsrc_list:img2url_dict[rawimg_url] = [imgdlfile_url]
+
       except:
         pass #regex issue, skip it
-      
- 
-  for imgurl in imgsrc_list:
-    img2url_dict[imgurl] = [imgurl]
-          
+        
+      if cfg.generate_localcopies_of_urls == True:
+        pass
+        
+        
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
