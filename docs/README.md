@@ -3,15 +3,14 @@
 
 
 ## Purpose & Goal
-RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are found, downloaded and then sorted, according to a 'confidencemin' variable, into labeled sub-directories. These images are periodically 'harvested' to retrain TensorFlow to create new classifiers. 
-
-Issues, Contributions, and Pull Requests welcomed!
+RoboFlow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. specifically, tagged images are downloaded (right now from the Imgur API) and then sorted, according to a 'confidencemin' variable, into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow to create new classifiers.<br>
+<b>Issues, Contributions, and Pull Requests welcomed!</b>
 
 ![roboflow start](http://mariochampion.com/roboflow/roboflow_cover_640.png)
 
 
-### download sources (imgur api or webstagram)
-as of now, choice in the config file from two useful (and randomly non-responsive sources):<br>
+### downloads sources (imgur api or webstagram)
+as of now, choose in the config file from two useful (and randomly non-responsive sources):<br>
 Imgur API (much quicker, fewer tags, requires you get a free API key) or
 webstagram (slower, more tags, no API key required)
 

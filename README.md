@@ -8,7 +8,7 @@ RoboFlow was created to get a better sense for TensorFlow's image classifier by 
 
 
 ### downloads sources (imgur api or webstagram)
-as of now, choice in the config file from two useful (and randomly non-responsive sources):<br>
+as of now, choose in the config file from two useful (and randomly non-responsive sources):<br>
 Imgur API (much quicker, fewer tags, requires you get a free API key) or
 webstagram (slower, more tags, no API key required)
 
