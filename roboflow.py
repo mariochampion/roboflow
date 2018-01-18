@@ -109,23 +109,11 @@ def getimages_master(progressdata):
     progressdata["cursor"] = cursor_and_imgs[0]
 
     #build NEXT url, already
-    print cfg.color.cyan + "-------------1 PROGRESSDATA in GETIMAGES:" + cfg.color.white
-    for k,v in progressdata.items():
-      print k," : ",v
-
     if "url_built" in progressdata and progressdata["cursor"] == None:
         progressdata["nexturl"] = cfg.nomoreurls #done
     else:
       progressdata = scraper.urlbuild(progressdata)
       updatenextandbuilturls(progressdata) #swap in vars_dict (also for logfile later)
-    
-    
-    print cfg.color.magenta + "-------------2 PROGRESSDATA in GETIMAGES:" + cfg.color.white
-    for k,v in progressdata.items():
-      print k," : ",v
-
-    
-    sys.exit(1)
     
     #save image2url_list
     img2url_dict = cursor_and_imgs[2]

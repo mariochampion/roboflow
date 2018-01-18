@@ -141,8 +141,9 @@ def getwebfile(webfileurl):
     webfile = urlopen(webfileurl)
     return webfile
   except:
-    print cfg.color.red
-    print "doh, didnt get file...(todo:better msgs. ha!)"
+    print cfg.color.magenta
+    print "doh, didnt get file! usually this is random. good next steps:"
+    print "1. maybe check the url in a browser or\n2. wait like 15 seconds and try again."
     print cfg.color.white
     robo.goodbye()
     

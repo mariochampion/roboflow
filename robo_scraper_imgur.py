@@ -154,7 +154,7 @@ def getwebfile(webfileurl):
     webfile = urlopen(req)
     return webfile
   except:
-    print cfg.color.red
+    print cfg.color.magenta
     print "doh, probably 'urllib2.HTTPError: HTTP Error 500: Internal Server Error'"
     print "(something wrong with imgur API. happens all the time. try again in a min.)"
     print cfg.color.white
