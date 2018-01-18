@@ -62,7 +62,6 @@ def greeting():
   
 
 def greeting_big():
-
   print cfg.color.green
   print '''
 ----------------------------------------------------------------
