@@ -29,12 +29,13 @@ robo_scraper_imgur contains the WEBSTAGRAM specific versions of the scraping fun
 
 import os, sys, re, json
 from urllib2 import Request, urlopen
+from urllib import urlopen as urlopen_alt
 import robo_config as cfg
 import robo_support as robo 
 
 # SPECIFIC 'GLOBAL' VARS FOR THIS SCRAPER
 scrapeurl = "https//web.stagram.com/tag" # no colon as it breaks this file. added JIT
-imgdlfile_url_prefix = None
+imgdlfile_url_prefix = "https//web.stagram.com/p/"
 imgdlfile_url_suffix = ".jpg"
 scrapefile_prefix = "__webstagram_"
 scrapefile_suffix = ".txt" # sep name for max flex of diff later needs
@@ -58,38 +59,65 @@ def functionsloaded():
 def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   robo.whereami(sys._getframe().f_code.co_name)
   
+  imgurl_list = [] # specific to going to big image page, not thumbnail
   imgsrc_list = []
   img2url_dict = {}
   cursor = None	
-  
+  basetag = progressdata["basetag"]
+  thistag = progressdata["thistag"]
+  fwebpath = cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + cfg.unsorted_name + thistag
   #build a list of images for de-dupe. with a refactor, i would make a single list of 
   # imgnum_needed urls and pass that to a download module... for now i ll check the logfile
   imgs_existing = robo.imgs_existing_build(progressdata["img2url_file"])
   
-  for line in webfile_prepped:
-    match = ""
-    img_match = ""
-    url_match = ""
-    match = re.search('cursor=([\S]+)"', line)
-    img_match =  re.search(r'addthis:media="(.+\.jpg)', line)
-    url_match =  re.search(r'addthis:url="(.+) addthis:media', line)
-    if match:
-      cursorz = match.group()
-      cursor = cursorz.replace('"',"") #trim off rare trailing double-quotes
-  
-    #scrape webfiles for the img srcs
+  imgs_in_file = re.findall( r'\/p\/(.{11})', webfile_prepped.read() )
+  for img_loc in imgs_in_file:
+    if len(imgsrc_list) < imgnum_needed:
+      imgdlfile_url_a = imgdlfile_url_prefix.replace("https","https:") + img_loc
+      imgdlfile_url = imgdlfile_url_a.replace('"','')#strip trailing quotes
+      imgurl_list.append(imgdlfile_url)
+        
+      #now go to primary page to get useful sized image
+      print "imgdlfile_url", imgdlfile_url
+      imgdlfile_url_txt = urlopen(imgdlfile_url)
+      #print imgdlfile_url_txt.read()
+      imgdlfile_url_txt_local = fwebpath + cfg.dd + scrapefile_prefix + img_loc
+      with open(imgdlfile_url_txt_local, 'a') as tmplocalfile:
+        tmplocalfile.write(imgdlfile_url_txt.read())
+        print "local file written:", scrapefile_prefix + img_loc
+      tmplocalfile.close()
+      
+      # cleanup img_in_file_toobig to get actual imgsrc
+      #img_in_file_big = img_in_file_toobig[0].split('"')[1]
+      #print "actual img", rawimg_split
+      #if imgdlfile_url not in imgs_existing: #prevent dupes
+      #  imgsrc_list.append(img_in_file_big)
+    
+  print "imgurl_list", imgurl_list
+  print "lasy local scrape", imgdlfile_url_txt_local   
+  open(imgdlfile_url_txt_local,'r')
+  for thisline in imgdlfile_url_txt_local.read():
+    print "\nthisline", thisline
+    img_match = re.search( r'\/small(.+)img-fluid', thisline )
     if img_match:
-      rawimg = img_match.group()
-      if len(imgsrc_list) < imgnum_needed:
-        imgdlfile_url = rawimg.replace('addthis:media="', '')
-        if imgdlfile_url not in imgs_existing: #prevent dupes
-          imgsrc_list.append(imgdlfile_url)
-        
-        if url_match:
-          rawurl = url_match.group()
-          imgmatch_url = rawurl.replace('" addthis:media', '').replace('addthis:url="', '')
-          img2url_dict[rawimg.replace('addthis:media="', '')] = [imgmatch_url]
-        
+      rawimg_greedy = img_match.group()
+      rawimg_url = rawimg_greedy.split('"')[1]
+      print "actual img", rawimg_url
+      if rawimg_url not in imgs_existing: #prevent dupes
+        imgsrc_list.append(rawimg_url)
+
+
+  sys.exit(1)
+  print "IMGSRC LIST"
+  for xxx in imgsrc_list:
+    print xxx
+  
+  sys.exit(1)
+  
+  for imgurl in imgsrc_list:
+    img2url_dict[imgurl] = [imgurl]
+  
+          
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
@@ -99,7 +127,9 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
    no JPG images found online! 
 ================================='''
     print cfg.color.white
-    
+  
+  
+  sys.exit(1)  
   return cursor_and_imgs
   
 
