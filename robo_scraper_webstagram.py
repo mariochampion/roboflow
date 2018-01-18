@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 '''
-robo_scraper_imgur contains the WEBSTAGRAM specific versions of the scraping functions:
-- getimagesmaster()
-- getnexturl()
+robo_scraper_webstagram contains the WEBSTAGRAM specific versions of the scraping functions:
 - getcursorandimgsrcs()
 - urlbuild()
+- getwebfile()
 - webfileprep()
-
+- getnexturl()
 '''
 
 ## ===================================================================
@@ -51,8 +50,7 @@ scrapeurl_pagenum = "?cursor="
 ##################################
 def functionsloaded():
   robo.whereami(sys._getframe().f_code.co_name)
-  print cfg.color.yellow + "WEBSTAGRAM FUNCTIONS LOADING..."
-  print cfg.color.white
+  print cfg.color.yellow + "WEBSTAGRAM FUNCTIONS LOADING..." + cfg.color.white
   return
   
 #################################
@@ -88,23 +86,27 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
     #now go to primary page to get useful sized image
     if len(imgsrc_list) < imgnum_needed:
       print "imgdlfile_url", imgdlfile_url
-      imgdlfile_url_txt = urlopen(imgdlfile_url)
-      rawimg_url_big = re.findall( r'(.+)img-fluid', imgdlfile_url_txt.read() )
       try:
-        rawimg_url = rawimg_url_big[0].split('"')[1]
-        if rawimg_url not in imgs_existing: #prevent dupes
-          #this is rhe download list
-          imgsrc_list.append(rawimg_url)
-          # this is dict for img2url logfile
-          for imgurl in imgsrc_list:img2url_dict[rawimg_url] = [imgdlfile_url]
-
+        imgdlfile_url_txt = urlopen(imgdlfile_url)
+        rawimg_url_big = re.findall( r'(.+)img-fluid', imgdlfile_url_txt.read() )
+        try:
+          rawimg_url = rawimg_url_big[0].split('"')[1]
+          if rawimg_url not in imgs_existing: #prevent dupes
+            #this is rhe download list
+            imgsrc_list.append(rawimg_url)
+            # this is dict for img2url logfile
+            for imgurl in imgsrc_list:img2url_dict[rawimg_url] = [imgdlfile_url]
+          else:
+            print cfg.color.magenta + "Dupe file rejected!" + cfg.color.white
+        except:
+          pass #regex issue, skip it
       except:
-        pass #regex issue, skip it
+        print cfg.color.magenta + "failed: urlopen("+imgdlfile_url+"). moving on"+ cfg.color.white
   
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
-    print cfg.color.yellow + '''
+    print cfg.color.magenta + '''
 =================================
        ***** WARNING *****
    no JPG images found online! 
@@ -159,7 +161,7 @@ def webfile_prep(fwebname):
     webfile_prepped = open(fwebname, "r")
     return webfile_prepped
   except:
-    print cfg.color.yellow
+    print cfg.color.magenta
     print "Hmm, Unable to load WEBSTAGRAM response: "+fwebname
     print "(usually, the tag has no images. so check the txt file, and also give it a look online.)"
     print cfg.color.white

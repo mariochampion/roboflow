@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 '''
 robo_scraper_imgur contains the IMGUR API specific versions of the scraping functions:
-- getimagesmaster()
-- getnexturl()
+- imgurapi_clientid_confirm()
 - getcursorandimgsrcs()
 - urlbuild()
+- getwebfile()
 - webfileprep()
-
-
+- getnexturl()
 '''
 ## ===================================================================
 ## ROBOFLOW - LICENSE AND CREDITS
@@ -51,8 +50,7 @@ scrapeurl_pagenum = 0 #starting num
 ##################################
 def functionsloaded():
   robo.whereami(sys._getframe().f_code.co_name)
-  print cfg.color.yellow + "IMGUR FUNCTIONS LOADING..."
-  print cfg.color.white
+  print cfg.color.yellow + "IMGUR FUNCTIONS LOADING..." + cfg.color.white
   return
 
 
@@ -65,7 +63,7 @@ def imgurapi_clientid_confirm():
     return imgur_client_id
     
   except:
-    print cfg.color.red + '''
+    print cfg.color.magenta + '''
 Whelp! no Imgur API Client-ID found in environment variables.
 (and thus, no ability to download images from imgur.com...) '''
     print cfg.color.white  + '''
@@ -114,7 +112,7 @@ def getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata):
   cursor_and_imgs = [cursor, imgsrc_list, img2url_dict]
   
   if len(imgsrc_list) < 1:
-    print cfg.color.yellow + '''
+    print cfg.color.magenta + '''
 =================================
        ***** WARNING *****
    no JPG images found online! 
@@ -173,7 +171,7 @@ def webfile_prep(fwebname):
       webfile_prepped = json.load(webfile_local)
       return webfile_prepped
     except:
-      print cfg.color.yellow
+      print cfg.color.magenta
       print "Hmm, Unable to load JSON from IMGUR API response."
       print "(usually, the tag has no images. so check  the txt file above, and give it a look online.)"
       print cfg.color.white
