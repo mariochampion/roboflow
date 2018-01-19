@@ -36,7 +36,7 @@ show_whereami = False # if True, prints '---functionname---' to help trace app f
 twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
 # details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
 
-## scrapesite_default can be:
+## DOWNLOAD SOURCE can be:
 # "imgurapi" (requires you get API KEY from https://apidocs.imgur.com/) 
 # "webstagram" (which can be used anonymously)
 scrapesite_default = "webstagram"

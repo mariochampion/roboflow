@@ -48,6 +48,9 @@ import robo_help as help
 scrapesite = cfg.scrapesite_default
 if scrapesite == "imgurapi": import robo_scraper_imgur as scraper
 elif scrapesite == "webstagram": import robo_scraper_webstagram as scraper
+else: 
+  scrapesite = "webstagram"
+  import robo_scraper_webstagram as scraper
 
 ##################################	  
 ###  hey, have some functions  ###	  

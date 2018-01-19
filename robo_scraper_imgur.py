@@ -50,7 +50,8 @@ scrapeurl_pagenum = 0 #starting num
 ##################################
 def functionsloaded():
   robo.whereami(sys._getframe().f_code.co_name)
-  print cfg.color.yellow + "IMGUR FUNCTIONS LOADING..." + cfg.color.white
+  print cfg.color.yellow + "DOWNLOAD SOURCE: IMGUR API" + cfg.color.white
+  print "(choose 'imgurapi' or 'webstagram' in the config file)\n"
   return
 
 

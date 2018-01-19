@@ -49,7 +49,8 @@ scrapeurl_pagenum = "?cursor="
 ##################################
 def functionsloaded():
   robo.whereami(sys._getframe().f_code.co_name)
-  print cfg.color.yellow + "WEBSTAGRAM FUNCTIONS LOADING..." + cfg.color.white
+  print cfg.color.yellow + "DOWNLOAD SOURCE: WEBSTAGRAM" + cfg.color.white
+  print "(choose 'imgurapi' or 'webstagram' in the config file)\n"
   return
   
 #################################
