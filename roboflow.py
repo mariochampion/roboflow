@@ -167,9 +167,9 @@ def updatenextandbuilturls(vars_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
   #create if not exists, open and write if it does
-  with open(vars_dict["localurlfile"], "a") as sfile:
-    # NOTE !! not nexturl - this is being written log file instead
-    sfile.write(vars_dict["url_built"]+"\n")
+  with open(vars_dict["localurlfile"], "a") as urlfile:
+    # NOTE !! not nexturl - this is being written to a log file instead
+    urlfile.write(vars_dict["url_built"]+"\n")
     
   vars_dict["nexturl"] = vars_dict["url_built"] #swap in vars_dict for sequencing reasons
   
