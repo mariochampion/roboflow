@@ -143,7 +143,10 @@ def get_imgnumcycle(thisint):
   if imgnumcycle > cfg.imgnum_maxpercycle:
     imgnumcycle = cfg.imgnum_maxpercycle
     makebeep()
-    print "WHOA! Too many images requested at once. To not hammer their server, it has been reduced to: "+str(imgnumcycle)+ " per cycle."
+    print cfg.color.magenta
+    print "WHOA! Too many images requested at once."
+    print "To not hammer their server, it has been reduced to " + cfg.color.cyan + str(imgnumcycle) + cfg.color.magenta + " per cycle.\n"
+    print cfg.color.white
     print "Press [q] to stop app, and go change 'imgnum_maxpercycle' var in "+cfg.config_script+", or"
     print "enter any other key to keep going..."
     keepgoing = raw_input()
@@ -228,7 +231,9 @@ def getimagelist_fromdir(thisdir):
       images_list.append( (os.path.join(thisdir, file)) )
   
   if len(images_list) < 1:
+    print cfg.color.magenta
     print "DOH! no '"+cfg.img_suffix+"' images to test at "+thisdir
+    print cfg.color.white
     print "maybe go check for actual images there..."
     print 
     robo.goodbye("this is how we end...")
