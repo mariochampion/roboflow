@@ -112,7 +112,7 @@ def getimages_master(progressdata):
     progressdata["cursor"] = cursor_and_imgs[0]
 
     #build NEXT url, already
-    if "url_built" in progressdata and progressdata["cursor"] == None:
+    if not progressdata["url_built"] == None and progressdata["cursor"] == None:
         progressdata["nexturl"] = cfg.nomoreurls #done
     else:
       progressdata = scraper.urlbuild(progressdata)
@@ -803,6 +803,7 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["scrapefile_prefix"] = scraper.scrapefile_prefix
   primevars_dict["scrapefile_suffix"] = scraper.scrapefile_suffix
   primevars_dict["cursor"] = None
+  primevars_dict["url_built"] = None
   primevars_dict["time_start"] = time.strftime("%H%M%S")
   primevars_dict["imgnum_max"] = imgnum_maxTHIScycle
   primevars_dict["basetag"] = basetag
@@ -1243,7 +1244,7 @@ def main(args):
     else:
       print cfg.color.magenta
       print "\tHOW 'BOUT THAT! no images available to download from:"
-      print "\t"+progressdata["url_built"]+""
+      print "\t"+str(progressdata["url_built"])+""
       print "\t(go check that url for image-having-ness is a good next step.)"
       print cfg.color.white
     print "-----------------------------------------------------------------------"
