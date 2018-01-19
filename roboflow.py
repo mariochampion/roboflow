@@ -995,12 +995,14 @@ def preflightchecks(args):
     if imagequantity > 0 :
       preflight_dict["d_c_r_flow"] = "dl_class"
     else:
+      robo.zero_dl_classify_msg()
       preflight_dict["d_c_r_flow"] = "download"
       
   if "download" and "classify" and "retrain" in preflight_dict["flowlist"]: 
     if imagequantity > 0 :
       preflight_dict["d_c_r_flow"] = "dl_class_retrain"
     else:
+      robo.zero_dl_classify_msg()
       preflight_dict["d_c_r_flow"] = "dl_retrain"
     
   if "download" and "retrain" in preflight_dict["flowlist"]:
@@ -1013,7 +1015,9 @@ def preflightchecks(args):
   if flowasinput == "classify_top" and "classify" in preflight_dict["flowlist"]: preflight_dict["d_c_r_flow"] = "dl_class_top" 
   if flowasinput == "retrain" and "retrain" in preflight_dict["flowlist"]: 
     if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_class_retrain" 
-    else: preflight_dict["d_c_r_flow"] = "dl_retrain" 
+    else: 
+      robo.zero_dl_classify_msg()
+      preflight_dict["d_c_r_flow"] = "dl_retrain"
       
   if flowasinput == "retrain_defaults" and "retrain" in preflight_dict["flowlist"]:
     if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_retrain" 
