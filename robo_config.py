@@ -32,7 +32,7 @@ retrain_script = "robo_tfretrain.py"
 classifying_script = "robo_tfclassifier.py"
 config_script = "robo_config.py"
 
-show_whereami = False # if True, prints '---functionname---' to help trace app flow
+show_whereami = True # if True, prints '---functionname---' to help trace app flow
 twilio_active = False # make True if you set up a twilio acct AND want to send txt notifs
 # details at https://www.twilio.com/blog/2016/10/how-to-send-an-sms-with-python-using-twilio.html
 
@@ -87,7 +87,7 @@ belowminlabel_dir_suffix = "_under"+conmin2
 
 
 # retrain vars
-retrain_imgcount_default = 800
+retrain_imgcount_default = 10
 retrain_model_default = inception_model
 #retrain_model_default = mobile_model
 retrain_mobile_percent_default = 1.0
