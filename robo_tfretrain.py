@@ -111,9 +111,11 @@ def retrain_tensorflow(retrain_dict):
   print "start retraining tensorflow model/graph"
   print "when it breaks, look for 'RuntimeError: Error during processing file' "
   print "retraining command:"
-  retrain_cmd_csv = ["python ../scripts/retrain.py", "--bottleneck_dir=" + cfg.path_to_bottlenecks, "--model_dir=" + cfg.path_to_trainingmodels, "--how_many_training_steps=" + steps, "--train_batch_size=" + batchsize, "--testing_percentage=" + testpercent, "--summaries_dir=" + path_to_trainingsumm_name, "--output_graph=" + path_to_output_graph, "--output_labels=" + path_to_output_labels, "--image_dir=" + path_to_trainimgs_basetag, "--architecture=" + ARCHITECTURE]
+  retrain_cmd_csv = ["python ../scripts/retrain.py", "--bottleneck_dir='" + cfg.path_to_bottlenecks+"'", "--model_dir='" + cfg.path_to_trainingmodels+"'", "--how_many_training_steps=" + steps, "--train_batch_size=" + batchsize, "--testing_percentage=" + testpercent, "--summaries_dir='" + path_to_trainingsumm_name+"'", "--output_graph='" + path_to_output_graph+"'", "--output_labels='" + path_to_output_labels+"'", "--image_dir='" + path_to_trainimgs_basetag+"'", "--architecture='" + ARCHITECTURE+"'"]
+  
   print "TYPE", type(retrain_cmd_csv)
-  print retrain_cmd_csv
+  for cmd in retrain_cmd_csv:
+    print cmd
   
   tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + basetag + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
   print "print tf_feed_file", tf_feed_file
@@ -130,7 +132,7 @@ def retrain_tensorflow(retrain_dict):
       print "3"
       for line in iter(p.stdout.readline, b''):
         print "4"
-        tf_feed.write(line)
+        #tf_feed.write(line)
     p.wait() # wait for the subprocess to exit
     
     # see need/description at this function
