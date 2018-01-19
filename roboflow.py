@@ -279,7 +279,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
   classmodeldir_choice = None
   
   if top == False:
-    print "CLASSIFY/LABEL IMAGES:"
+    print cfg.color.cyan + "CLASSIFY/LABEL IMAGES:" + cfg.color.white
     print "You can pick among your trained models to classify your downloaded images, which will be sorted"
     print "(according to the 'confidence_min' variable in the config file, currently set at "+str(cfg.confidence_min)+")"
     print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
@@ -301,7 +301,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
   
   ## for automated choice by param 'classify_top'
   if top == True:
-    print "CLASSIFY/LABEL IMAGES:"
+    print cfg.color.cyan + "CLASSIFY/LABEL IMAGES:" + cfg.color.white
     classmodeldir_choice = modeldirs_dict[topacc][0]
     print "model: ", classmodeldir_choice
     return classmodeldir_choice
@@ -355,7 +355,7 @@ def classifymodel_getlabels(path_to_models, modeldir):
 def classifymodel_noneexists(basetag, imagequantity, thistag, imgqnty_verified):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  print "PRETRAINED MODEL NEEDED TO CLASSIFY/LABEL IMAGES."
+  print cfg.color.magenta + "PRETRAINED MODEL NEEDED TO CLASSIFY/LABEL IMAGES." + cfg.color.white
   print "No classification model(s) available to label & sort images at "+cfg.path_to_trainingsumms+"/"+basetag+"."
   print "When there are (after at least one retraining), you will be guided to pick one."
   print
@@ -418,7 +418,7 @@ def retrain_dict_setup():
   retrain_dict["mobilepercent"] = None	
   
   robo.makebeep()
-  print "RETRAINING SETUP: "
+  print cfg.color.cyan + "RETRAINING SETUP: " + cfg.color.white
   print "Ok, five(5) quick options (or just hit 'enter' to use defaults)."
   print 
   print "\tNote: If you have no knowledge yet of TensorFlow parameters, give it a quick read at"
@@ -493,7 +493,7 @@ def retrain_imagesneeded(basetag, thistag):
   path_to_trainingimgs_basetag = cfg.path_to_trainingimgs + cfg.dd + basetag
   imagedir_counts = robo.getimgdirscount_dict(path_to_trainingimgs_basetag)
 
-  print "MORE IMAGES NEEDED TO RETRAIN '"+basetag+" CLASSIFER."
+  print cfg.color.magenta + "MORE IMAGES NEEDED TO RETRAIN '"+basetag+" CLASSIFER." + cfg.color.white
   print "As set in the 'retrain_imgcount_default' variable in the config file, "
   print "we need at least "+str(cfg.retrain_imgcount_default)+" images as training data per 'label' (or subdirectory)."
   print "\tCurrent number of images in:"
@@ -528,7 +528,7 @@ def retrain_imagesneeded(basetag, thistag):
 def retrain_imgmove_check(basetag):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  print "RETRAIN OPTION: HARVEST PREVIOUSLY CLASSIFIED IMAGES?"
+  print cfg.color.cyan + "RETRAIN OPTION: HARVEST PREVIOUSLY CLASSIFIED IMAGES?" + cfg.color.white
   print "Before the retraining, would you like to automagically move all the 'HIGH CONFIDENCE' images "
   print "  from: '"+cfg.path_to_testimgs+"/"+basetag+"/sorted_*/{labeled_dirs}'"
   print "  to: '"+cfg.path_to_trainingimgs+"/"+basetag+"/{labeled_dirs}'?"
@@ -536,7 +536,7 @@ def retrain_imgmove_check(basetag):
   print "  (Note: 'LOW CONFIDENCE' images will be remain at:"
   print "  '"+cfg.path_to_testimgs+"/"+basetag+"/sorted_*/label_underNN')"
   print
-  print '''IMPORTANT: If you have not manually checked at least some of these images 
+  print cfg.bkcolor.lightmagenta + " IMPORTANT: " + cfg.color.white + '''If you have not manually checked at least some of these images 
 to ensure the classifier is doing a good job, you can pollute your training data. 
 BUT, after a few rounds of retraining with re-checked sorted images, your classifier 
 will get better and better, meaning fewer images to manually re-sort.
@@ -650,7 +650,7 @@ def retrain_yes():
   robo.whereami(sys._getframe().f_code.co_name)
   
   #if verified count to retrain, but still do you want to retrain?
-  print "RETRAIN TENSORFLOW??"
+  print cfg.color.cyan + "RETRAIN TENSORFLOW??" + cfg.color.white
   print "You can do a retrain cycle after the downloading and classifying, which can take many minutes."
   print "Enter your choice:"
   print "[s] to skip retraining right now\n[h] for help\n[q] to quit\n[enter] to setup retraining"
@@ -953,7 +953,7 @@ def preflightchecks(args):
     preflight_dict["classmodel_verified"] = False
     if flowasinput == "classify":
       print "----------- NOTE ----------- "
-      print cfg.color.yellow      
+      print cfg.color.magenta      
       print "No classification model(s) available to label & sort images.\nWhen there are (after at least one retraining), you will be guided to pick one."
       print cfg.color.white
       print "For now, let us just do some downloading?"
@@ -971,8 +971,11 @@ def preflightchecks(args):
     preflight_dict["imgqnty_verified"] = False
     if flowasinput == "retrain":
       print "----------- NOTE ----------- "
+      print cfg.color.magenta
       print "We do not have the required "+str(cfg.retrain_imgcount_default)+" sorted images"
-      print "in "+cfg.path_to_trainingimgs+"/"+basetag+"/{labeled subdirs} to retrain!\n\nFor now, let us just do some downloading?"
+      print "in "+cfg.path_to_trainingimgs+"/"+basetag+"/{labeled subdirs} to retrain!\n\n"
+      print cfg.color.white
+      print "For now, let us just do some downloading?"
       justdownload_raw = raw_input("[h] for help & additional explanation\n[q] to quit\n[enter] to get to downloadin'...\n")
       if justdownload_raw == 'q': robo.goodbye()
       elif justdownload_raw == 'h': releasethehelp()
@@ -1029,7 +1032,7 @@ def preflight_setup():
       basetagdirs_dict[i] = basetagdir
       i += 1
 
-  print "ROBOFLOW SETUP:"
+  print cfg.color.cyan + "ROBOFLOW SETUP:" + cfg.color.white
   print "ok, to start we need 3 quick things:"
   print "1. a broad theme of this endeavor, aka a 'master classification tag'."
   print
@@ -1079,8 +1082,8 @@ def preflight_setup():
 def preflight_basetag():
   robo.whereami(sys._getframe().f_code.co_name)
 
-  print
-  print "MASTER CLASSIFICATION TAG ('basetag') SETUP:"
+  print 
+  print cfg.color.cyan + "MASTER CLASSIFICATION TAG ('basetag') SETUP:" + cfg.color.white
   print "because you can use this tool for multiple different classification tasks,"
   print "please enter a broad theme to call this one, like 'robots' or 'pirates' or 'birds_v2' etc."
   print "Next, under this master class you will add sub-classes, such as 'drawn, built, not' or whatever."
@@ -1169,7 +1172,7 @@ def main(args):
     try:
       int(args[1]) 
     except:
-      print "bad parameters are bad!"
+      print cfg.color.magenta + "bad parameters are bad!" + cfg.color.white
       print
       print "guided: 'python " + cfg.download_script +"'"
       print "advanced: 'python " + cfg.download_script + " robots 100 robotart download'"
@@ -1233,16 +1236,16 @@ def main(args):
       print cfg.color.green
       print "\tW I N N I N G ! "+str(progressdata["imgnum_dled_thiscycle"])+" downloads done been downloaded to:"
       print "\t"+progressdata["localdir"]+""
-      print '\033[0m'
+      print cfg.color.white
     else:
-      print cfg.color.yellow
+      print cfg.color.magenta
       print "\tHOW 'BOUT THAT! no images available to download from:"
       print "\t"+progressdata["url_built"]+""
       print "\t(go check that url for image-having-ness is a good next step.)"
-      print '\033[0m'
+      print cfg.color.white
     print "-----------------------------------------------------------------------"
     print  
-    print cfg.color.white
+    print 
     
     
     ####### THE REAL POINT OF THIS: classify or re/train
