@@ -34,8 +34,8 @@ when certain conditions are met:
 
 
 
-import os, sys, subprocess, shutil, time
-
+import os, sys, shutil, time
+from subprocess import Popen, PIPE
 #import roboflow specific stuff
 import robo_config as cfg
 import robo_support as robo 
@@ -100,24 +100,49 @@ def retrain_tensorflow(retrain_dict):
     --output_labels=" + path_to_output_labels + " \
     --image_dir=" + path_to_trainimgs_basetag + " \
     --architecture=" + ARCHITECTURE
+  
+  
+  
+  
+
     
   print 
   print "------------------------------"
   print "start retraining tensorflow model/graph"
   print "when it breaks, look for 'RuntimeError: Error during processing file' "
   print "retraining command:"
-  print retrain_command
+  retrain_cmd_csv = ["python ../scripts/retrain.py", "--bottleneck_dir=" + cfg.path_to_bottlenecks, "--model_dir=" + cfg.path_to_trainingmodels, "--how_many_training_steps=" + steps, "--train_batch_size=" + batchsize, "--testing_percentage=" + testpercent, "--summaries_dir=" + path_to_trainingsumm_name, "--output_graph=" + path_to_output_graph, "--output_labels=" + path_to_output_labels, "--image_dir=" + path_to_trainimgs_basetag, "--architecture=" + ARCHITECTURE]
+  print "TYPE", type(retrain_cmd_csv)
+  print retrain_cmd_csv
+  
+  tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + basetag + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
+  print "print tf_feed_file", tf_feed_file
+  tf_feed = open(tf_feed_file, "a")
 
-  # use the tensorflow RETRAIN script
+
+  # use the tensorflow RETRAIN script 
   try:
-    training_results = subprocess.check_output(retrain_command, shell=True)
+    ## training_results = subprocess.check_output(retrain_command, shell=True)
+    print "1"
+    p = Popen(retrain_cmd_csv, stdout=PIPE, bufsize=1, shell=True)
+    print "2"
+    with p.stdout:
+      print "3"
+      for line in iter(p.stdout.readline, b''):
+        print "4"
+        tf_feed.write(line)
+    p.wait() # wait for the subprocess to exit
+    
+    # see need/description at this function
+    add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels)
+  
   except Exception:
     ### log something or?
     ### remove specific image? regex thru output to find it-- or just skip?
-    pass
+    print cfg.bkcolor.red + "  RETRAIN ERROR! shut it down!\n\n  shut it alllll doooowwwn!" + cfg.bkcolor.resetall
+    robo.goodbye()
   
-  # see need/description at this function
-  add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels)
+  
   
   
   return training_results

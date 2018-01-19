@@ -87,14 +87,14 @@ belowminlabel_dir_suffix = "_under"+conmin2
 
 
 # retrain vars
-retrain_imgcount_default = 800
-retrain_model_default = inception_model
-#retrain_model_default = mobile_model
-retrain_mobile_percent_default = 1.0
+retrain_imgcount_default = 10
+#retrain_model_default = inception_model
+retrain_model_default = mobile_model
+retrain_mobile_percent_default = .25
 retrain_imgsize_default = 224
 retrain_label_min = 2
 retrain_steps_min = 500
-retrain_steps_default = 2600
+retrain_steps_default = 500
 retrain_testper_min = 10
 retrain_testper_default = 16
 retrain_batchsize_min = 10
