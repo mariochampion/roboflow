@@ -186,9 +186,6 @@ def getnexturl(vars_dict):
 
   if nexturl == cfg.nomoreurls: iscomplete(progressdata)
   
-  for k,v in vars_dict.items():
-    print k,":",v
-  
   return vars_dict
 
 
