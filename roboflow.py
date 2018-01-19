@@ -115,7 +115,7 @@ def getimages_master(progressdata):
       progressdata = scraper.urlbuild(progressdata)
       updatenextandbuilturls(progressdata) #swap in vars_dict (also for logfile later)
     
-    #save image2url_list
+    #save image2url_dict
     img2url_dict = cursor_and_imgs[2]
     if len(img2url_dict) > 0: progressdata["img2url_dict"] = img2url_dict
     else: progressdata["img2url_dict"] = False
