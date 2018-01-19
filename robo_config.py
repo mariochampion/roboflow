@@ -28,7 +28,7 @@ import os, time
 
 #roboflow files and two core functions
 download_script = "roboflow.py"
-retrain_script = "robo_tftrain.py"
+retrain_script = "robo_tfretrain.py"
 classifying_script = "robo_tfclassifier.py"
 config_script = "robo_config.py"
 
