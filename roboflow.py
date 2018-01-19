@@ -214,8 +214,10 @@ def imgsrc_getfiles(vars_dict, imgsrc_list):
           os.remove(imgsrc_newimgpath) # if didnt work, so delete
       except Exception as xept:
         if cfg.except_tooslowload in xept:
+          print cfg.color.magenta
           print "========  DOH!  ========"
           print cfg.except_tooslowload_response
+          print cfg.color.white
       finally:
         signal.alarm(0)
   
