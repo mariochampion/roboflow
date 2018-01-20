@@ -288,7 +288,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
     print "to later be harvested in the retrain stage to further improve your TensorFlow classifier."
     print
     print "Enter a number to choose a pretrained TensorFlow model"
-    print "or [ENTER] to choose the model with highest accuracy.\n"
+    print "or "+cfg.color.green+"[ENTER]"+cfg.color.white+" to choose the model with highest accuracy.\n"
     
     print "LABELS: '"+modeldirs_dict[0][1]+"'"
   
@@ -314,8 +314,8 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
     print "["+str(md[0])+"] "+str(md[2])+"% w/ "+md[1][0]
   
   print
-  print "Enter a number to choose a pretrained TensorFlow model"
-  print "or [ENTER] to choose the model with highest accuracy.\n"
+  #print "Enter a number to choose a pretrained TensorFlow model"
+  #print "or "+cfg.color.green+"[ENTER]"+cfg.color.white+" to choose the model with highest accuracy.\n"
   print "[d] nah, just download the images right now,\n[h] for help, or \n[q] to quit the program... "
   modelchoice_raw = raw_input()
 
@@ -367,7 +367,7 @@ def classifymodel_noneexists(basetag, imagequantity, thistag, imgqnty_verified):
     print "[m] to make a classification model (by running a 'retrain' cycle)"
   print "[h] to read the help,"
   print "[q] to quit and think about things, or"
-  print "just hit [enter] to download (and later sort & retrain) "+str(imagequantity)+" images tagged '"+thistag+"'..."
+  print "just hit "+cfg.color.green+"[ENTER]"+cfg.color.white+" to download (and later sort & retrain) "+str(imagequantity)+" images tagged '"+thistag+"'..."
   print
   model_or_download = raw_input()
   if model_or_download == 'm': retrain_imagesneeded(basetag, thistag)
@@ -513,7 +513,7 @@ def retrain_imagesneeded(basetag, thistag):
   print "What do you want to do?"
   print "[q] to quit the program,"
   print "[h] to read the help or,"
-  print "[enter] to get this download party started!\n \
+  print cfg.color.green+"[ENTER]"+cfg.color.white+" to get this download party started!\n \
   (will download the maxnum of "+str(cfg.imgnum_maxpercycle)+" images tagged '"+thistag+", as set by imgnum_maxpercycle var in config)."
   robo.makebeep()
   download_party_raw = raw_input()
@@ -545,8 +545,8 @@ BUT, after a few rounds of retraining with re-checked sorted images, your classi
 will get better and better, meaning fewer images to manually re-sort.
 
 Enter a choice to: 
-[m] to move the images (specifically: not 'copy' but 'move')
-[w] (or [enter]) to continue without moving images
+[m] to move the images (specifically: not 'copy' but 'move')'''
+  print "[w] (or "+cfg.color.green+"[ENTER]"+cfg.color.white+") to continue without moving images"+'''
 [h] to read the help
 [q] to quit app for now.
    (and maybe go inspect the sorted files, tossing out the bad examples...)'''
@@ -656,7 +656,7 @@ def retrain_yes():
   print cfg.color.cyan + "RETRAIN TENSORFLOW??" + cfg.color.white
   print "You can do a retrain cycle after the downloading and classifying, which can take many minutes."
   print "Enter your choice:"
-  print "[s] to skip retraining right now\n[h] for help\n[q] to quit\n[enter] to setup retraining"
+  print "[s] to skip retraining right now\n[h] for help\n[q] to quit\n"+cfg.color.green+"[ENTER]"+cfg.color.white+" to setup retraining"
   retraincont_raw = raw_input()
   
   status = False
@@ -961,7 +961,7 @@ def preflightchecks(args):
       print "No classification model(s) available to label & sort images.\nWhen there are (after at least one retraining), you will be guided to pick one."
       print cfg.color.white
       print "For now, let us just do some downloading?"
-      justdownload_raw = raw_input("[h] for help & additional explanation\n[q] to quit\n[enter] to get to downloadin'... \n")
+      justdownload_raw = raw_input("[h] for help & additional explanation\n[q] to quit\n"+cfg.color.green+"[ENTER]"+cfg.color.white+" to get to downloadin'... \n")
       if justdownload_raw == 'q':robo.goodbye()
       elif justdownload_raw == 'h':releasethehelp()
       else: print "let us download!"
@@ -980,7 +980,8 @@ def preflightchecks(args):
       print "in "+cfg.path_to_trainingimgs+"/"+basetag+"/{labeled subdirs} to retrain!\n\n"
       print cfg.color.white
       print "For now, let us just do some downloading?"
-      justdownload_raw = raw_input("[h] for help & additional explanation\n[q] to quit\n[enter] to get to downloadin'...\n")
+      print "[h] for help & additional explanation\n[q] to quit\n"+cfg.color.green+"[ENTER]"+cfg.color.white+" to get to downloadin'...\n"
+      justdownload_raw = raw_input()
       if justdownload_raw == 'q': robo.goodbye()
       elif justdownload_raw == 'h': releasethehelp()
       else: print "let us download!"
