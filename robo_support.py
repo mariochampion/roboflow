@@ -78,9 +78,9 @@ def greeting_big():
 
 
 #################################
-def zero_dl_classify_msg():
+def zero_dl_classify_msg(msg):
   
-  print
+  print msg
   print cfg.color.yellow + "Note: Classification will be skipped as you are not downloading any new images." + cfg.color.white
   print "(set 'imagequantity' parameter > 0 to run a classifier')"
   print
@@ -247,7 +247,7 @@ def getimagelist_fromdir(thisdir):
     print cfg.color.white
     print "maybe go check for actual images there..."
     print 
-    robo.goodbye("this is how we end...")
+    goodbye("this is how we end...")
 
   return images_list
   
