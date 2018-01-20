@@ -105,7 +105,7 @@ def retrain_tensorflow(retrain_dict):
   print "------------------------------"
   print "start retraining tensorflow model/graph"
   print "when it breaks, look for 'RuntimeError: Error during processing file' "
-  print "retraining command:"
+  print cfg.color.yellow + "retraining command:" + cfg.color.white
   print retrain_command
 
   # use the tensorflow RETRAIN script
@@ -157,7 +157,9 @@ def add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels):
 def retrain_dict_setup_modeltype():
   robo.whereami(sys._getframe().f_code.co_name)
   
-  modeltype_raw = raw_input("1. RETRAIN TENSORFLOW MODEL?(default: "+cfg.retrain_model_default+") Enter [i]nceptionv3 or [m]obile:")
+  print cfg.color.cyan + "1. RETRAIN TENSORFLOW MODEL?" + cfg.color.white
+  print "(default:" + cfg.retrain_model_default+") Enter [i]nceptionv3 or [m]obile:"
+  modeltype_raw = raw_input()
   if modeltype_raw == "i": 
     modeltype = cfg.inception_model
     mobilepercent = None
@@ -185,7 +187,10 @@ def retrain_dict_setup_modeltype():
 def retrain_dict_setup_trainsteps():
   robo.whereami(sys._getframe().f_code.co_name)
   
-  raw_steps = raw_input("2. TRAINING STEPS?(default:"+str(cfg.retrain_steps_min)+") Too many leads to overfitting, too few leads to weak results, so between 500 and 4000 is a good choice... ")
+  print cfg.color.cyan + "2. TRAINING STEPS?" + cfg.color.white
+  print "(default:"+str(cfg.retrain_steps_min)+") Too many leads to overfitting, too few leads to weak results,"
+  print "so between 500 and 4000 is a good choice... "
+  raw_steps = raw_input()
   try:
     if int(raw_steps) < cfg.retrain_steps_min: trainsteps = cfg.retrain_steps_min
     else: trainsteps = int(raw_steps)
@@ -199,7 +204,9 @@ def retrain_dict_setup_trainsteps():
 def retrain_dict_setup_imgsize():
   robo.whereami(sys._getframe().f_code.co_name)
   
-  raw_imagesize = raw_input("3. IMAGE SIZE?(default: "+str(cfg.retrain_imgsize_default)+") Enter [128], [160], [192], or [224] pixels... ")
+  print cfg.color.cyan + "3. IMAGE SIZE?" + cfg.color.white
+  print "(default: "+str(cfg.retrain_imgsize_default)+") Enter [128], [160], [192], or [224] pixels... "
+  raw_imagesize = raw_input()
   try:
     if int(raw_imagesize) not in (128,160,192,224): imgsize = cfg.retrain_imgsize_default
     else: imgsize = int(raw_imagesize)
@@ -213,7 +220,9 @@ def retrain_dict_setup_imgsize():
 def retrain_dict_setup_testper():
   robo.whereami(sys._getframe().f_code.co_name)
   
-  raw_testper = raw_input("4. TESTING PERCENT?(min:"+str(cfg.retrain_testper_min)+") Depending how many images in total, between 10 and 50 is a good starting point... ")
+  print cfg.color.cyan + "4. TESTING PERCENT?" + cfg.color.white
+  print "(min:"+str(cfg.retrain_testper_min)+") Depending how many images in total, between 10 and 50 is a good starting point... "
+  raw_testper = raw_input()
   try:
     if int(raw_testper) < cfg.retrain_testper_min: testper = cfg.retrain_testper_min
     else: testper = int(raw_testper)
@@ -227,7 +236,9 @@ def retrain_dict_setup_testper():
 def retrain_dict_setup_batchsize():
   robo.whereami(sys._getframe().f_code.co_name)
   
-  raw_batchsize = raw_input("5. BATCH SIZE?(min:"+str(cfg.retrain_batchsize_min)+") While there is debate on a best number, from 10 to 100 (or more if you have many thousand of images) is a good starting point... ")
+  print cfg.color.cyan + "5. BATCH SIZE?" + cfg.color.white
+  print "(min:"+str(cfg.retrain_batchsize_min)+") While there is debate on a best number, from 10 to 100 (or more if you have many thousand of images) is a good starting point... "
+  raw_batchsize = raw_input()
   try:
     if int(raw_batchsize) < cfg.retrain_batchsize_min: bs = cfg.retrain_batchsize_min
     else: bs = int(raw_batchsize)
@@ -237,15 +248,13 @@ def retrain_dict_setup_batchsize():
   return bs
   
   
-
-  
   
 #################################	 
 #################################	
 def main(retrain_dict):
   robo.whereami(sys._getframe().f_code.co_name)
   
-  print "retrain params:"
+  print cfg.color.yellow + "retrain params:" + cfg.color.white
   for k,v in retrain_dict.items():
     print k, ":" ,v
   print
@@ -276,9 +285,9 @@ if __name__ == '__main__':
   try:
     retrain_dict
   except:
-    print
+    print cfg.color.magenta
     print "This script not callable directly, as it needs data from "+cfg.download_script+" passed to it."
-    print "maybe it's time read the help? copy/paste this:"
+    print "maybe it's time read the help? copy/paste this:" + cfg.color.white
     print "\tpython roboflow.py --help"
     robo.goodbye()
   

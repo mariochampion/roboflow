@@ -166,13 +166,13 @@ def processclassifiedimages(origfilename, labelresults, basetag):
   subdir = rootdir + cfg.belowminlabel_dir_suffix
   
   if float(labelscore) > float(cfg.confidence_min):  
-    print "yay! score HIGH", labelscore
+    print cfg.color.green + "yay! score HIGH: " +cfg.color.black+cfg.bkcolor.green + " "+labelscore+" " + cfg.bkcolor.resetall
     print "== moved to: ..."+ cfg.sorted_dirname + cfg.dd + labelname
     shutil.move(cfg.path_to_testimgs +cfg.dd + basetag + cfg.dd + origfilename, rootdir + cfg.dd + newfilename)
     proc_result = (newfilename, labelname, labelscore)
     
   else:
-    print origfilename, "sad score low: ", labelscore
+    print cfg.color.magenta + "sad score low: " +cfg.color.white+cfg.bkcolor.magenta + " "+labelscore+" " + cfg.bkcolor.resetall
     print "==== moved to dir: ..."+cfg.sorted_dirname + cfg.dd + labelname+cfg.belowminlabel_dir_suffix
     shutil.move(cfg.path_to_testimgs + cfg.dd + basetag + cfg.dd + origfilename, subdir + cfg.dd + newfilename)
     proc_result = (newfilename, labelname+cfg.belowminlabel_dir_suffix, labelscore)
