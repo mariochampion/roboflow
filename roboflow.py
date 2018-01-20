@@ -306,7 +306,7 @@ def classifymodel_setup(modeldirs_dict, basetag, imagequantity, thistag, top = F
   if top == True:
     print cfg.color.cyan + "CLASSIFY/LABEL IMAGES:" + cfg.color.white
     classmodeldir_choice = modeldirs_dict[topacc][0]
-    print "model: ", classmodeldir_choice
+    print "model: ", classmodeldir_choice, "\n"
     return classmodeldir_choice
   
   #print for user to choose
@@ -819,10 +819,10 @@ def setup_args_vars_dirs(args, preflight_dict):
   primevars_dict["flow"] = flow
   primevars_dict["d_c_r_flow"] = preflight_dict["d_c_r_flow"]
 
-  '''print "PRIMEVARS"
+  '''print cfg.color.yellow + "PRIMEVARS AT SETUP"
   for k,v in primevars_dict.items():
-    print k,"",v'''
-  
+    print k,v
+  print cfg.color.white'''
 
   ####### FLOW VAR (download, classify, retrain)
   flowlist = preflight_dict["flowlist"]## determine flow based on preflight checks
@@ -995,14 +995,12 @@ def preflightchecks(args):
     if imagequantity > 0 :
       preflight_dict["d_c_r_flow"] = "dl_class"
     else:
-      robo.zero_dl_classify_msg()
       preflight_dict["d_c_r_flow"] = "download"
       
   if "download" and "classify" and "retrain" in preflight_dict["flowlist"]: 
     if imagequantity > 0 :
       preflight_dict["d_c_r_flow"] = "dl_class_retrain"
     else:
-      robo.zero_dl_classify_msg()
       preflight_dict["d_c_r_flow"] = "dl_retrain"
     
   if "download" and "retrain" in preflight_dict["flowlist"]:
@@ -1016,7 +1014,6 @@ def preflightchecks(args):
   if flowasinput == "retrain" and "retrain" in preflight_dict["flowlist"]: 
     if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_class_retrain" 
     else: 
-      robo.zero_dl_classify_msg()
       preflight_dict["d_c_r_flow"] = "dl_retrain"
       
   if flowasinput == "retrain_defaults" and "retrain" in preflight_dict["flowlist"]:
@@ -1225,7 +1222,7 @@ def main(args):
     progressdata["time_end"] = time.strftime("%H%M%S")
     progressdata["time_avg"] = (float(progressdata["time_end"])-float(progressdata["time_start"])) / float(imgnumdled)
     
-    print cfg.color.yellow+"\niscomplete() PROGRESSDATA: "+cfg.color.white
+    print cfg.color.yellow+"\niscomplete() show PROGRESSDATA: "+cfg.color.white
     for k,v in progressdata.items(): print k,":",v
     print
     
@@ -1258,11 +1255,11 @@ def main(args):
     
     ####### THE REAL POINT OF THIS: classify or re/train
    
-    if progressdata["d_c_r_flow"] == 'dl_class' and progressdata["imgnum_dled_thiscycle"] > 0:
+    if progressdata["d_c_r_flow"] == 'dl_class' and progressdata["imgnum_in_dir"] > 0:
       print "now, kickoff TensorFlow image classification/labeling..."
       classify_downloadedimages(progressdata)
       
-    if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_dled_thiscycle"] > 0:
+    if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_in_dir"] > 0:
       print "now, kickoff TensorFlow image classification/labeling..."
       classify_downloadedimages(progressdata)
         
