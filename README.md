@@ -27,11 +27,11 @@ https://drive.google.com/file/d/1zvTq5vKqME7sW9O8lEtgn-Wosoavc2gi/view?usp=shari
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-#### NOTE: the primary script is
+#### NOTE: the primary script is roboflow.py. which is invoked by
 ```
-roboflow.py
+python roboflow.py
 ```
-#### As a shortcut, add an alias in your .bash_profile to launch roboflow quickly:
+#### As a shortcut, add an alias in your .bash_profile to launch it via alias 'roboflow':
 ```
 alias roboflow="cd path/to/dir/roboflow/;python roboflow.py"
 ```
