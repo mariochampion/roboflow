@@ -18,7 +18,7 @@ because you can use roboflow for many separate classifiers, you need to pick a t
 
 ## Bootstrapping
 There is an initial bootstrap stage in which you must manually sort a minimum number of images to allow the first retraining to create the first classifier per basetag. This tool will help you download 1000s of images pretty easily. After that first manual sorting, subsequent cycles of downloading, classifying/auto-sorting, and harvesting sorted images into the training_photos/labeled_directories for another cycle of retraining is waaaaay more automated. 
-#### hint: you can skip this step with a 1.4 gb download of robot images (pre-sorted into 'built', 'drawn', 'not' dirs)  to place into training_photos/ 
+#### hint: you can skip this step with a 1.4 gb download of robot images (pre-sorted into 'built', 'drawn', 'not' dirs)<br>to place into training_photos/ 
 ```
 https://drive.google.com/file/d/1zvTq5vKqME7sW9O8lEtgn-Wosoavc2gi/view?usp=sharing
 ```
