@@ -77,16 +77,6 @@ def greeting_big():
 
 
 
-#################################
-def zero_dl_classify_msg(msg):
-  
-  print msg
-  print cfg.color.yellow + "Note: Classification will be skipped as you are not downloading any new images." + cfg.color.white
-  print "(set 'imagequantity' parameter > 0 to run a classifier')"
-  print
-  return
-
-
 
 #################################
 # should prolly adapt this to also accept list of dirs and loop thru them
