@@ -120,6 +120,7 @@ finalwords_list.append("stopping...")
 finalwords_list.append("see you soon!")
 finalwords_list.append("exiting...")
 finalwords_list.append("bye bye for now.")
+finalwords_list.append("bye byes!")
 finalwords_list.append("ok good bye i love you.")
 
 
