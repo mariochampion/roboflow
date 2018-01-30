@@ -28,17 +28,6 @@ https://drive.google.com/file/d/1zvTq5vKqME7sW9O8lEtgn-Wosoavc2gi/view?usp=shari
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-#### NOTE: the primary script is
-```
-roboflow.py
-```
-
-#### As a shortcut, add an alias in your .bash_profile to launch roboflow quickly:
-```
-alias roboflow="cd path/to/dir/roboflow/;python roboflow.py"
-```
-
-
 #### PREREQUISITES
 #### software
 * Python (2.7 - but i havent tried 3.x so that might work, too) (<a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a>)
@@ -59,20 +48,19 @@ or also at <a href="https://www.tensorflow.org/install/">https://www.tensorflow.
 
 
 ## Installing
-First, you must install and test TensorFlow. Follow instructions at
-
-```
-https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
-```
-or 
-
+You will need tensorflow, the image classification codelab, and then roboflow:<br>
+STEP 1 (to get tensorflow)
 ```
 https://www.tensorflow.org/install/
 ```
+STEP 2 (to get the image classification setup)
+```
+https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
+```
 
-Next, install the RoboFlow files contained in this git repository.<br>
+STEP 3 (to get the exploration/semi-automation tool)<br>
 Make sure to 'cd' into your TensorFlow directory at the same level as "tf_files" and "scripts" first.<br>
-Then clone the RoboFlow git repository with:
+Then clone the RoboFlow dirs/files with:
 
 ```
 git clone https://github.com/mariochampion/roboflow
@@ -80,7 +68,7 @@ git clone https://github.com/mariochampion/roboflow
 
 FINALLY and CRITICALLY, you must change one line in TensorFlow's scripts/retrain.py file.<br>
 (see https://github.com/mariochampion/roboflow/issues/3)<br>
-simply go to the literal last line of retrain.py's main() function, around line 1144 and add
+simply go to the literal last line of <b>tensorflow-for-poets-2/scripts/retrain.py</b>'s main() function, around line 1144 and add
 ```
 ############################################
 # this line added because stdout not available / no return from main
@@ -111,6 +99,11 @@ Et voila, you are ready to explore!
 ```
 python roboflow.py
 ```
+#### As a shortcut, add an alias in your .bash_profile to launch it via alias 'roboflow':
+```
+alias roboflow="cd path/to/dir/roboflow/;python roboflow.py"
+```
+
 ## Advanced usage:
 ```
 python roboflow.py [basetag] [imagequantity] [searchtag] [optional flowsteps]
