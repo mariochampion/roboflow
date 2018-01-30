@@ -38,7 +38,7 @@ import os, sys, subprocess, shutil, time
 
 #import roboflow specific stuff
 import robo_config as cfg
-import robo_support as robo 
+import robo_support as robo
 
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2' # suppress some inherent TF error msgs
 logtime = time.strftime("%Y%m%d%H%M%S") # just some timestamping
@@ -99,16 +99,23 @@ def classify_image(testimg, model_data):
 #################################	
 def process_imagelabel_for_final(label_raw):
   robo.whereami(sys._getframe().f_code.co_name)
-  
+
   # do some things to strings
   imagelabel_2 = label_raw.split("\n")
-  imagelabel_2b = imagelabel_2[0]
+  
+  ## change in tensorflow script it now adds an evaluation string, 
+  ## so there is a new conditional here (jan 2018) -- mmc
+  if "Evaluation" in imagelabel_2[1]:
+    imagelabel_2b = imagelabel_2[3]
+  else:
+    imagelabel_2b = imagelabel_2[0]
+  
   imagelabel_2c = imagelabel_2b.split(" ")  
 
   imagelabel_score = imagelabel_2c[-1]
   imagelabel_name = imagelabel_2b.replace(" "+imagelabel_score, "").replace(" ","_")
   imagelabel_processed = (imagelabel_name, imagelabel_score)
-  
+
   return imagelabel_processed
 
 
@@ -215,7 +222,6 @@ def main(model_data):
     if imagelabel_raw:
       imagelabel_processed = process_imagelabel_for_final(imagelabel_raw)
       testimage_clean = testimage.replace(cfg.path_to_testimgs+cfg.dd+basetag+cfg.dd,"")
-      
       #process the classifiedimages
       proc_classed_images_list = {}
       proc_result = processclassifiedimages(testimage_clean, imagelabel_processed, basetag)
