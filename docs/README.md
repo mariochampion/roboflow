@@ -53,7 +53,7 @@ STEP 1 (to get tensorflow)
 ```
 https://www.tensorflow.org/install/
 ```
-STEP 2 (to get the image classification setup)
+STEP 2 (to get the image classification fir/file setup)
 ```
 https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
 ```
