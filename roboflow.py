@@ -714,7 +714,8 @@ def buildimg2url_file(progressdata):
   if os.stat(img2url_file).st_size == 0: 
     print"---doh! NOT written! " + img2url_file
   else:
-    print "YAY! written/appended: " + img2url_file
+    print cfg.color.yellow+"YAY! written/appended: " + img2url_file
+    print cfg.color.white
   
   
   return progressdata
