@@ -69,7 +69,6 @@ https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/
 ```
 
 STEP 3 (to get the exploration/semi-automation tool)<br>
-install the RoboFlow files contained in this git repository.<br>
 Make sure to 'cd' into your TensorFlow directory at the same level as "tf_files" and "scripts" first.<br>
 Then clone the RoboFlow dirs/files with:
 
