@@ -78,7 +78,7 @@ git clone https://github.com/mariochampion/roboflow
 
 FINALLY and CRITICALLY, you must change one line in TensorFlow's scripts/retrain.py file.<br>
 (see https://github.com/mariochampion/roboflow/issues/3)<br>
-simply go to the literal last line of tensorflow-for-poets-2/scripts/retrain.py's main() function, around line 1144 and add
+simply go to the literal last line of <b>tensorflow-for-poets-2/scripts/retrain.py</b>'s main() function, around line 1144 and add
 ```
 ############################################
 # this line added because stdout not available / no return from main
