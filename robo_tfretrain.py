@@ -112,8 +112,8 @@ def retrain_tensorflow(retrain_dict):
     #training_results = subprocess.check_output(retrain_command, shell=True)
     
     print "1"
-    p0 = Popen(['1'], shell=False,stdout=PIPE,executable='echo')
-    training_results = Popen(cmds,shell=False,stdin=p0.stdout,stdout=PIPE,bufsize=1,executable="python")
+    #p0 = Popen(['1'], shell=False,stdout=PIPE,executable='echo')
+    training_results = Popen(cmds,shell=False,stdout=PIPE,bufsize=1,executable="python")
     
     print "2"
     for line in iter(training_results.stdout.readline, b''):
