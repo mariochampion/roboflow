@@ -1014,7 +1014,7 @@ def preflightchecks(args):
   if flowasinput == "classify" and "classify" in preflight_dict["flowlist"]: preflight_dict["d_c_r_flow"] = "dl_class" 
   if flowasinput == "classify_top" and "classify" in preflight_dict["flowlist"]: preflight_dict["d_c_r_flow"] = "dl_class_top" 
   if flowasinput == "retrain" and "retrain" in preflight_dict["flowlist"]: 
-    if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_class_retrain" 
+    if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_retrain" 
     else: 
       preflight_dict["d_c_r_flow"] = "dl_retrain"
       
@@ -1023,7 +1023,8 @@ def preflightchecks(args):
     else: preflight_dict["d_c_r_flow"] = "retrain_defaults"  
 
 
-  #print "preflight_dict", preflight_dict
+  print "11 preflight_dict", preflight_dict
+
   return preflight_dict
 
 
