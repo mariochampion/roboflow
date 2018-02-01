@@ -103,7 +103,7 @@ def retrain_tensorflow(retrain_dict):
     --image_dir=" + path_to_trainimgs_basetag + " \
     --architecture=" + ARCHITECTURE
     
-    cmd1 = "python ../scripts/retrain.py"
+    cmd1 = "../scripts/retrain.py"
     cmd2 = "--bottleneck_dir=" + cfg.path_to_bottlenecks
     cmd3 = "--model_dir=" + cfg.path_to_trainingmodels
     cmd4 = "--how_many_training_steps=" + steps
@@ -118,7 +118,7 @@ def retrain_tensorflow(retrain_dict):
     
   tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + "tf_feed_files" + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
   print "print tf_feed_file", tf_feed_file
-  ##tf_feed = open(tf_feed_file, "a")
+  tf_feed = open(tf_feed_file, "a")
   cmd12 =" > "+tf_feed_file    
     
   print 
@@ -147,7 +147,7 @@ def retrain_tensorflow(retrain_dict):
     print "1"
     p0 = Popen(['1'], shell=False,stdout=PIPE,executable='echo')
     training_results = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11,cmd12], \
-              shell=False,stdin=p0.stdout,stdout=PIPE,bufsize=1)
+              shell=False,stdin=p0.stdout,stdout=PIPE,bufsize=1, executable="python")
     
     print "2"
     for line in iter(training_results.stdout.readline, b''):
