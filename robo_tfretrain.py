@@ -34,7 +34,7 @@ when certain conditions are met:
 
 
 
-import os, sys, subprocess, shutil, time
+import os, sys, shutil, time
 from subprocess import Popen, PIPE
 
 #import roboflow specific stuff
@@ -103,7 +103,7 @@ def retrain_tensorflow(retrain_dict):
     --image_dir=" + path_to_trainimgs_basetag + " \
     --architecture=" + ARCHITECTURE
     
-    cmd1 = "../scripts/retrain.py"
+    cmd1 = "python ../scripts/retrain.py"
     cmd2 = "--bottleneck_dir=" + cfg.path_to_bottlenecks
     cmd3 = "--model_dir=" + cfg.path_to_trainingmodels
     cmd4 = "--how_many_training_steps=" + steps
@@ -114,22 +114,22 @@ def retrain_tensorflow(retrain_dict):
     cmd9 = "--output_labels=" + path_to_output_labels
     cmd10 = "--image_dir=" + path_to_trainimgs_basetag
     cmd11 = "--architecture=" + ARCHITECTURE
+
     
-    
+  tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + "tf_feed_files" + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
+  print "print tf_feed_file", tf_feed_file
+  ##tf_feed = open(tf_feed_file, "a")
+  cmd12 =" > "+tf_feed_file    
     
   print 
   print "------------------------------"
   print "start retraining tensorflow model/graph"
   print "when it breaks, look for 'RuntimeError: Error during processing file' "
   print cfg.color.yellow + "retraining command:" + cfg.color.white
-  print retrain_command
+  #print retrain_command
+  print cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7, cmd8, cmd9, cmd10, cmd11, cmd12
   
-  
-  
-  tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + "tf_feed_files" + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
-  print "print tf_feed_file", tf_feed_file
-  tf_feed = open(tf_feed_file, "a")
-  
+
 
   # use the tensorflow RETRAIN script
   try:
@@ -145,27 +145,15 @@ def retrain_tensorflow(retrain_dict):
     '''
     
     print "1"
-    training_results = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11], stdout=PIPE, bufsize=1, shell=False,executable='python')
-    print "2"
-    with training_results.stdout:
-      print "3"
-      for line in iter(training_results.stdout.readline, r''):
-        print "4"
-        #if line.startswith("INFO:tensorflow:"):
-        tf_feed.write(line)
-    training_results.wait() # wait for the subprocess to exit
+    p0 = Popen(['1'], shell=False,stdout=PIPE,executable='echo')
+    training_results = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11,cmd12], \
+              shell=False,stdin=p0.stdout,stdout=PIPE,bufsize=1)
     
-    '''
-    print "1b"
-    p = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11], stdout=PIPE, bufsize=1, shell=False,executable='python')
-    print "2b"
-    with p.stdout:
-      print "3b"
-      for line in iter(p.stdout.readline, b''):
-        print "4b"
-        tf_feed.write(line)
-    p.wait() # wait for the subprocess to exit
-    '''
+    print "2"
+    for line in iter(training_results.stdout.readline, b''):
+      print "3"
+      tf_feed.write(line.rstrip())
+    training_results.wait() # wait for the subprocess to exit
     
     
   except Exception:
