@@ -40,7 +40,7 @@ from subprocess import Popen, PIPE
 #import roboflow specific stuff
 import robo_config as cfg
 import robo_support as robo 
-os.environ['TF_CPP_MIN_LOG_LEVEL']='2' # suppress some inherent TensorFlow error msgs
+os.environ['TF_CPP_MIN_LOG_LEVEL']='0' # suppress some inherent TensorFlow error msgs
 
 
 ##################################	  
@@ -70,96 +70,65 @@ def retrain_tensorflow(retrain_dict):
   path_to_output_graph = path_to_trainingsumm_name + cfg.dd + cfg.retrainedgraph_file
   path_to_output_labels = path_to_trainingsumm_name + cfg.dd + cfg.retrainedlabels_file 
 
-  
+  #build up shared commands
+  cmd1 = "../scripts/retrain.py"
+  cmd2 = "--bottleneck_dir=" + cfg.path_to_bottlenecks
+  cmd3 = "--model_dir=" + cfg.path_to_trainingmodels
+  cmd4 = "--how_many_training_steps=" + steps
+  cmd5 = "--train_batch_size=" + batchsize
+  cmd6 = "--testing_percentage=" + testpercent
+  cmd7 = "--summaries_dir=" + path_to_trainingsumm_name
+  cmd8 = "--output_graph=" + path_to_output_graph
+  cmd9 = "--output_labels=" + path_to_output_labels
+  cmd10 = "--image_dir=" + path_to_trainimgs_basetag
+  cmd11 = ""
+
   #CHOOSE
   if modeltype == "inceptionv3":
-    # build a command
-    retrain_command = "python ../scripts/retrain.py \
-    --bottleneck_dir=" + cfg.path_to_bottlenecks + " \
-    --model_dir=" + cfg.path_to_trainingmodels + " \
-    --how_many_training_steps=" + steps + " \
-    --train_batch_size=" + batchsize + " \
-    --testing_percentage=" + testpercent + " \
-    --summaries_dir=" + path_to_trainingsumm_name + " \
-    --output_graph=" + path_to_output_graph + " \
-    --output_labels=" + path_to_output_labels + " \
-    --image_dir=" + path_to_trainimgs_basetag + " \
-    --architecture=" + ARCHITECTURE
-    
+    cmds=['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10]
   else:
     # build a command WITH ARCHITECTURE, since not default
     mobilepercent = retrain_dict["mobilepercent"]
     ARCHITECTURE = modeltype + "_" + str(mobilepercent) + "_" + str(imagesize)
-    
-    retrain_command = "python ../scripts/retrain.py \
-    --bottleneck_dir=" + cfg.path_to_bottlenecks + " \
-    --model_dir=" + cfg.path_to_trainingmodels + " \
-    --how_many_training_steps=" + steps + " \
-    --train_batch_size=" + batchsize + " \
-    --testing_percentage=" + testpercent + " \
-    --summaries_dir=" + path_to_trainingsumm_name + " \
-    --output_graph=" + path_to_output_graph + " \
-    --output_labels=" + path_to_output_labels + " \
-    --image_dir=" + path_to_trainimgs_basetag + " \
-    --architecture=" + ARCHITECTURE
-    
-    cmd1 = "../scripts/retrain.py"
-    cmd2 = "--bottleneck_dir=" + cfg.path_to_bottlenecks
-    cmd3 = "--model_dir=" + cfg.path_to_trainingmodels
-    cmd4 = "--how_many_training_steps=" + steps
-    cmd5 = "--train_batch_size=" + batchsize
-    cmd6 = "--testing_percentage=" + testpercent
-    cmd7 = "--summaries_dir=" + path_to_trainingsumm_name
-    cmd8 = "--output_graph=" + path_to_output_graph
-    cmd9 = "--output_labels=" + path_to_output_labels
-    cmd10 = "--image_dir=" + path_to_trainimgs_basetag
     cmd11 = "--architecture=" + ARCHITECTURE
+    cmds=['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11]    
 
-    
+
   tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + "tf_feed_files" + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
   print "print tf_feed_file", tf_feed_file
   tf_feed = open(tf_feed_file, "a")
-  cmd12 =" > "+tf_feed_file    
+
     
-  print 
-  print "------------------------------"
+  print "\n------------------------------"
   print "start retraining tensorflow model/graph"
   print "when it breaks, look for 'RuntimeError: Error during processing file' "
   print cfg.color.yellow + "retraining command:" + cfg.color.white
   #print retrain_command
-  print cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7, cmd8, cmd9, cmd10, cmd11, cmd12
+  print cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7, cmd8, cmd9, cmd10,
+  if len(cmd11): print cmd11
   
 
 
   # use the tensorflow RETRAIN script
   try:
     #training_results = subprocess.check_output(retrain_command, shell=True)
-    '''
-    p0 = Popen(['1',''], shell=False, stdout=PIPE,executable='echo')
-    p1 = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11],\
-               shell=False,\
-               stdin=p0.stdout,stdout=PIPE,\
-               executable='python')
-    tflogtext = p1.communicate()[0].rstrip()
-    print "\n\ntflogtext", tflogtext
-    '''
     
     print "1"
     p0 = Popen(['1'], shell=False,stdout=PIPE,executable='echo')
-    training_results = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11,cmd12], \
-              shell=False,stdin=p0.stdout,stdout=PIPE,bufsize=1, executable="python")
+    training_results = Popen(cmds,shell=False,stdin=p0.stdout,stdout=PIPE,bufsize=1,executable="python")
     
     print "2"
     for line in iter(training_results.stdout.readline, b''):
       print "3"
       tf_feed.write(line.rstrip())
     training_results.wait() # wait for the subprocess to exit
-    
+
+
     
   except Exception:
     ### log something or?
-    ### remove specific image? regex thru output to find it-- or just skip?
-    print "SKIPPPED RETRAIN!!"
+    ### remove specific image or modeldir? regex thru output to find it-- or just skip?
+    print "RETRAIN BUSTED UP!!"
     sys.exit(1)
     pass
   
