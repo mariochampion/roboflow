@@ -85,7 +85,13 @@ def classify_image(testimg, model_data):
   
   # use the tensorflow label_image script
   try:
-    imagelabel_raw = subprocess.check_output(testimgcommand, shell=True)
+    #imagelabel_raw = subprocess.check_output(testimgcommand, shell=True)
+    p0 = Popen(['1',plaintext], shell=True, stdout=PIPE,executable='echo')
+    p1 = Popen([tfcommand],\
+               shell=True,\
+               stdin=p0.stdout,stdout=PIPE)
+    tflogtext = p1.communicate()[0].rstrip()
+    
   except Exception:
     # just remove file for now (rather than store for later analysis)
     # because they are broken images, not misclassified
