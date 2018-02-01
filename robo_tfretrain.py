@@ -106,8 +106,6 @@ def retrain_tensorflow(retrain_dict):
   #print retrain_command
   print cmd1, cmd2, cmd3, cmd4, cmd5, cmd6, cmd7, cmd8, cmd9, cmd10,
   if len(cmd11): print cmd11
-  
-
 
   # use the tensorflow RETRAIN script
   try:
