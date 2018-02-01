@@ -35,6 +35,7 @@ when certain conditions are met:
 
 
 import os, sys, subprocess, shutil, time
+from subprocess import Popen, PIPE
 
 #import roboflow specific stuff
 import robo_config as cfg
@@ -82,7 +83,8 @@ def retrain_tensorflow(retrain_dict):
     --summaries_dir=" + path_to_trainingsumm_name + " \
     --output_graph=" + path_to_output_graph + " \
     --output_labels=" + path_to_output_labels + " \
-    --image_dir=" + path_to_trainimgs_basetag
+    --image_dir=" + path_to_trainimgs_basetag + " \
+    --architecture=" + ARCHITECTURE
     
   else:
     # build a command WITH ARCHITECTURE, since not default
@@ -101,6 +103,20 @@ def retrain_tensorflow(retrain_dict):
     --image_dir=" + path_to_trainimgs_basetag + " \
     --architecture=" + ARCHITECTURE
     
+    cmd1 = "../scripts/retrain.py"
+    cmd2 = "--bottleneck_dir=" + cfg.path_to_bottlenecks
+    cmd3 = "--model_dir=" + cfg.path_to_trainingmodels
+    cmd4 = "--how_many_training_steps=" + steps
+    cmd5 = "--train_batch_size=" + batchsize
+    cmd6 = "--testing_percentage=" + testpercent
+    cmd7 = "--summaries_dir=" + path_to_trainingsumm_name
+    cmd8 = "--output_graph=" + path_to_output_graph
+    cmd9 = "--output_labels=" + path_to_output_labels
+    cmd10 = "--image_dir=" + path_to_trainimgs_basetag
+    cmd11 = "--architecture=" + ARCHITECTURE
+    
+    
+    
   print 
   print "------------------------------"
   print "start retraining tensorflow model/graph"
@@ -110,10 +126,20 @@ def retrain_tensorflow(retrain_dict):
 
   # use the tensorflow RETRAIN script
   try:
-    training_results = subprocess.check_output(retrain_command, shell=True)
+    #training_results = subprocess.check_output(retrain_command, shell=True)
+    p0 = Popen(['1',''], shell=False, stdout=PIPE,executable='echo')
+    p1 = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11],\
+               shell=False,\
+               stdin=p0.stdout,stdout=PIPE,\
+               executable='python')
+    tflogtext = p1.communicate()[0].rstrip()
+    print "\n\ntflogtext", tflogtext
+    
   except Exception:
     ### log something or?
     ### remove specific image? regex thru output to find it-- or just skip?
+    print "SKIPPPED RETRAIN!!"
+    sys.exit(1)
     pass
   
   # see need/description at this function
