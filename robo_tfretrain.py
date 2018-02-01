@@ -123,10 +123,18 @@ def retrain_tensorflow(retrain_dict):
   print "when it breaks, look for 'RuntimeError: Error during processing file' "
   print cfg.color.yellow + "retraining command:" + cfg.color.white
   print retrain_command
+  
+  
+  
+  tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + "tf_feed_files" + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
+  print "print tf_feed_file", tf_feed_file
+  tf_feed = open(tf_feed_file, "a")
+  
 
   # use the tensorflow RETRAIN script
   try:
     #training_results = subprocess.check_output(retrain_command, shell=True)
+    '''
     p0 = Popen(['1',''], shell=False, stdout=PIPE,executable='echo')
     p1 = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11],\
                shell=False,\
@@ -134,6 +142,31 @@ def retrain_tensorflow(retrain_dict):
                executable='python')
     tflogtext = p1.communicate()[0].rstrip()
     print "\n\ntflogtext", tflogtext
+    '''
+    
+    print "1"
+    training_results = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11], stdout=PIPE, bufsize=1, shell=False,executable='python')
+    print "2"
+    with training_results.stdout:
+      print "3"
+      for line in iter(training_results.stdout.readline, r''):
+        print "4"
+        #if line.startswith("INFO:tensorflow:"):
+        tf_feed.write(line)
+    training_results.wait() # wait for the subprocess to exit
+    
+    '''
+    print "1b"
+    p = Popen(['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11], stdout=PIPE, bufsize=1, shell=False,executable='python')
+    print "2b"
+    with p.stdout:
+      print "3b"
+      for line in iter(p.stdout.readline, b''):
+        print "4b"
+        tf_feed.write(line)
+    p.wait() # wait for the subprocess to exit
+    '''
+    
     
   except Exception:
     ### log something or?
