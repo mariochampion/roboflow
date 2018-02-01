@@ -110,19 +110,12 @@ def retrain_tensorflow(retrain_dict):
   # use the tensorflow RETRAIN script
   try:
     #training_results = subprocess.check_output(retrain_command, shell=True)
-    
-    print "1"
-    #p0 = Popen(['1'], shell=False,stdout=PIPE,executable='echo')
-    training_results = Popen(cmds,shell=False,stdout=PIPE,bufsize=1,executable="python")
-    
-    print "2"
-    for line in iter(training_results.stdout.readline, b''):
-      print "3"
+    training_results = Popen(cmds,shell=False,stderr=PIPE,bufsize=1,executable="python")
+    for line in iter(training_results.stderr.readline, b''):
+      print "loggin'"
       tf_feed.write(line.rstrip())
     training_results.wait() # wait for the subprocess to exit
 
-
-    
   except Exception:
     ### log something or?
     ### remove specific image or modeldir? regex thru output to find it-- or just skip?
