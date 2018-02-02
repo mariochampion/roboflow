@@ -59,25 +59,28 @@ def classify_image(testimg, model_data):
   path_to_labels = cfg.path_to_trainingsumms +cfg.dd + basetag + cfg.dd + model_dir + cfg.dd + cfg.retrainedlabels_file
   # build a command  
   if model_type == cfg.mobile_model:
-    testimgcommand = "python ../scripts/label_image.py \
-    --graph='"+path_to_retrainedgraph+"' \
-    --labels='"+path_to_labels+"' \
-    --input_height=224 \
-    --input_width=224 \
-    --input_mean=128 \
-    --input_std=128 \
-    --image=" + testimg
+    cmd1 = "../scripts/label_image.py"
+    cmd2 = "--graph='"+path_to_retrainedgraph+"'"
+    cmd3 = "--labels='"+path_to_labels+"'"
+    cmd4 = "--input_height=224"
+    cmd5 = "--input_width=224" 
+    cmd6 = "--input_mean=128"
+    cmd7 = "--input_std=128"
+    cmd8 = "--image=" + testimg
+    cmds = [cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8]
 
   elif model_type == cfg.inception_model:
-    testimgcommand = "python ../scripts/label_image.py \
-    --graph='"+path_to_retrainedgraph+"' \
-    --labels='"+path_to_labels+"' \
-    --input_height=299 \
-    --input_width=299 \
-    --input_mean=128 \
-    --input_std=128 \
-    --input_layer='Mul' \
-    --image=" + testimg
+    cmd1 = "../scripts/label_image.py"
+    cmd2 = "--graph='"+path_to_retrainedgraph+"'"
+    cmd3 = "--labels='"+path_to_labels+"'"
+    cmd4 = "--input_height=299"
+    cmd5 = "--input_width=299" 
+    cmd6 = "--input_mean=128"
+    cmd7 = "--input_std=128"
+    cmd8 = "--input_layer='Mul'"
+    cmd9 = "--image=" + testimg
+    cmds = [cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9]    
+    
   else:
     robo.goodbye("woops no classification model! Program stopping...")
   
@@ -85,7 +88,10 @@ def classify_image(testimg, model_data):
   
   # use the tensorflow label_image script
   try:
-    imagelabel_raw = subprocess.check_output(testimgcommand, shell=True)
+    #imagelabel_raw = subprocess.check_output(testimgcommand, shell=True)
+    imagelabel_raw = Popen(cmds,shell=False,stderr=PIPE,bufsize=1,executable="python")
+    for line in iter(imagelabel_raw.stderr.readline, b''):print line
+    imagelabel_raw.wait() # wait for the subprocess to exit
   
   except Exception:
     # just remove file for now (rather than store for later analysis)

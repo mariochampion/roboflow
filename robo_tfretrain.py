@@ -83,7 +83,7 @@ def retrain_tensorflow(retrain_dict):
   cmd10 = "--image_dir=" + path_to_trainimgs_basetag
   cmd11 = ""
 
-  #CHOOSE
+  #BUILD an array of CMDS based on model
   if modeltype == "inceptionv3":
     cmds=['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10]
   else:
