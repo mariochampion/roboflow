@@ -1023,9 +1023,6 @@ def preflightchecks(args):
     if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_retrain" 
     else: preflight_dict["d_c_r_flow"] = "retrain_defaults"  
 
-
-  print "11 preflight_dict", preflight_dict
-
   return preflight_dict
 
 

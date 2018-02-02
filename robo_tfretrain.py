@@ -93,11 +93,6 @@ def retrain_tensorflow(retrain_dict):
     cmd11 = "--architecture=" + ARCHITECTURE
     cmds=['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11]    
 
-
-  tf_feed_file = cfg.path_to_trainingsumms + cfg.dd + "tf_feed_files" + cfg.dd + "tf_feed_" + cfg.logtime + ".txt"
-  print "print tf_feed_file", tf_feed_file
-  tf_feed = open(tf_feed_file, "a")
-
     
   print "\n------------------------------"
   print "start retraining tensorflow model/graph"
@@ -111,22 +106,19 @@ def retrain_tensorflow(retrain_dict):
   try:
     #training_results = subprocess.check_output(retrain_command, shell=True)
     training_results = Popen(cmds,shell=False,stderr=PIPE,bufsize=1,executable="python")
-    print "writing tf.logging.info() to file..."
     for line in iter(training_results.stderr.readline, b''):
       print line
       if line.startswith("INFO:tensorflow:Final test accuracy"):
-        tf_feed.write(line.rstrip()+"\n")
+        tf_final_acc = line
     training_results.wait() # wait for the subprocess to exit
 
   except Exception:
     ### log something or?
     ### remove specific image or modeldir? regex thru output to find it-- or just skip?
-    print "RETRAIN DONE BUSTED UP!!"
-    sys.exit(1)
     pass
-  
+
   # see need/description at this function
-  add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels)
+  add_accuracy_to_modeldir(path_to_trainingsumm_name,tf_final_acc)
   
   
   return training_results
@@ -134,30 +126,14 @@ def retrain_tensorflow(retrain_dict):
 
 
 #################################	
-def add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels):
+def add_accuracy_to_modeldir(path_to_trainingsumm_name,tf_final_acc):
   robo.whereami(sys._getframe().f_code.co_name)
-
-  # pull accuracy from temp spot in retrained_labels.txt in this ugly hack
-  # because stdout to subprocess.PIPE not work like it would seem is obvious...
-  # See https://github.com/tensorflow/tensorflow/issues/3047 
-  # See https://stackoverflow.com/questions/4760215/running-shell-command-from-python-and-capturing-the-output
-  # see https://stackoverflow.com/questions/6657690/python-getoutput-equivalent-in-subprocess
-  # and many others... open to suggestions for reading tf.logging.info from retrain script!
-  f = open(path_to_output_labels, "rU")
-  labels_list = []
-  for line in f:
-    labels_list.append(line.replace("\n","").replace(" ", "_"))
-  f.close()
-  acc_label = labels_list[-1]
-  if "_acc" in acc_label:
-    #append this to modeldir name
-    shutil.move(path_to_trainingsumm_name, path_to_trainingsumm_name+acc_label)
-    #then delete last line in labels file
-    newpath_to_output_labels = path_to_trainingsumm_name+acc_label + cfg.dd + cfg.retrainedlabels_file
-    f = open(newpath_to_output_labels, "w")
-    for reallabel in labels_list[:-1]:
-  	  f.write(reallabel+"\n")
-    f.close()
+  
+  #clean up final accuracy (ex: 'INFO/tensorflow/Final test accuracy = 80.8% (N=73)' )
+  final_acc = tf_final_acc.split("=")[1].replace("% (N","")
+  #append final_accuracy to modeldir name
+  acc_label = "_acc"+final_acc
+  shutil.move(path_to_trainingsumm_name, path_to_trainingsumm_name+acc_label)
   return
 
 
