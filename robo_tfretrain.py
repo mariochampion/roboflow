@@ -34,12 +34,13 @@ when certain conditions are met:
 
 
 
-import os, sys, subprocess, shutil, time
+import os, sys, shutil, time
+from subprocess import Popen, PIPE
 
 #import roboflow specific stuff
 import robo_config as cfg
 import robo_support as robo 
-os.environ['TF_CPP_MIN_LOG_LEVEL']='2' # suppress some inherent TensorFlow error msgs
+os.environ['TF_CPP_MIN_LOG_LEVEL']='0' # suppress some inherent TensorFlow error msgs
 
 
 ##################################	  
@@ -69,55 +70,53 @@ def retrain_tensorflow(retrain_dict):
   path_to_output_graph = path_to_trainingsumm_name + cfg.dd + cfg.retrainedgraph_file
   path_to_output_labels = path_to_trainingsumm_name + cfg.dd + cfg.retrainedlabels_file 
 
-  
-  #CHOOSE
+  #build up shared commands
+  cmd1 = "../scripts/retrain.py"
+  cmd2 = "--bottleneck_dir=" + cfg.path_to_bottlenecks
+  cmd3 = "--model_dir=" + cfg.path_to_trainingmodels
+  cmd4 = "--how_many_training_steps=" + steps
+  cmd5 = "--train_batch_size=" + batchsize
+  cmd6 = "--testing_percentage=" + testpercent
+  cmd7 = "--summaries_dir=" + path_to_trainingsumm_name
+  cmd8 = "--output_graph=" + path_to_output_graph
+  cmd9 = "--output_labels=" + path_to_output_labels
+  cmd10 = "--image_dir=" + path_to_trainimgs_basetag
+  cmd11 = ""
+
+  #BUILD an array of CMDS based on model
   if modeltype == "inceptionv3":
-    # build a command
-    retrain_command = "python ../scripts/retrain.py \
-    --bottleneck_dir=" + cfg.path_to_bottlenecks + " \
-    --model_dir=" + cfg.path_to_trainingmodels + " \
-    --how_many_training_steps=" + steps + " \
-    --train_batch_size=" + batchsize + " \
-    --testing_percentage=" + testpercent + " \
-    --summaries_dir=" + path_to_trainingsumm_name + " \
-    --output_graph=" + path_to_output_graph + " \
-    --output_labels=" + path_to_output_labels + " \
-    --image_dir=" + path_to_trainimgs_basetag
-    
+    cmds=['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10]
   else:
     # build a command WITH ARCHITECTURE, since not default
     mobilepercent = retrain_dict["mobilepercent"]
     ARCHITECTURE = modeltype + "_" + str(mobilepercent) + "_" + str(imagesize)
+    cmd11 = "--architecture=" + ARCHITECTURE
+    cmds=['1',cmd1,cmd2,cmd3,cmd4,cmd5,cmd6,cmd7,cmd8,cmd9,cmd10,cmd11]    
+
     
-    retrain_command = "python ../scripts/retrain.py \
-    --bottleneck_dir=" + cfg.path_to_bottlenecks + " \
-    --model_dir=" + cfg.path_to_trainingmodels + " \
-    --how_many_training_steps=" + steps + " \
-    --train_batch_size=" + batchsize + " \
-    --testing_percentage=" + testpercent + " \
-    --summaries_dir=" + path_to_trainingsumm_name + " \
-    --output_graph=" + path_to_output_graph + " \
-    --output_labels=" + path_to_output_labels + " \
-    --image_dir=" + path_to_trainimgs_basetag + " \
-    --architecture=" + ARCHITECTURE
-    
-  print 
-  print "------------------------------"
+  print "\n------------------------------"
   print "start retraining tensorflow model/graph"
   print "when it breaks, look for 'RuntimeError: Error during processing file' "
   print cfg.color.yellow + "retraining command:" + cfg.color.white
-  print retrain_command
+  for cmd in cmds: print cmd
 
   # use the tensorflow RETRAIN script
   try:
-    training_results = subprocess.check_output(retrain_command, shell=True)
+    #training_results = subprocess.check_output(retrain_command, shell=True)
+    training_results = Popen(cmds,shell=False,stderr=PIPE,bufsize=1,executable="python")
+    for line in iter(training_results.stderr.readline, b''):
+      print line
+      if line.startswith("INFO:tensorflow:Final test accuracy"):
+        tf_final_acc = line
+    training_results.wait() # wait for the subprocess to exit
+
   except Exception:
     ### log something or?
-    ### remove specific image? regex thru output to find it-- or just skip?
+    ### remove specific image or modeldir? regex thru output to find it-- or just skip?
     pass
-  
+
   # see need/description at this function
-  add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels)
+  add_accuracy_to_modeldir(path_to_trainingsumm_name,tf_final_acc)
   
   
   return training_results
@@ -125,30 +124,14 @@ def retrain_tensorflow(retrain_dict):
 
 
 #################################	
-def add_accuracy_to_modeldir(path_to_trainingsumm_name,path_to_output_labels):
+def add_accuracy_to_modeldir(path_to_trainingsumm_name,tf_final_acc):
   robo.whereami(sys._getframe().f_code.co_name)
-
-  # pull accuracy from temp spot in retrained_labels.txt in this ugly hack
-  # because stdout to subprocess.PIPE not work like it would seem is obvious...
-  # See https://github.com/tensorflow/tensorflow/issues/3047 
-  # See https://stackoverflow.com/questions/4760215/running-shell-command-from-python-and-capturing-the-output
-  # see https://stackoverflow.com/questions/6657690/python-getoutput-equivalent-in-subprocess
-  # and many others... open to suggestions for reading tf.logging.info from retrain script!
-  f = open(path_to_output_labels, "rU")
-  labels_list = []
-  for line in f:
-    labels_list.append(line.replace("\n","").replace(" ", "_"))
-  f.close()
-  acc_label = labels_list[-1]
-  if "_acc" in acc_label:
-    #append this to modeldir name
-    shutil.move(path_to_trainingsumm_name, path_to_trainingsumm_name+acc_label)
-    #then delete last line in labels file
-    newpath_to_output_labels = path_to_trainingsumm_name+acc_label + cfg.dd + cfg.retrainedlabels_file
-    f = open(newpath_to_output_labels, "w")
-    for reallabel in labels_list[:-1]:
-  	  f.write(reallabel+"\n")
-    f.close()
+  
+  #clean up final accuracy (ex: 'INFO/tensorflow/Final test accuracy = 80.8% (N=73)' )
+  final_acc = tf_final_acc.split("=")[1].replace("% (N","")
+  #append final_accuracy to modeldir name
+  acc_label = "_acc"+final_acc
+  shutil.move(path_to_trainingsumm_name, path_to_trainingsumm_name+acc_label)
   return
 
 

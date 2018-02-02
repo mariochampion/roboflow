@@ -68,16 +68,6 @@ Then clone the RoboFlow dirs/files with:
 git clone https://github.com/mariochampion/roboflow
 ```
 
-FINALLY and CRITICALLY, you must change one line in TensorFlow's scripts/retrain.py file.<br>
-(see https://github.com/mariochampion/roboflow/issues/3)<br>
-simply go to the literal last line of <b>tensorflow-for-poets-2/scripts/retrain.py</b>'s main() function, around line 1144 and add
-```
-############################################
-# this line added because stdout not available / no return from main
-# See https://github.com/tensorflow/tensorflow/issues/3047 
-f.write(str("_acc"+str(test_accuracy*100)[:5]) + '\n')
-```
-
 
 Your directories should look like this:
 ```
