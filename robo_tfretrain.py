@@ -111,15 +111,17 @@ def retrain_tensorflow(retrain_dict):
   try:
     #training_results = subprocess.check_output(retrain_command, shell=True)
     training_results = Popen(cmds,shell=False,stderr=PIPE,bufsize=1,executable="python")
+    print "writing tf.logging.info() to file..."
     for line in iter(training_results.stderr.readline, b''):
-      print "loggin'"
-      tf_feed.write(line.rstrip())
+      print line
+      if line.startswith("INFO:tensorflow:Final test accuracy"):
+        tf_feed.write(line.rstrip()+"\n")
     training_results.wait() # wait for the subprocess to exit
 
   except Exception:
     ### log something or?
     ### remove specific image or modeldir? regex thru output to find it-- or just skip?
-    print "RETRAIN BUSTED UP!!"
+    print "RETRAIN DONE BUSTED UP!!"
     sys.exit(1)
     pass
   
