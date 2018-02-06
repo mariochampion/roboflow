@@ -108,7 +108,7 @@ def getimages_master(progressdata):
     #scrape for cursor for next url and img_list
     cursor_and_imgs = scraper.getcursorandimgsrcs(webfile_prepped, imgnum_needed, progressdata)
     
-    #now process the cursor and img srcs
+    #now process the cursor and img srcs (cursor is a term from webstagram)
     progressdata["cursor"] = cursor_and_imgs[0]
 
     #build NEXT url, already
