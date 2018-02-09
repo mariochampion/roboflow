@@ -1282,10 +1282,6 @@ def main(args):
       if progressdata["imgnum_in_dir"] > 0:
         print "now, kickoff TensorFlow image classification/labeling..."
         classify_downloadedimages(progressdata)
-      
-    '''if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_in_dir"] > 0:
-      print "now, kickoff TensorFlow image classification/labeling..."
-      classify_downloadedimages(progressdata)'''
         
     if progressdata["d_c_r_flow"] == 'dl_class_retrain' or progressdata["d_c_r_flow"] == 'c_r_automatic':
       if progressdata["imgnum_dled_thiscycle"] > 0:
