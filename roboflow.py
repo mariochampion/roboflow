@@ -889,7 +889,19 @@ def setup_args_vars_dirs(args, preflight_dict):
   # RETRAIN with config file default values
   if primevars_dict["d_c_r_flow"] == "retrain_defaults":
     primevars_dict["retrain_dict"] = retrain_dict_master(basetag, thistag, imgnum_maxTHIScycle, defaults=True)
-    
+  
+  
+  # AUTOMATIC -- dl, c, r with default retrain values and top classifier
+  if primevars_dict["d_c_r_flow"] == "c_r_automatic":
+    print cfg.color.yellow + "--- ACTIVATE AUToMATIC ---" + cfg.color.white
+    primevars_dict["retrain_dict"] = retrain_dict_master(basetag, thistag, imgnum_maxTHIScycle, defaults=True)
+    if len(modeldirs_dict) > 0:
+      #setup clasify
+      primevars_dict["classify_model_dir"] = classifymodel_setup(modeldirs_dict, basetag, imgnum_maxTHIScycle,  thistag, top=True)
+      classmodeldir_start = primevars_dict["classify_model_dir"][0]# (NOTE: search MAGIC LETTERS for description)
+    else:
+      imgqnty_verified = primevars_dict["preflight_dict"]["imgqnty_verified"] 
+      classifymodel_noneexists(basetag, imgnum_maxTHIScycle, thistag, imgqnty_verified) #does not return 
 
   return primevars_dict
 
@@ -1022,6 +1034,16 @@ def preflightchecks(args):
   if flowasinput == "retrain_defaults" and "retrain" in preflight_dict["flowlist"]:
     if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_retrain" 
     else: preflight_dict["d_c_r_flow"] = "retrain_defaults"  
+
+  if flowasinput == "automatic":
+    if "retrain" in preflight_dict["flowlist"] and "classify" in preflight_dict["flowlist"]:
+      print cfg.color.yellow + "GOING AU-TO-MATIC!" + cfg.color.white
+      print "that is, using top-scoring classifier, and default values for retraining."
+      preflight_dict["d_c_r_flow"] = "c_r_automatic"        
+    else:
+      print cfg.color.magenta + "DOH! not with " + basetag + "!" + cfg.color.white
+      print "basetag not qualified for 'automatic' choice of classifying and/or retraining"
+      robo.goodbye()
 
   return preflight_dict
 
@@ -1256,15 +1278,12 @@ def main(args):
     
     ####### THE REAL POINT OF THIS: classify or re/train
    
-    if progressdata["d_c_r_flow"] == 'dl_class' and progressdata["imgnum_in_dir"] > 0:
-      print "now, kickoff TensorFlow image classification/labeling..."
-      classify_downloadedimages(progressdata)
-      
-    if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_in_dir"] > 0:
-      print "now, kickoff TensorFlow image classification/labeling..."
-      classify_downloadedimages(progressdata)
+    if progressdata["d_c_r_flow"] == 'dl_class' or progressdata["d_c_r_flow"] == "dl_class_top":
+      if progressdata["imgnum_in_dir"] > 0:
+        print "now, kickoff TensorFlow image classification/labeling..."
+        classify_downloadedimages(progressdata)
         
-    if progressdata["d_c_r_flow"] == 'dl_class_retrain':
+    if progressdata["d_c_r_flow"] == 'dl_class_retrain' or progressdata["d_c_r_flow"] == 'c_r_automatic':
       if progressdata["imgnum_dled_thiscycle"] > 0:
         print "first, do TensorFlow image labeling of downloaded images,"
         print "then, use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
@@ -1278,7 +1297,7 @@ def main(args):
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_getstarted(progressdata["retrain_dict"])
-     
+    
     
     print "-----------------------------------------------------------------------"
     if progressdata["preflight_dict"]["classmodel_verified"] == False:
