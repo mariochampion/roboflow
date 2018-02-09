@@ -1023,6 +1023,12 @@ def preflightchecks(args):
     if imagequantity > 0: preflight_dict["d_c_r_flow"] = "dl_retrain" 
     else: preflight_dict["d_c_r_flow"] = "retrain_defaults"  
 
+  if flowasinput == "automatic":
+    if "retrain" in preflight_dict["flowlist"] and "classify" in preflight_dict["flowlist"]:
+      print cfg.color.yellow + "GOING AU-TO-MATIC!" + cfg.color.white
+      print "that is, using top-scoring classifier, and default values for retraining."
+      sys.exit(1)
+  
   return preflight_dict
 
 
