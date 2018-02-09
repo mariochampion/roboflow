@@ -169,7 +169,7 @@ note: the flowsteps parameter is optional, and defaults to classify if blank,
 meaning roboflow will download [imagequantity] of [searchtags] and then classify them.
 
 options for flowstep parameters:<br> 
-'download | classify | classify_top | retrain | retrain_defaults'
+'download | classify | classify_top | retrain | retrain_defaults | automatic'
 
 
 

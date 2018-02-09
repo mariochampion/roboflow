@@ -34,6 +34,7 @@ python roboflow.py robots 200 robotart retrain
   classifier with images from training_photos/{basetag}<br>
  ** 'retrain_defaults' (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP,<br>
   using values from config file setup.
+ ** 'automatic' - combo of 'classify_top + retrain_defaults' in one parameter<br> 
 
 
 #### BOOTSTRAP NOTE

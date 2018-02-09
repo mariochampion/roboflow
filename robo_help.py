@@ -55,15 +55,13 @@ This roboflow guide assumes you have at least passing familiarity with TensorFlo
 basetag: \tthe master classification tag or theme ('robots' or 'birds' or whatever)'''
   print "imagequantity:\tan integer between 0 and "+str(cfg.imgnum_maxpercycle)+", to not hammer other people's servers"
   print '''searchtag:\tthe searchterm, such as 'robot' or 'robotart' etc
-flowsteps:\tOPTIONAL parameter to determine which stages to implement of --
-\t\t'download' - only downloads the tagged images
-\t\t'classify' (default, if blank) - download, classify/sort images w/model of your choice
-\t\t'classify_top' - download, classify with TOP accuracy model (skips setup),
-\t\t'retrain' - download, classify, and retrain (w/optional harvest) a new 
-\t\t classifier with images from training_photos/{basetag}
-\t\t'retrain_defaults' (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP,
-\t\t using values from config file setup.
-'''
+flowsteps:\tOPTIONAL parameter to determine which stages to implement of --'''
+  print cfg.color.yellow+"\t\t'download'" + cfg.color.white + " - only downloads the tagged images"
+  print cfg.color.yellow+"\t\t'classify'" + cfg.color.white + " (default, if blank) - download, classify/sort images w/model of your choice"
+  print cfg.color.yellow+"\t\t'classify_top'" + cfg.color.white + " - download, classify with TOP accuracy model (skips setup)"
+  print cfg.color.yellow+"\t\t'retrain'" + cfg.color.white + " - download, classify, and retrain (w/optional harvest) a new classifier with images from training_photos/{basetag}"
+  print cfg.color.yellow+"\t\t'retrain_defaults'" + cfg.color.white + " (as in 'robots 0 0 retrain_defaults') will skip the retrain SETUP, using values from config file setup."
+  print cfg.color.yellow+"\t\t'automatic'" + cfg.color.white + " - combo of 'classify_top + retrain_defaults' in one parameter"
   print cfg.color.cyan + "BOOTSTRAP NOTE: Quality initial labeling/sorting makes ALLL the difference!" + cfg.color.white
   print '''When starting, you must manually sort a minimum number of images to allow the first 
 retraining to create the first classifier. After that, downloading, classifying/auto-sorting, 
