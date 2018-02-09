@@ -889,7 +889,19 @@ def setup_args_vars_dirs(args, preflight_dict):
   # RETRAIN with config file default values
   if primevars_dict["d_c_r_flow"] == "retrain_defaults":
     primevars_dict["retrain_dict"] = retrain_dict_master(basetag, thistag, imgnum_maxTHIScycle, defaults=True)
-    
+  
+  
+  # AUTOMATIC -- dl, c, r with default retrain values and top classifier
+  if primevars_dict["d_c_r_flow"] == "c_r_automatic":
+    print cfg.color.magenta + "--- ACTIVATE AUToMATIC ---" + cfg.color.white
+    primevars_dict["retrain_dict"] = retrain_dict_master(basetag, thistag, imgnum_maxTHIScycle, defaults=True)
+    if len(modeldirs_dict) > 0:
+      #setup clasify
+      primevars_dict["classify_model_dir"] = classifymodel_setup(modeldirs_dict, basetag, imgnum_maxTHIScycle,  thistag, top=True)
+      classmodeldir_start = primevars_dict["classify_model_dir"][0]# (NOTE: search MAGIC LETTERS for description)
+    else:
+      imgqnty_verified = primevars_dict["preflight_dict"]["imgqnty_verified"] 
+      classifymodel_noneexists(basetag, imgnum_maxTHIScycle, thistag, imgqnty_verified) #does not return 
 
   return primevars_dict
 
@@ -1027,8 +1039,12 @@ def preflightchecks(args):
     if "retrain" in preflight_dict["flowlist"] and "classify" in preflight_dict["flowlist"]:
       print cfg.color.yellow + "GOING AU-TO-MATIC!" + cfg.color.white
       print "that is, using top-scoring classifier, and default values for retraining."
-      sys.exit(1)
-  
+      preflight_dict["d_c_r_flow"] = "c_r_automatic"        
+    else:
+      print cfg.color.yellow + "DOH! not with " + basetag + "!" + cfg.color.white
+      print "basetag not qualified for 'automatic' choice of classifying and/or retraining"
+      robo.goodbye()
+
   return preflight_dict
 
 
