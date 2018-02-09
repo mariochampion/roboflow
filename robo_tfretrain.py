@@ -40,7 +40,7 @@ from subprocess import Popen, PIPE
 #import roboflow specific stuff
 import robo_config as cfg
 import robo_support as robo 
-os.environ['TF_CPP_MIN_LOG_LEVEL']='0' # suppress some inherent TensorFlow error msgs
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2' # suppress some inherent TensorFlow error msgs
 
 
 ##################################	  

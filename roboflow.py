@@ -597,6 +597,7 @@ def retrain_imgharvest(basetag):
     #start a log PER LABEL
     perharvestlog_path = path_to_harvestimgs_basetag + cfg.dd + trainlabel_dir + cfg.harvested_suffix
     perharvestlog = open(perharvestlog_path, "a")
+    perharvestlog.write("fruitpath,basketpath\n")
     
     # add each label dir for bigger list
     for sortedimgdir in sortedimgdir_list:
@@ -629,6 +630,7 @@ def retrain_imgharvest(basetag):
   #create log file of move before list gets wiped in next go round
   harvestlog_path = path_to_harvestimgs_basetag + cfg.dd + cfg.harvested_dirname + cfg.harvested_suffix
   harvestlog = open(harvestlog_path, "a")
+  harvestlog.write("sortedimgpath,harvestimgpath\n")
   # then move all sorted_ dirs to harvested, so cycle can begin again
   for sortedimgdir in sortedimgdir_list:
     path_to_sortedimgdir = path_to_testimg_basetag + cfg.dd + sortedimgdir    
@@ -705,6 +707,7 @@ def buildimg2url_file(progressdata):
   try:
     if len(modtime_list_sorted) > 0:
       with open(img2url_file, 'a') as f_img2url:
+        f_img2url.write("imgurl,weburl,localfilename\n")
         for part in modtime_list_sorted: 
           f_img2url.write(part[0]+","+part[1]+","+part[2]+"\n")
   except:
