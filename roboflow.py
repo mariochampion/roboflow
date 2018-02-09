@@ -1278,15 +1278,16 @@ def main(args):
     
     ####### THE REAL POINT OF THIS: classify or re/train
    
-    if progressdata["d_c_r_flow"] == 'dl_class' and progressdata["imgnum_in_dir"] > 0:
-      print "now, kickoff TensorFlow image classification/labeling..."
-      classify_downloadedimages(progressdata)
+    if progressdata["d_c_r_flow"] == 'dl_class' or progressdata["d_c_r_flow"] == "dl_class_top":
+      if progressdata["imgnum_in_dir"] > 0:
+        print "now, kickoff TensorFlow image classification/labeling..."
+        classify_downloadedimages(progressdata)
       
-    if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_in_dir"] > 0:
+    '''if progressdata["d_c_r_flow"] == 'dl_class_top' and progressdata["imgnum_in_dir"] > 0:
       print "now, kickoff TensorFlow image classification/labeling..."
-      classify_downloadedimages(progressdata)
+      classify_downloadedimages(progressdata)'''
         
-    if progressdata["d_c_r_flow"] == 'dl_class_retrain':
+    if progressdata["d_c_r_flow"] == 'dl_class_retrain' or progressdata["d_c_r_flow"] == 'c_r_automatic':
       if progressdata["imgnum_dled_thiscycle"] > 0:
         print "first, do TensorFlow image labeling of downloaded images,"
         print "then, use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
@@ -1300,7 +1301,7 @@ def main(args):
       if progressdata["retrain_dict"]["imgharvest"] == True: retrain_imgharvest(progressdata["basetag"])
       print "let us now use the "+str(cfg.confidence_min)+"% confidence ones in retraining..."
       retrain_getstarted(progressdata["retrain_dict"])
-     
+    
     
     print "-----------------------------------------------------------------------"
     if progressdata["preflight_dict"]["classmodel_verified"] == False:
