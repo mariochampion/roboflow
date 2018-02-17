@@ -260,7 +260,7 @@ def main(retrain_dict):
   print "exiting robo_retrain..."
   return
   
-  sys.exit(1)#shouldnt get here, but just in case...
+  sys.exit(1) #shouldnt get here, but just in case...
 
 
 # boilerplate kicker offer (yes thats a tech term!)   
