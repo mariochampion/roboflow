@@ -3,7 +3,7 @@
 ROBOFLOW - PURPOSE
 roboflow was created to get a better sense for TensorFlow's image classifier by making it easier to gather 1000s of similar images by hashtag (such as "#robot" or "#robotart") classify/sort them to serve as re/training examples, and to enable easy testing of different TensorFlow hyperparameter settings for creating classifiers. 
 
-specifically, tagged images are downloaded (right now from webstagram) and then sorted into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow (which creates classifiers). 
+specifically, tagged images are downloaded (your config choice of imgur API or webstagram) and then sorted into labeled sub-directories, which are periodically 'harvested' to retrain TensorFlow (which creates classifiers). 
 
 BOOTSTRAPPING: There is an initial bootstrap stage in which you must manually sort a minimum number of images to allow the first retraining to create the first classifier. This tool will help you download 1000s of images pretty easily. After that, subsequent cycles of downloading, classifying/auto-sorting, and harvesting sorted images into the training_photos/labeled_directories for another cycle of retraining is waaaaay more automated. 
 
