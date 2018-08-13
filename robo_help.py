@@ -12,7 +12,7 @@
 ## more python(2.7) file/dir manipulations, in a commandline driven app, and to better understand the
 ## Google's TensorFlow image classification elements and hyperparameter effects.
 ##
-## please open issues and pull requests,
+## please open issues and pull requests and comments
 ## thanks and always remember: this robot loves you. 
 ## boop boop!!!
 ## ===================================================================
