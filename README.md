@@ -8,13 +8,13 @@ RoboFlow was created to get a better sense for TensorFlow's image classifier by 
 
 
 ### downloads sources (imgur api or webstagram)
-as of now, choose in the config file from two useful (and randomly non-responsive) sources:<br>
+As of now, choose in the config file from two useful (and randomly non-responsive) sources:<br>
 Imgur API (much quicker, fewer tags, requires you get a free API key) or<br>
 webstagram (slower, more tags, no API key required)
 
 
 ### 'basetag' concept
-because you can use roboflow for many separate classifiers, you need to pick a term for the broad master classification or theme of your classifier (such as 'robots', or 'birds', or whatever) so that images, classifier models and more can be stored separately under that BASETAG directory. You will do this in either the guided or advanced usages (see below).
+Because you can use roboflow for many separate classifiers, you need to pick a term for the broad master classification or theme of your classifier (such as 'robots', or 'birds', or whatever) so that images, classifier models and more can be stored separately under that BASETAG directory. You will do this in either the guided or advanced usages (see below).
 
 ## Bootstrapping
 There is an initial bootstrap stage in which you must manually sort a minimum number of images to allow the first retraining to create the first classifier per basetag. This tool will help you download 1000s of images pretty easily. After that first manual sorting, subsequent cycles of downloading, classifying/auto-sorting, and harvesting sorted images into the training_photos/labeled_directories for another cycle of retraining is waaaaay more automated. 
